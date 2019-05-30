@@ -8,20 +8,21 @@ import { login,fetchMyMeetups } from './actions';
 import AuthScreenForm from './components/AuthScreenForm';
 // import LoadingScreen from '../../commons/LoadingScreen';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
+import HomeNavigator from '../../routes/HomeNavigator'
 
-
-class HomesScreen extends Component{
-	//REMOVING HEADER
-	static navigationOptions ={
-		header:null
-	}
+class AuthScreen extends Component{
 	state = {
 		data:{
 			username:'',
 			password:''	
 		},		
 		msg:'Please Submit',
-		isLoading:false
+		isLoading:false,
+		isLogged:false
+	}
+
+	static navigationOptions ={
+		header:null
 	}
 
 	handleUsername = text =>{
@@ -33,31 +34,37 @@ class HomesScreen extends Component{
 	}
 
 	handleSubmit = async() =>{
-		let msg = this.state.data.username+this.state.data.password;
+		// let msg = this.state.data.username+this.state.data.password;
 		// this.setState({msg,isLoading:true});	
 		// Alert.alert("Success!")
-		this.props.navigation.navigate('Details');
+		// this.props.navigation.navigate('Details');
 		// await this.props.login(this.state.data);
 		// await this.props.fetchMyMeetups();
-			this.setState({isLoading:false});		
+				this.setState({isLoading:true});
+			setTimeout(()=> {
+				this.setState({isLoading:false,isLogged:true});
+			},3000)		
 	}
 
 	render(){
 		if (this.state.isLoading === true) {
 			return(
-        <View style={{flex:1,backgroundColor:"blue",alignItems:'center',justifyContent:'center'}}>
-          <StatusBar
-            backgroundColor="blue"
-            barStyle="light-content"
-          />
-          <ActivityIndicator
-            size="large"
-            color='gray'
-          />
-          <Text style={{color:'#fff'}}>Loading... Please Wait</Text>
-        </View>
-    	)
-		} 
+		        <View style={{flex:1,backgroundColor:"blue",alignItems:'center',justifyContent:'center'}}>
+		          <StatusBar
+		            backgroundColor="blue"
+		            barStyle="light-content"
+		          />
+		          <ActivityIndicator
+		            size="large"
+		            color='gray'
+		          />
+		          <Text style={{color:'#fff'}}>Loading... Please Wait</Text>
+		        </View>)
+		}
+
+		if (this.state.isLogged) {
+	      return <HomeNavigator />;
+	    } 
 
 		return(
 			<View style={styles.root}>
@@ -79,53 +86,6 @@ class HomesScreen extends Component{
 	}
 }
 
-class DetailsScreen extends Component {
-	static navigationOptions ={
-		title:"SDP"
-	}
-  render() {
-    return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Details Screen</Text>
-        <Button
-          title="Go to Details... again"
-          onPress={() => this.props.navigation.navigate('Details')}
-        />
-      </View>
-    );
-  }
-}
-
-
-const RootStack = createStackNavigator(
-{
-	Home:HomesScreen,
-	Details:DetailsScreen
-},
-{
-	initialRouteName:'Home',
-	defaultNavigationOptions:{
-		headerStyle:{
-			backgroundColor:"#1e90ff"
-		},
-		headerTintColor:"#fff",
-		headerTitleStyle:{
-			textAlign:'center',
-			flex:1
-		}
-	}
-}
-);
-
-const AppContainer = createAppContainer(RootStack);
-
-class AuthScreen extends Component{
-	render(){
-		return(
-			<AppContainer />
-		)
-	}
-}
 
 const styles = StyleSheet.create({
 	root:{

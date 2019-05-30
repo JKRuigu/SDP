@@ -9,12 +9,13 @@ import store from './src/store';
 
 import {name as appName} from './app.json';
 // import Test from './Test';
-import { HomeScreen,SettingsScreen,AuthScreen,SendParcel,RegisterParcel,HandOver,ReceiveParcel } from './src/screens';
+// import { HomeScreen,SettingsScreen,AuthScreen,SendParcel,RegisterParcel,HandOver,ReceiveParcel } from './src/screens';
 // import Root from './src/Root';  
+import AppNavigator from './src/routes/AppNavigator';
 
 const AppContainer = ()=>
 	<Provider store={store}>
-		<AuthScreen />
+		<AppNavigator />
 	</Provider>
 
 AppRegistry.registerComponent('SDP', () => AppContainer)

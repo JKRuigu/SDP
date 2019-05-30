@@ -55,3 +55,7 @@ buck-out/
 
 # Bundle artifact
 *.jsbundle
+
+# TEST FILE
+Test.js
+Test2.js
