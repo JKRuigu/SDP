@@ -47,13 +47,13 @@ export default class HandOver extends Component{
 						backgroundColor="blue"
 						barStyle="light-content"
 					/>
-				<TextInput
-					style={{ backgroundColor:'#fff',width:200,borderRadius:20,fontSize:15,paddingLeft:20 }}
-					defaultValue={filterItem}
-					placeholder="Search"
-					placeholderTextColor="#000"
-					onChangeText={this.handleInputFilter}
-				/>
+				{/**<TextInput
+									style={{ backgroundColor:'#fff',width:200,borderRadius:20,fontSize:15,paddingLeft:20 }}
+									defaultValue={filterItem}
+									placeholder="Search"
+									placeholderTextColor="#000"
+									onChangeText={this.handleInputFilter}
+								/>**/}
 				<View>
 					<ScrollView>						
 						{parcels.map((parcel,i)=>(
@@ -103,6 +103,8 @@ const styles = StyleSheet.create({
 		borderColor:'#f73859',
 		borderRadius:45,
 		flex:0.2,
+		borderWidth:0.5,
+		borderColor:'rgba(0,0,255,0.5)',
 		alignItems:'center',
 		justifyContent:'center',
 		marginHorizontal:'1.5%',	

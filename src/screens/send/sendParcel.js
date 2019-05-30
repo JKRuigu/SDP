@@ -14,7 +14,7 @@ export default class SendParcel extends Component{
 		text:'Kamaiu',
 		vehicleNumber:'',
 		suggestions:[],
-		vehicle:[{"vehicleNumber":"KSC754h","driverId":"34567899"},{"vehicleNumber":"KSC154h","driverId":"34567899"},{"vehicleNumber":"KSC004h","driverId":"34567899"}],
+		vehicle:[{"vehicleNumber":"KSC754h","driverId":"34567899"},{"vehicleNumber":"KSC154h","driverId":"34567899"},{"vehicleNumber":"KSC004h","driverId":"34567899"},{"vehicleNumber":"KSC754G","driverId":"34567899"},{"vehicleNumber":"KSC154I","driverId":"34567899"},{"vehicleNumber":"KSC034K","driverId":"34567899"},{"vehicleNumber":"KSC054G","driverId":"34567899"},{"vehicleNumber":"KSC404I","driverId":"34567899"},{"vehicleNumber":"KCC034K","driverId":"34567899"}],
 		parcels:[{"regId":"FG3458897","location":"Nairobi"},{"regId":"JG3458897","location":"Kisumu"},{"regId":"FG03458897","location":"Nairobi"},{"regId":"JG3458s897","location":"Kisumu"},{"regId":"FsG345889f7","location":"Nairobi"},{"regId":"JGEE3458897","location":"Kisumu"},{"regId":"FG3DE458897","location":"Nairobi"},{"regId":"JG34588sf97","location":"Kisumu"},{"regId":"FG3DF458897","location":"Nairobi"},{"regId":"JG34DEG58897","location":"Kisumu"}],
 		displayParcels:[{"regId":"FG3458897","location":"Nairobi"},{"regId":"JG3458897","location":"Kisumu"},{"regId":"FG03458897","location":"Nairobi"},{"regId":"JG3458s897","location":"Kisumu"},{"regId":"FsG345889f7","location":"Nairobi"},{"regId":"JGEE3458897","location":"Kisumu"},{"regId":"FG3DE458897","location":"Nairobi"},{"regId":"JG34588sf97","location":"Kisumu"},{"regId":"FG3DF458897","location":"Nairobi"},{"regId":"JG34DEG58897","location":"Kisumu"}]
 	}
@@ -29,9 +29,9 @@ export default class SendParcel extends Component{
 		}else{
 			if(suggestions.length >0){
 				const filterSuggestions = suggestions.filter(parcel=>parcel.regId !== x.regId)
-				this.setState({suggestions:filterSuggestions});
-
+				this.setState({suggestions:filterSuggestions}); 
 			}
+
 			const filteredParcels = displayParcels.filter(parcel=>parcel.regId !== x.regId)
 			this.setState({
 				text:x.regId,
@@ -82,15 +82,15 @@ export default class SendParcel extends Component{
 		const { vehicleNumber,isDriverSelected,vehicle,isSelected,filterItem,suggestions,parcels,counter,selectedItems,displayParcels } = this.state;
 		return(
 			<View style={styles.root}>				
-				<ToolBar
-					styles={styles}
-					handleToggle={this.handleToggle}
-					handleInputFilter={this.handleInputFilter}
-					filterItem={filterItem}
-					counter={counter}
-					isSelected={isSelected} 
-
-				/>
+				{/**<ToolBar
+									styles={styles}
+									handleToggle={this.handleToggle}
+									handleInputFilter={this.handleInputFilter}
+									filterItem={filterItem}
+									counter={counter}
+									isSelected={isSelected} 
+				
+								/>**/}
 				{isDriverSelected===true?
 					<Vehicle
 						vehicle={vehicle}
@@ -157,6 +157,8 @@ const styles = StyleSheet.create({
 		borderColor:'#f73859',
 		borderRadius:50,
 		flex:0.2,
+		borderWidth:0.5,
+		borderColor:'rgba(0,0,255,0.5)',
 		alignItems:'center',
 		justifyContent:'center',
 		marginHorizontal:'1.5%',	

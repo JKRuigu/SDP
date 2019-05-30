@@ -72,12 +72,17 @@ export default class RegisterParcel extends Component{
 const styles = StyleSheet.create({
 	root:{
 		backgroundColor:'#f4f4f4',
-		margin:20,
 		alignItems:'center',
 		justifyContent:'center',
 		flex:1		
 	},
 	formContainer:{
+		flex:1,
+		width:'100%'
+	},
+	scrollContainer:{
+		alignItems: 'center',
+		justifyContent:'center',
 		flex:1,
 		width:'100%'
 	},
@@ -92,16 +97,21 @@ const styles = StyleSheet.create({
 	},
 	inputText:{
 		 backgroundColor:'#fff',
-		 color:"blue",
+		 color:"rgba(0,0,255,0.5)",
 		 borderRadius:20,
 		 fontSize:15,
 		 paddingLeft:20,
 		 margin:5,
 		width:'90%'
 	},
+	submitBtn:{		
+		alignItems:'center',
+		justifyContent:'center',
+		margin:10
+	},
 	btn:{
 		backgroundColor:'#455a64',
-		width:250,
+		width:'100%',
 		borderRadius:20,
 		fontSize:15,
 		marginTop:10,
@@ -113,7 +123,7 @@ const styles = StyleSheet.create({
 		justifyContent:'center'
 	},	
 	location:{
-		backgroundColor:'blue',
+		backgroundColor:'rgba(0,0,255,0.5)',
 		width:'90%',
 		borderRadius:20,
 		fontSize:15,
@@ -141,7 +151,7 @@ const styles = StyleSheet.create({
 	closeBtn:{
 		alignItems:'center',
 		justifyContent:'center',
-		backgroundColor:'blue',
+		backgroundColor:'rgba(0,0,255,0.5)',
 		width:40,
 		height:40,
 		borderRadius:20,		

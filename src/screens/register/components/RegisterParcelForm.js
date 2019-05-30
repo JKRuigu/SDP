@@ -10,9 +10,7 @@ export default ({
 	senderLocation,
 	receiverLocation,
 	parcelCatergory
-})=>(
-	<View style={{alignItems: 'center',justifyContent:'center'}}>		
-		<ScrollView>
+})=>(<ScrollView>
 			<View  style={styles.text}><Text>Sender Details</Text></View>
 			<View style={styles.inputHolder}>
 				<TextInput 
@@ -79,9 +77,10 @@ export default ({
 				<TouchableOpacity style={styles.location} onPress={()=>handleModal('Catergory')}>
 					<Text style={styles.btnText}>{parcelCatergory}</Text>
 				</TouchableOpacity>	
-			</View>					
-			<TouchableOpacity style={styles.btn}>
-				<Text style={styles.btnText}>LOGIN</Text>
-			</TouchableOpacity>
-		</ScrollView>
-	</View>)
+			</View>	
+			<View style={styles.submitBtn}>				
+				<TouchableOpacity style={styles.btn}>
+					<Text style={styles.btnText}>LOGIN</Text>
+				</TouchableOpacity>
+			</View>
+		</ScrollView>)
