@@ -80,7 +80,7 @@ export default ({
 			</View>	
 			<View style={styles.submitBtn}>				
 				<TouchableOpacity style={styles.btn}>
-					<Text style={styles.btnText}>LOGIN</Text>
+					<Text style={styles.btnText}>REGISTER PARCEL</Text>
 				</TouchableOpacity>
 			</View>
 		</ScrollView>)

@@ -33,21 +33,19 @@ class AuthScreen extends Component{
 		this.setState({data:{...this.state.data,password:text}});
 	}
 
-	handleSubmit = async() =>{
-		// let msg = this.state.data.username+this.state.data.password;
-		// this.setState({msg,isLoading:true});	
-		// Alert.alert("Success!")
-		// this.props.navigation.navigate('Details');
-		// await this.props.login(this.state.data);
-		// await this.props.fetchMyMeetups();
-				this.setState({isLoading:true});
-			setTimeout(()=> {
-				this.setState({isLoading:false,isLogged:true});
-			},3000)		
+	handleSubmit = () =>{
+		this.setState({isLoading:true});
+	
+		setTimeout(()=> {
+			this.setState({isLoading:false,isLogged:true});
+			// this.props.navigation.push('HomeNavigator')
+		},2000)		
 	}
 
 	render(){
-		if (this.state.isLoading === true) {
+		const {isLogged,isLoading} = this.state;
+
+		if (isLoading === true) {
 			return(
 		        <View style={{flex:1,backgroundColor:"blue",alignItems:'center',justifyContent:'center'}}>
 		          <StatusBar
@@ -61,10 +59,9 @@ class AuthScreen extends Component{
 		          <Text style={{color:'#fff'}}>Loading... Please Wait</Text>
 		        </View>)
 		}
-
-		if (this.state.isLogged) {
-	      return <HomeNavigator />;
-	    } 
+		if (isLogged ===true) {
+			return <HomeNavigator />
+		}
 
 		return(
 			<View style={styles.root}>
@@ -73,7 +70,6 @@ class AuthScreen extends Component{
 						barStyle="light-content"
 					/>
 				<View style={styles.textContainer}><Text style={styles.text}>SDP</Text></View>
-				<Text style={styles.msg}>{this.state.msg}</Text>
 				<AuthScreenForm 
 					username={this.state.data.username}
 					password={this.state.data.password}

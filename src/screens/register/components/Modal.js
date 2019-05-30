@@ -23,7 +23,7 @@ export default ({
 		       >
 	          <Text style={styles.closeBtnText}>X</Text>
 		    </TouchableHighlight>
-		    <View style={styles.modalTitleHolder}><Text style={styles.modalTitleText}>Select {catergory} Location</Text></View>
+		    <View style={styles.modalTitleHolder}><Text style={styles.modalTitleText}>{catergory === 'Catergory'?`Select Parcel ${catergory}`:`Select ${catergory} Location`}</Text></View>
 		   {
 		   	catergory === 'Catergory'?
 		   		<ScrollView>

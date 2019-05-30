@@ -13,10 +13,12 @@ import {
 		ReceiveParcel 
 	} from '../screens';
 
+import SendParcelNavigator from './SendParcelNavigator';
+
 const DashboardTabNavigator = createBottomTabNavigator(
 	{
 		Register:RegisterParcel,
-		Send:SendParcel,
+		Send:SendParcelNavigator,
 		Receive:ReceiveParcel,
 		HandOver
 	},

@@ -1,28 +1,26 @@
 import React,{Component} from 'react';
-import {StyleSheet,Text,View} from 'react-native';
+// import {StyleSheet,Text,View} from 'react-native';
 
 import { 
 		createStackNavigator,
-		createBottomTabNavigator,
 		createSwitchNavigator,
 		createAppContainer
 	} from 'react-navigation';
 
 
 import HomeNavigator from './HomeNavigator';
-import { AuthScreen,ManageParcels } from '../screens';
+import { SendParcel,ManageParcels } from '../screens';
 
 
 const AppStackNavigator = createStackNavigator({
-	AuthScreen,
-	HomeNavigator,
+	SendParcel,
 	ManageParcels
 });
 
 
 const AppContainer = createAppContainer(AppStackNavigator)
 
-export default class AppNavigator extends Component{
+export default class SendParcelNavigator extends Component{
 	render(){
 		return <AppContainer />
 	}
