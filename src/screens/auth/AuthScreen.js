@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import {Text,View,StyleSheet,StatusBar,ActivityIndicator,Alert } from 'react-native';
+import {Text,View,StyleSheet,Button,StatusBar,ActivityIndicator,Alert } from 'react-native';
 import { connect } from 'react-redux';
 // import { TabNavigator } from 'react-navigation';
 
@@ -7,9 +7,14 @@ import { connect } from 'react-redux';
 import { login,fetchMyMeetups } from './actions';
 import AuthScreenForm from './components/AuthScreenForm';
 // import LoadingScreen from '../../commons/LoadingScreen';
+import { createStackNavigator, createAppContainer } from 'react-navigation';
 
 
-class AuthScreen extends Component{
+class HomesScreen extends Component{
+	//REMOVING HEADER
+	static navigationOptions ={
+		header:null
+	}
 	state = {
 		data:{
 			username:'',
@@ -30,7 +35,8 @@ class AuthScreen extends Component{
 	handleSubmit = async() =>{
 		let msg = this.state.data.username+this.state.data.password;
 		// this.setState({msg,isLoading:true});	
-		Alert.alert("Success!")
+		// Alert.alert("Success!")
+		this.props.navigation.navigate('Details');
 		// await this.props.login(this.state.data);
 		// await this.props.fetchMyMeetups();
 			this.setState({isLoading:false});		
@@ -73,6 +79,53 @@ class AuthScreen extends Component{
 	}
 }
 
+class DetailsScreen extends Component {
+	static navigationOptions ={
+		title:"SDP"
+	}
+  render() {
+    return (
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <Text>Details Screen</Text>
+        <Button
+          title="Go to Details... again"
+          onPress={() => this.props.navigation.navigate('Details')}
+        />
+      </View>
+    );
+  }
+}
+
+
+const RootStack = createStackNavigator(
+{
+	Home:HomesScreen,
+	Details:DetailsScreen
+},
+{
+	initialRouteName:'Home',
+	defaultNavigationOptions:{
+		headerStyle:{
+			backgroundColor:"#1e90ff"
+		},
+		headerTintColor:"#fff",
+		headerTitleStyle:{
+			textAlign:'center',
+			flex:1
+		}
+	}
+}
+);
+
+const AppContainer = createAppContainer(RootStack);
+
+class AuthScreen extends Component{
+	render(){
+		return(
+			<AppContainer />
+		)
+	}
+}
 
 const styles = StyleSheet.create({
 	root:{

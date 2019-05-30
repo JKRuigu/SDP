@@ -45,7 +45,7 @@ export default class RegisterParcel extends Component{
 						backgroundColor="blue"
 						barStyle="light-content"
 					/>
-				<View style={styles.formContainer}>-
+				<View style={styles.formContainer}>
 				<RegisterParcelForm 
 					styles={styles}
 					handleModal={this.handleModal}

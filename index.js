@@ -17,4 +17,4 @@ const AppContainer = ()=>
 		<AuthScreen />
 	</Provider>
 
-AppRegistry.registerComponent('SDP', () => RegisterParcel)
+AppRegistry.registerComponent('SDP', () => AppContainer)
