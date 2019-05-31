@@ -1,13 +1,11 @@
 import React,{Component} from 'react';
 import {Text,View,StyleSheet,Button,StatusBar,ActivityIndicator,Alert } from 'react-native';
-import { connect } from 'react-redux';
-// import { TabNavigator } from 'react-navigation';
-
-// import { authSignin } from '../../actions/auth';
-import { login,fetchMyMeetups } from './actions';
-import AuthScreenForm from './components/AuthScreenForm';
-// import LoadingScreen from '../../commons/LoadingScreen';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
+import { connect } from 'react-redux';
+import axios from 'axios';
+
+import { login } from './actions';
+import AuthScreenForm from './components/AuthScreenForm';
 import HomeNavigator from '../../routes/HomeNavigator'
 
 class AuthScreen extends Component{
@@ -33,19 +31,26 @@ class AuthScreen extends Component{
 		this.setState({data:{...this.state.data,password:text}});
 	}
 
-	handleSubmit = () =>{
-		this.setState({isLoading:true});
-	
-		setTimeout(()=> {
-			this.setState({isLoading:false,isLogged:true});
-			// this.props.navigation.push('HomeNavigator')
-		},2000)		
+	handleSubmit = async () =>{
+		const { username,password } = this.state;
+		// Alert.alert()
+
+		if (!this.state.data.username || !this.state.data.password) {
+			Alert.alert("Enter both username and password");
+		}else{			
+			 const { username,password } = this.state;
+			await this.props.login({"username":this.state.data.username,"password":this.state.data.password});
+
+			if (this.props.auth.error === true) {
+				Alert.alert("Invalid username or password.");
+			}	
+		}
 	}
 
 	render(){
 		const {isLogged,isLoading} = this.state;
 
-		if (isLoading === true) {
+		if (this.props.auth.isLoading === true) {
 			return(
 		        <View style={{flex:1,backgroundColor:"blue",alignItems:'center',justifyContent:'center'}}>
 		          <StatusBar
@@ -59,7 +64,7 @@ class AuthScreen extends Component{
 		          <Text style={{color:'#fff'}}>Loading... Please Wait</Text>
 		        </View>)
 		}
-		if (isLogged ===true) {
+		if (this.props.auth.isLogged ===true) {
 			return <HomeNavigator />
 		}
 
@@ -109,4 +114,4 @@ const mapStateToProps = state => ({
 	auth:state.auth
 });
 
-export default connect(mapStateToProps,{ login,fetchMyMeetups })(AuthScreen);
+export default connect(mapStateToProps,{ login })(AuthScreen);

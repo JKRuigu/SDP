@@ -1,12 +1,11 @@
 import {
-  LOGIN,
-  LOGIN_ERROR,
-  LOGIN_SUCCESS,
-  FETCH_MY_MEETUPS
+  	FETCH_PARCEL,
+	FETCH_PARCEL_SUCCESS,
+	FETCH_PARCEL_ERROR
 } from './actions';
 
 const initialState = {
-  isLogged: false,
+  isError: false,
   isLoading: false,
   token: null,
   info: {},
@@ -14,8 +13,7 @@ const initialState = {
 };
 
 export default (state = initialState, action) => {
-  const { type, payload} = action;
-  switch (type) {
+  switch (action.type) {
     case LOGIN:
       return {
         ...state,
@@ -26,14 +24,20 @@ export default (state = initialState, action) => {
         ...state,
         isLogged: true,
         isLoading: false,
-        token: payload.token,
-        info: payload.user,
+        token: action.token,
+        info: action.user,
       };
     case LOGIN_ERROR:
       return {
         ...state,
         isLoading: false,
         error: true,
+      };
+    case FETCH_MY_MEETUPS:
+      return {
+        ...state,
+        isLoading: false,
+        error: 'Sent',
       };
     default:
       return state;

@@ -1,9 +1,10 @@
 import React,{Component} from 'react';
+import { connect } from 'react-redux';
 import {Modal,Alert,Text,View,StyleSheet,StatusBar,Button,TextInput,ScrollView,TouchableHighlight } from 'react-native';
 
 import {RegisterParcelForm,ModalForm} from './components';
 
-export default class RegisterParcel extends Component{
+class RegisterParcel extends Component{
 	state = {
 		username:'',
 		password:'',
@@ -46,14 +47,14 @@ export default class RegisterParcel extends Component{
 						barStyle="light-content"
 					/>
 				<View style={styles.formContainer}>
-				<RegisterParcelForm 
-					styles={styles}
-					handleModal={this.handleModal}
-					isSelected={this.state.isSelected}
-					senderLocation={this.state.senderLocation}
-					receiverLocation={this.state.receiverLocation}
-					parcelCatergory={this.state.parcelCatergory}
-					/>
+					<RegisterParcelForm 
+						styles={styles}
+						handleModal={this.handleModal}
+						isSelected={this.state.isSelected}
+						senderLocation={this.state.senderLocation}
+						receiverLocation={this.state.receiverLocation}
+						parcelCatergory={this.state.parcelCatergory}
+						/>
 				</View>
 		        <ModalForm
 		        	styles={styles}
@@ -173,3 +174,10 @@ const styles = StyleSheet.create({
 		fontSize:14
 	}
 });
+
+const mapStateToProps = state => ({
+	auth:state.auth
+});
+
+
+export default connect(mapStateToProps,null)(RegisterParcel);

@@ -70,6 +70,7 @@ connect to development server
 https://stackoverflow.com/a/43277765/3632318
 forward port (Android 5.0+ only):
 
+$ adb reverse tcp:8000 tcp:8000
 $ adb reverse tcp:3000 tcp:3000
 now local 3000 port is mapped to mobile’s 3000 port.
 

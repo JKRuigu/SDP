@@ -13,7 +13,7 @@ export default class HomeScreen extends Component{
 					<View  style={{flex:1}}>
 						<View style={styles.container}>
 							<TouchableOpacity style={styles.content}>
-								<Text style={styles.text}>Register Parcels</Text>
+								<Text style={styles.text}>Register Parcels Token: {this.props.auth.token}</Text>
 							</TouchableOpacity>
 							<TouchableOpacity style={styles.content}>
 								<Text style={styles.text}>Send Parcels</Text>

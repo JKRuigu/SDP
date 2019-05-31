@@ -7,39 +7,28 @@ export const LOGIN_ERROR = 'LOGIN_ERROR';
 function loginSuccess(data) {
   return {
     type: LOGIN_SUCCESS,
-    user: 'Kamau',
-    token: '7655566',
+    payload:data
   };
 }
 
 function loginError(error) {
   return {
     type: LOGIN_ERROR,
-    error:'63748487',
+    payload:error
   };
 }
 
-export function login(token, provider) {
+export function login({username,password}) {
   return async (dispatch) => {
+    
     dispatch({ type: LOGIN });
+
     try {
-      const data = await User.login(data);
+      const data = await User.login({username,password});
       return dispatch(loginSuccess(data));
     } catch (e) {
       return dispatch(loginError(e));
     }
+    
   };
 }
-
-
-// import { MeetupApi } from '../../../constants/api';
-
-// const meetupApi = new MeetupApi();
-
-export const FETCH_MY_MEETUPS = 'FETCH_MY_MEETUPS';
-
-export const fetchMyMeetups = () => ({
-  type: FETCH_MY_MEETUPS,
-  payload: User.fetchData(),
-});
-

@@ -3,13 +3,10 @@ import { Platform } from 'react-native';
 
 let url;
 
-// Cause of genymotion we need to change the url here
-// http://stackoverflow.com/questions/5528850/how-to-connect-localhost-in-android-emulator
 if (Platform.OS === 'ios') {
-  url = 'http://10.0.3.2:8000';
+  url = 'http://10.0.2.2:8000';
 } else {
-  // url = 'http://localhost:8000';
-  url = 'http://10.0.1.1:8000';
+  url = 'http://localhost:8000';
 }
 
 axios.defaults.baseURL = url;
@@ -17,22 +14,12 @@ axios.defaults.baseURL = url;
 
 class UserApi {
   constructor() {
-    this.path = '/auth';
-    this.pathFetch='/parcels/fetch/hdjhdj'
+    this.path = '/api/user';
   }
 
   async login(args) {
     try {
-      const { data } = await axios.post(`${this.path}/signin`, args);
-      return data;
-    } catch (e) {
-      throw e;
-    }
-  }
-
-  async fetchData() {
-    try {
-      const { data } = await axios.get(this.pathFetch);
+      const { data } = await axios.post(`${this.path}/login`, args);
       return data;
     } catch (e) {
       throw e;
@@ -41,3 +28,22 @@ class UserApi {
 }
 
 export const User = new UserApi();
+
+
+class ParcelApi{
+  constructor(){
+    this.path = '/api/parcels';
+  }
+
+  async fetchParcels(token){
+    try{
+      const { data } = await axios.get(`${this.path}/login`,{authorization:`Brear ${token}`});
+      return data;
+    }catch(e){
+      throw e;
+    }
+  }
+}
+
+
+export const ParcelsApi = new ParcelApi();
