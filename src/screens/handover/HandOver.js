@@ -1,7 +1,7 @@
 import React,{Component} from 'react';
 import { connect } from 'react-redux';
 // import { Button } from 'react-native-elements';
-import {StyleSheet,ScrollView,Text,View,Button,TextInput,StatusBar} from 'react-native';
+import {StyleSheet,ScrollView,Text,View,Button,TextInput,StatusBar,ProgressBarAndroid} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 
@@ -61,6 +61,8 @@ class HandOver extends Component{
 						backgroundColor="blue"
 						barStyle="light-content"
 					/>
+				{this.props.parcels.isLoading === true?	
+				<ProgressBarAndroid styleAttr="Horizontal" style={{margin:-5,width:'100%'}} color="#2196F3" />:<Text />}
 				{/**<TextInput
 									style={{ backgroundColor:'#fff',width:200,borderRadius:20,fontSize:15,paddingLeft:20 }}
 									defaultValue={filterItem}

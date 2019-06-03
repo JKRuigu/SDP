@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 // import { Button } from 'react-native-elements';
-import {StyleSheet,Text,View,Alert} from 'react-native';
+import {StyleSheet,Text,View,Alert,ProgressBarAndroid} from 'react-native';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -33,7 +33,9 @@ class SendParcel extends Component{
 
 		const { vehicle,handleSelectDriver } = this.state;
 		return(
-			<View style={styles.root}>				
+			<View style={styles.root}>
+			{this.props.vehicles.isLoading === true?	
+				<ProgressBarAndroid styleAttr="Horizontal" style={{margin:-5,width:'100%'}} color="#2196F3" />:<Text />}			
 				<Vehicle
 					vehicles={ this.props.vehicles.vehicle }
 					styles={styles}

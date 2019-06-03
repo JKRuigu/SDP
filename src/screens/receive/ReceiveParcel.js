@@ -2,7 +2,7 @@ import React,{Component} from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 // import { Button } from 'react-native-elements';
-import {StyleSheet,ScrollView,Text,View,Button,TextInput,StatusBar} from 'react-native';
+import {StyleSheet,ScrollView,Text,View,Button,TextInput,StatusBar,ProgressBarAndroid} from 'react-native';
 import { connect } from 'react-redux';
 
 
@@ -63,6 +63,8 @@ class ReceiveParcel extends Component{
 						barStyle="light-content"
 					/>
 				<View>
+				{this.props.parcels.isLoading === true?	
+				<ProgressBarAndroid styleAttr="Horizontal" style={{margin:-5,width:'100%'}} color="#2196F3" />:<Text />}
 					<ScrollView>						
 						{this.props.parcels.parcel.map((parcel,i)=>(
 							<View style={styles.list} key={i}>

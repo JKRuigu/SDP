@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import { connect } from 'react-redux';
-import {Modal,Alert,Text,View,StyleSheet,ActivityIndicator,StatusBar,Button,TextInput,ScrollView,TouchableHighlight } from 'react-native';
+import {Modal,Alert,Text,View,StyleSheet,ActivityIndicator,StatusBar,Button,TextInput,ScrollView,TouchableHighlight,ProgressBarAndroid } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import {RegisterParcelForm,ModalForm} from './components';
@@ -26,8 +26,6 @@ class RegisterParcel extends Component{
 		parcelCatergory:'Select Parcel Catergory',
 		receiverLocation:'Select Receiver Location',
 		senderLocation:'Select Sender Location',
-		// locations:[{"location":"Nairobi"},{"location":"Naivasha"},{"location":"Kiambu"}],
-		catergories:[{"catergoryName":"BOX"},{"catergoryName":"ENVLOPE"},{"catergoryName":"BOX"},{"catergoryName":"MEDIUM BOX"}]
 	}
 
 	handleUsername = text =>{
@@ -84,6 +82,8 @@ class RegisterParcel extends Component{
 						backgroundColor="blue"
 						barStyle="light-content"
 					/>
+				{this.props.catergory.isLoading === true || this.props.location.isLoading === true?	
+					<ProgressBarAndroid styleAttr="Horizontal" style={{margin:-5,width:'100%'}} color="#2196F3" />:<Text />}
 				<View style={styles.formContainer}>
 				<RegisterParcelForm 
 					styles={styles}
