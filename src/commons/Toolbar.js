@@ -1,9 +1,11 @@
 import React,{ Component } from 'react';
+import { connect } from 'react-redux';
 import { View,TextInput,StyleSheet,Alert,Text,TouchableHighlight } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
+import { fetchParcels,fetchCatergory,fetchLocation,fetchVehicle } from '../screens/register/actions';
 
-export default class Toolbar extends Component{
+class Toolbar extends Component{
  
 	state = {
 		name:'Register',
@@ -18,6 +20,22 @@ export default class Toolbar extends Component{
 
 	handleSearch = ()=>{
 		this.setState({isSearch:!this.state.isSearch});
+	}
+
+	handleFresh = async ()=>{
+		// await Alert.alert('Refreshing page!')
+		if (this.props.auth) {
+			const { auth } = this.props;
+			let data ={
+				"token":auth.token,
+				"partnerId":auth.user.partnerId
+			}
+		
+			await this.props.fetchParcels(data);
+			await this.props.fetchCatergory(data);
+			await this.props.fetchLocation(data);
+			await this.props.fetchVehicle(data);
+		}		
 	}
 
 	render(){
@@ -35,7 +53,15 @@ export default class Toolbar extends Component{
 								style={styles.textInput}
 							 />
 						</View>
-						<View>					
+						<View style={{flexDirection:"row"}}>
+							<Text style={styles.icon} onPress={this.handleFresh}>
+								<Icon
+									style={isSearch === true?{display:"none"}:""}
+									name="md-refresh"
+									size={26}
+									color="#fff"
+								/>
+							</Text>					
 							<Text style={styles.icon} onPress={this.handleSearch} >
 								<Icon
 									name={isSearch === true?"md-close": "md-search"}
@@ -79,15 +105,27 @@ const styles = StyleSheet.create({
 		margin:4,
 		marginHorizontal:15,
 		padding:5,
-		paddingLeft:'30%'
+		paddingLeft:10
 	},
 	icon:{
-		marginHorizontal:5,
+		marginHorizontal:3,
 		alignItems:'center',
 		justifyContent:'center',
-		width:45,
-		padding:10,
+		width:40,
+		padding:5,
 		borderRadius:40
 	}
 
 });
+
+
+
+const mapStateToProps = state => ({
+	auth:state.auth,
+	catergory:state.catergory,
+	location:state.location,
+	vehicle:state.vehicle
+});
+
+export default connect(mapStateToProps,{ fetchParcels,fetchCatergory,fetchLocation,fetchVehicle })(Toolbar);
+
