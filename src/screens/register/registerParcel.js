@@ -1,11 +1,22 @@
 import React,{Component} from 'react';
 import { connect } from 'react-redux';
 import {Modal,Alert,Text,View,StyleSheet,ActivityIndicator,StatusBar,Button,TextInput,ScrollView,TouchableHighlight } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 import {RegisterParcelForm,ModalForm} from './components';
 import { fetchParcels,fetchCatergory,fetchLocation,fetchVehicle } from './actions';
 
 class RegisterParcel extends Component{
+
+	static navigationOptions = {
+		tabBarIcon : ({ tintColor,focused})=>(
+			<Icon 
+				name="md-add"
+				size={focused === true ? 28 : 26}
+				color={focused === true? 'blue':'gray'}
+			/>
+		)
+	}
 	state = {
 		username:'',
 		password:'',
@@ -202,5 +213,5 @@ const mapStateToProps = state => ({
 	location:state.location
 });
 
-
 export default connect(mapStateToProps,{ fetchParcels,fetchCatergory,fetchLocation,fetchVehicle })(RegisterParcel);
+

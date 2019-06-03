@@ -1,10 +1,24 @@
 import React,{Component} from 'react';
+import Icon from 'react-native-vector-icons/Ionicons';
+
 // import { Button } from 'react-native-elements';
 import {StyleSheet,ScrollView,Text,View,Button,TextInput,StatusBar} from 'react-native';
 import { connect } from 'react-redux';
 
 
 class ReceiveParcel extends Component{
+
+	static navigationOptions = {
+		tabBarIcon : ({ tintColor,focused})=>(
+				<Icon 
+					name="md-subway"
+					size={focused === true ? 28 : 26}
+					color={focused === true? 'blue':'gray'}
+				/>
+			)
+	}
+
+
 	state ={
 		counter:0,
 		filterItem:'',

@@ -32,8 +32,14 @@ const DashboardTabNavigator = createBottomTabNavigator(
 					headerTitle:name,
 					header:<TextInput />
 				}
+		},
+		tabBarOptions:{
+			activeTintColor:'blue',
+			inactiveTintColor:'black',
+			showLabel:true,
+			showIcon:true
 		}
-	}	
+	}
 );
 
 const DashboardStackNavigator = createStackNavigator({DashboardTabNavigator});

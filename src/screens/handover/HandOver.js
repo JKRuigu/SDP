@@ -2,9 +2,22 @@ import React,{Component} from 'react';
 import { connect } from 'react-redux';
 // import { Button } from 'react-native-elements';
 import {StyleSheet,ScrollView,Text,View,Button,TextInput,StatusBar} from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
+
 
 
 class HandOver extends Component{
+
+	static navigationOptions = {
+		tabBarIcon : ({ tintColor,focused})=>(
+				<Icon 
+					name="md-person"
+					size={focused === true ? 28 : 26}
+					color={focused === true? 'blue':'gray'}
+				/>
+			)
+	}
+
 	state ={
 		counter:0,
 		filterItem:'',

@@ -11,8 +11,8 @@ import HomeNavigator from '../../routes/HomeNavigator'
 class AuthScreen extends Component{
 	state = {
 		data:{
-			username:'',
-			password:''	
+			username:'0759377424',
+			password:'0759377424'	
 		},		
 		msg:'Please Submit',
 		isLoading:false,

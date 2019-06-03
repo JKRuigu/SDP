@@ -1,4 +1,6 @@
 import React,{Component} from 'react';
+import Icon from 'react-native-vector-icons/Ionicons';
+
 // import {StyleSheet,Text,View} from 'react-native';
 
 import { 
@@ -21,6 +23,17 @@ const AppStackNavigator = createStackNavigator({
 const AppContainer = createAppContainer(AppStackNavigator)
 
 export default class SendParcelNavigator extends Component{
+
+	static navigationOptions = {
+		header:null,
+		tabBarIcon : ({ tintColor,focused})=>(
+				<Icon 
+					name="md-send"
+					size={focused === true ? 28 : 26}
+					color={focused === true? 'blue':'gray'}
+				/>
+			)
+	}
 	render(){
 		return <AppContainer />
 	}
