@@ -40,7 +40,7 @@ class GeneralsApi{
 
   async fetchParcels({token,partnerId}){
     try{
-      const { data } = await axios.get(`${this.path}/AOSA9Z6W6QM`);
+      const { data } = await axios.get(`${this.path}/AOSA9Z6W6QM`,{header:{Authorization:token}});
       return data;
     }catch(e){
       throw e;

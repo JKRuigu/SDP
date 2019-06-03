@@ -1,5 +1,8 @@
 import React,{Component} from 'react';
 import { TextInput } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
+import Toolbar from '../commons/Toolbar';
+
 
 import { 
 		createStackNavigator,
@@ -30,7 +33,7 @@ const DashboardTabNavigator = createBottomTabNavigator(
 			let name = routeName + " Parcels";
 				return{
 					headerTitle:name,
-					header:<TextInput />
+					header:<Toolbar name={name} index={navigation.state.index}/>
 				}
 		},
 		tabBarOptions:{
