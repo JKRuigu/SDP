@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Platform } from 'react-native';
+import { Platform,Alert } from 'react-native';
 
 let url;
 
@@ -39,32 +39,37 @@ class GeneralsApi{
   }
 
   async fetchParcels({token,partnerId}){
+    // Alert.alert(partnerId)
+    let header = `Bearer ${token}`;
     try{
-      const { data } = await axios.get(`${this.path}/AOSA9Z6W6QM`,{header:{Authorization:token}});
+      const { data } = await axios.get(`${this.path}/${partnerId}`,{headers:{authorization:header}});
       return data;
     }catch(e){
       throw e;
     }
   }
   async fetchCatergory({token,partnerId}){
+    let header = `Bearer ${token}`;
     try{
-      const { data } = await axios.get(`${this.catergoryPath}/AOSA9Z6W6QM`);
+      const { data } = await axios.get(`${this.catergoryPath}/${partnerId}`,{headers:{authorization:header}});
       return data;
     }catch(e){
       throw e;
     }
   }
   async fetchLocation({token,partnerId}){
+    let header = `Bearer ${token}`;
     try{
-      const { data } = await axios.get(`${this.locationPath}/AOSA9Z6W6QM`);
+      const { data } = await axios.get(`${this.locationPath}/${partnerId}`,{headers:{authorization:header}});
       return data;
     }catch(e){
       throw e;
     }
   }
   async fetchVehicle({token,partnerId}){
+    let header = `Bearer ${token}`;
     try{
-      const { data } = await axios.get(`${this.vehiclePath}/AOSA9Z6W6QM`);
+      const { data } = await axios.get(`${this.vehiclePath}/${partnerId}`,{headers:{authorization:header}});
       return data;
     }catch(e){
       throw e;

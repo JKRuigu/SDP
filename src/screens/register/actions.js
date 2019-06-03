@@ -1,4 +1,5 @@
 import { GeneralApi } from '../../constants/api';
+import { Platform,Alert } from 'react-native';
 
 export const FETCH_PARCEL = 'FETCH_PARCEL';
 export const FETCH_PARCEL_SUCCESS = 'FETCH_PARCEL_SUCCESS';
@@ -18,13 +19,13 @@ function fetchError(error) {
   };
 }
 
-export function fetchParcels({token,parnterId}) {
+export function fetchParcels({token,partnerId}) {
+  // Alert.alert(partnerId)
   return async (dispatch) => {
     
     dispatch({ type: FETCH_PARCEL });
-
     try {
-      const data = await GeneralApi.fetchParcels({token,parnterId});
+      const data = await GeneralApi.fetchParcels({token,partnerId});
       return dispatch(fetchSuccess(data));
     } catch (e) {
       return dispatch(fetchError(e));
@@ -54,13 +55,13 @@ function fetchCatergoryError(error) {
   };
 }
 
-export function fetchCatergory({token,parnterId}) {
+export function fetchCatergory({token,partnerId}) {
   return async (dispatch) => {
     
     dispatch({ type: FETCH_CATERGORY });
 
     try {
-      const data = await GeneralApi.fetchCatergory({token,parnterId});
+      const data = await GeneralApi.fetchCatergory({token,partnerId});
       return dispatch(fetchCatergorySuccess(data));
     } catch (e) {
       return dispatch(fetchCatergoryError(e));
@@ -88,13 +89,13 @@ function fetchLocationError(error) {
   };
 }
 
-export function fetchLocation({token,parnterId}) {
+export function fetchLocation({token,partnerId}) {
   return async (dispatch) => {
     
     dispatch({ type: FETCH_LOCATION });
 
     try {
-      const data = await GeneralApi.fetchLocation({token,parnterId});
+      const data = await GeneralApi.fetchLocation({token,partnerId});
       return dispatch(fetchLocationSuccess(data));
     } catch (e) {
       return dispatch(fetchLocationError(e));
@@ -122,13 +123,13 @@ function fetchVehicleError(error) {
   };
 }
 
-export function fetchVehicle({token,parnterId}) {
+export function fetchVehicle({token,partnerId}) {
   return async (dispatch) => {
     
     dispatch({ type: FETCH_VEHICLE });
 
     try {
-      const data = await GeneralApi.fetchVehicle({token,parnterId});
+      const data = await GeneralApi.fetchVehicle({token,partnerId});
       return dispatch(fetchVehicleSuccess(data));
     } catch (e) {
       return dispatch(fetchVehicleError(e));

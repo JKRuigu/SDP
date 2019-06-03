@@ -34,21 +34,27 @@ class RegisterParcel extends Component{
 		this.setState({username:text});
 	}
 
-	componentWillMount(){	
+	async componentWillMount(){	
+		// Alert.alert("12345")
 		if (this.props.auth) {
-			this.handleFetchData();
+			const { auth } = this.props;
+			let data ={
+				"token":auth.token,
+				"partnerId":auth.user.partnerId
+			}
+		// Alert.alert("partnerId",auth.user.partnerId)
+		await this.props.fetchParcels(data);
+		await this.props.fetchCatergory(data);
+		await this.props.fetchLocation(data);
+		await this.props.fetchVehicle(data);
 		}		
 	}
 
 	handleFetchData = async ()=>{
 		let token = this.props.auth.token;
-		let partnerId = this.props.auth.user.partnerId;
-		// Alert.alert(token);
-
-		await this.props.fetchParcels({token,partnerId});
-		await this.props.fetchCatergory({token,partnerId});
-		await this.props.fetchLocation({token,partnerId});
-		await this.props.fetchVehicle({token,partnerId});
+		let partnerId = this.props.auth.users.partnerId;
+		// 
+		
 		// await this.props.fetchParcel({token,partnerId});
 		// Alert.alert(this.props.location.location[0].location);
 	}
