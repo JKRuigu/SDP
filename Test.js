@@ -169,7 +169,7 @@ connect to development server
 https://stackoverflow.com/a/43277765/3632318
 forward port (Android 5.0+ only):
 
-$ adb reverse tcp:3000 tcp:3000
+$ adb reverse tcp:8000 tcp:8000
 now local 3000 port is mapped to mobile’s 3000 port.
 
 3000 is the port development server is listening on (accordingly it’s specified as development server port in both app/api/ApiHelpers.js and app/api/graphql/run.js).

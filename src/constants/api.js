@@ -30,20 +30,49 @@ class UserApi {
 export const User = new UserApi();
 
 
-class ParcelApi{
+class GeneralsApi{
   constructor(){
-    this.path = '/api/parcels';
+    this.path = '/api/parcel';
+    this.catergoryPath ='/api/catergory';
+    this.locationPath ='/api/location';
+    this.vehiclePath ='/api/vehicle';
   }
 
-  async fetchParcels(token){
+  async fetchParcels({token,partnerId}){
     try{
-      const { data } = await axios.get(`${this.path}/login`,{authorization:`Brear ${token}`});
+      const { data } = await axios.get(`${this.path}/AOSA9Z6W6QM`);
       return data;
     }catch(e){
       throw e;
     }
   }
+  async fetchCatergory({token,partnerId}){
+    try{
+      const { data } = await axios.get(`${this.catergoryPath}/AOSA9Z6W6QM`);
+      return data;
+    }catch(e){
+      throw e;
+    }
+  }
+  async fetchLocation({token,partnerId}){
+    try{
+      const { data } = await axios.get(`${this.locationPath}/AOSA9Z6W6QM`);
+      return data;
+    }catch(e){
+      throw e;
+    }
+  }
+  async fetchVehicle({token,partnerId}){
+    try{
+      const { data } = await axios.get(`${this.vehiclePath}/AOSA9Z6W6QM`);
+      return data;
+    }catch(e){
+      throw e;
+    }
+  }
+
+
 }
 
 
-export const ParcelsApi = new ParcelApi();
+export const GeneralApi = new GeneralsApi();

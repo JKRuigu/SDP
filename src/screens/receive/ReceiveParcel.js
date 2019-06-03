@@ -1,9 +1,10 @@
 import React,{Component} from 'react';
 // import { Button } from 'react-native-elements';
 import {StyleSheet,ScrollView,Text,View,Button,TextInput,StatusBar} from 'react-native';
+import { connect } from 'react-redux';
 
 
-export default class ReceiveParcel extends Component{
+class ReceiveParcel extends Component{
 	state ={
 		counter:0,
 		filterItem:'',
@@ -47,16 +48,9 @@ export default class ReceiveParcel extends Component{
 						backgroundColor="blue"
 						barStyle="light-content"
 					/>
-				{/**<TextInput
-									style={{ backgroundColor:'#fff',width:200,borderRadius:20,fontSize:15,paddingLeft:20 }}
-									defaultValue={filterItem}
-									placeholder="Search"
-									placeholderTextColor="#000"
-									onChangeText={this.handleInputFilter}
-								/>**/}
 				<View>
 					<ScrollView>						
-						{parcels.map((parcel,i)=>(
+						{this.props.parcels.parcel.map((parcel,i)=>(
 							<View style={styles.list} key={i}>
 							<View style={styles.option}>
 								<Text style={styles.optionText} onPress={()=>this.handleSelect(parcel)}>
@@ -64,13 +58,22 @@ export default class ReceiveParcel extends Component{
 								</Text>
 							</View>
 							<View style={styles.listContent}>
-								<View style={styles.mainContainer}>
-									<Text style={styles.mainText}>{parcel.regId}</Text>
-								</View>
-								<View style={styles.subContainer}>
-									<Text style={styles.location}>Location</Text>
-									<Text style={styles.locationText}>{parcel.location}</Text>
-								</View>
+								<ScrollView>
+									<View style={styles.mainContainer}>
+										<Text style={styles.mainText}>
+											<Text style={{color:'#fff'}}>Reg ID:</Text>
+												{parcel.regID}
+										</Text>
+									</View>
+									<View style={styles.subContainer}>
+										<Text style={styles.location}>catergory</Text>
+										<Text style={styles.locationText}>{parcel.parcelCatergory}</Text>
+									</View>
+									<View style={styles.subContainer}>
+										<Text style={styles.location}>Vehicle</Text>
+									<Text style={styles.locationText}> {parcel.vehicleNumber}</Text>
+									</View>
+								</ScrollView>
 							</View>
 						</View>))}
 					</ScrollView>
@@ -93,7 +96,7 @@ const styles = StyleSheet.create({
 		flexDirection:"row"
 	 },
 	list:{
-		height:55,
+		height:60,
 		margin:5,
 		borderRadius:10,
 		flexDirection:"row"
@@ -143,3 +146,12 @@ const styles = StyleSheet.create({
 		fontWeight:'500'
 	}
 });
+
+
+const mapStateToProps = state => ({
+	auth:state.auth,
+	parcels:state.parcel
+});
+
+
+export default connect(mapStateToProps,{})(ReceiveParcel);

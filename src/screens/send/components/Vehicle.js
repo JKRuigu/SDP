@@ -3,12 +3,12 @@ import {ScrollView,Text,View} from 'react-native';
 
 
 export default ({
-	vehicle,
+	vehicles,
 	styles,
 	handleSelectDriver,
 	optText
 })=>(<ScrollView>						
-		{vehicle.map((vehicle,i)=>(
+		{vehicles.map((vehicle,i)=>(
 			<View style={styles.list} key={i}>
 			<View style={styles.option}>
 				<Text style={optText} onPress={()=>handleSelectDriver(vehicle)}>Select</Text>
@@ -19,7 +19,7 @@ export default ({
 				</View>
 				<View style={styles.subContainer}>
 					<Text style={styles.location}>Driver ID</Text>
-					<Text style={styles.locationText}>{vehicle.driverId}</Text>
+					<Text style={styles.locationText}>{vehicle.driverName}</Text>
 				</View>
 			</View>
 		</View>))}

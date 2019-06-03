@@ -41,8 +41,8 @@ class AuthScreen extends Component{
 			 const { username,password } = this.state;
 			await this.props.login({"username":this.state.data.username,"password":this.state.data.password});
 
-			if (this.props.auth.error === true) {
-				Alert.alert("Invalid username or password.");
+			if (this.props.auth.isError === true) {
+				Alert.alert(this.props.auth.error);
 			}	
 		}
 	}

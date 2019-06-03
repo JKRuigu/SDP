@@ -1,8 +1,9 @@
 import React,{Component} from 'react';
 import { connect } from 'react-redux';
-import {Modal,Alert,Text,View,StyleSheet,StatusBar,Button,TextInput,ScrollView,TouchableHighlight } from 'react-native';
+import {Modal,Alert,Text,View,StyleSheet,ActivityIndicator,StatusBar,Button,TextInput,ScrollView,TouchableHighlight } from 'react-native';
 
 import {RegisterParcelForm,ModalForm} from './components';
+import { fetchParcels,fetchCatergory,fetchLocation,fetchVehicle } from './actions';
 
 class RegisterParcel extends Component{
 	state = {
@@ -14,12 +15,31 @@ class RegisterParcel extends Component{
 		parcelCatergory:'Select Parcel Catergory',
 		receiverLocation:'Select Receiver Location',
 		senderLocation:'Select Sender Location',
-		locations:[{"location":"Nairobi"},{"location":"Naivasha"},{"location":"Kiambu"}],
+		// locations:[{"location":"Nairobi"},{"location":"Naivasha"},{"location":"Kiambu"}],
 		catergories:[{"catergoryName":"BOX"},{"catergoryName":"ENVLOPE"},{"catergoryName":"BOX"},{"catergoryName":"MEDIUM BOX"}]
 	}
 
 	handleUsername = text =>{
 		this.setState({username:text});
+	}
+
+	componentWillMount(){	
+		if (this.props.auth) {
+			this.handleFetchData();
+		}		
+	}
+
+	handleFetchData = async ()=>{
+		let token = this.props.auth.token;
+		let partnerId = this.props.auth.user.partnerId;
+		// Alert.alert(token);
+
+		await this.props.fetchParcels({token,partnerId});
+		await this.props.fetchCatergory({token,partnerId});
+		await this.props.fetchLocation({token,partnerId});
+		await this.props.fetchVehicle({token,partnerId});
+		// await this.props.fetchParcel({token,partnerId});
+		// Alert.alert(this.props.location.location[0].location);
 	}
 
 	handlePassword = text =>{
@@ -40,6 +60,7 @@ class RegisterParcel extends Component{
 	}
 
 	render(){
+
 		return(
 			<View style={styles.root}>
 				<StatusBar
@@ -47,20 +68,20 @@ class RegisterParcel extends Component{
 						barStyle="light-content"
 					/>
 				<View style={styles.formContainer}>
-					<RegisterParcelForm 
-						styles={styles}
-						handleModal={this.handleModal}
-						isSelected={this.state.isSelected}
-						senderLocation={this.state.senderLocation}
-						receiverLocation={this.state.receiverLocation}
-						parcelCatergory={this.state.parcelCatergory}
-						/>
+				<RegisterParcelForm 
+					styles={styles}
+					handleModal={this.handleModal}
+					isSelected={this.state.isSelected}
+					senderLocation={this.state.senderLocation}
+					receiverLocation={this.state.receiverLocation}
+					parcelCatergory={this.state.parcelCatergory}
+					/>
 				</View>
 		        <ModalForm
 		        	styles={styles}
 		        	handleModal={this.handleModal}
 		        	isSelected={this.state.isSelected}
-		        	items={this.state.catergory ==='Catergory'?this.state.catergories:this.state.locations}
+		        	items={this.state.catergory ==='Catergory'?this.props.catergory.catergory:this.props.location.location}
 		        	catergory={this.state.catergory}
 		        	handleSelect={this.handleSelect}
 		        	/>
@@ -176,8 +197,10 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
-	auth:state.auth
+	auth:state.auth,
+	catergory:state.catergory,
+	location:state.location
 });
 
 
-export default connect(mapStateToProps,null)(RegisterParcel);
+export default connect(mapStateToProps,{ fetchParcels,fetchCatergory,fetchLocation,fetchVehicle })(RegisterParcel);

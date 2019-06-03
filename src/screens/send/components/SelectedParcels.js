@@ -18,11 +18,11 @@ export default ({
 				</View>
 				<View style={styles.listContent}>
 					<View style={styles.mainContainer}>
-						<Text style={styles.mainText}>{parcel.regId}</Text>
+						<Text style={styles.mainText}>{parcel.regID}</Text>
 					</View>
 					<View style={styles.subContainer}>
-						<Text style={styles.location}>Location</Text>
-						<Text style={styles.locationText}>{parcel.location}</Text>
+						<Text style={styles.location}>catergory</Text>
+						<Text style={styles.locationText}>{parcel.parcelCatergory} {parcel.receiverLocation}</Text>
 					</View>
 				</View>
 			</View>))}

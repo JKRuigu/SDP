@@ -1,9 +1,10 @@
 import React,{Component} from 'react';
-// import { Button } from 'react-native-elements';
 import {StyleSheet,Text,View} from 'react-native';
+import { connect } from 'react-redux';
+
 import {SelectedParcels,MainDisplay } from './components';
 
-export default class ManageParcels extends Component{
+class ManageParcels extends Component{
 	
 	static navigationOptions ={
 		header:null
@@ -18,26 +19,26 @@ export default class ManageParcels extends Component{
 		filterItem2:'',
 		text:'Kamaiu',
 		suggestions:[],
-		parcels:[{"regId":"FG3458897","location":"Nairobi"},{"regId":"JG3458897","location":"Kisumu"},{"regId":"FG03458897","location":"Nairobi"},{"regId":"JG3458s897","location":"Kisumu"},{"regId":"FsG345889f7","location":"Nairobi"},{"regId":"JGEE3458897","location":"Kisumu"},{"regId":"FG3DE458897","location":"Nairobi"},{"regId":"JG34588sf97","location":"Kisumu"},{"regId":"FG3DF458897","location":"Nairobi"},{"regId":"JG34DEG58897","location":"Kisumu"}],
-		displayParcels:[{"regId":"FG3458897","location":"Nairobi"},{"regId":"JG3458897","location":"Kisumu"},{"regId":"FG03458897","location":"Nairobi"},{"regId":"JG3458s897","location":"Kisumu"},{"regId":"FsG345889f7","location":"Nairobi"},{"regId":"JGEE3458897","location":"Kisumu"},{"regId":"FG3DE458897","location":"Nairobi"},{"regId":"JG34588sf97","location":"Kisumu"},{"regId":"FG3DF458897","location":"Nairobi"},{"regId":"JG34DEG58897","location":"Kisumu"}]
+		parcels:[],
+		displayParcels:[]
 	}
 
 	handleAdd =x=>{
 		const {selectedItems,displayParcels,suggestions }= this.state;
 
-		const delicate = selectedItems.filter(parcel=>parcel.regId === x.regId)
+		const delicate = selectedItems.filter(parcel=>parcel.regID === x.regID)
 		if (delicate.length >0) {
-			const filteredParcels = displayParcels.filter(parcel=>parcel.regId !== x.regId);
+			const filteredParcels = displayParcels.filter(parcel=>parcel.regID !== x.regID);
 			this.setState({displayParcels:filteredParcels});
 		}else{
 			if(suggestions.length >0){
-				const filterSuggestions = suggestions.filter(parcel=>parcel.regId !== x.regId)
+				const filterSuggestions = suggestions.filter(parcel=>parcel.regID !== x.regID)
 				this.setState({suggestions:filterSuggestions}); 
 			}
 
-			const filteredParcels = displayParcels.filter(parcel=>parcel.regId !== x.regId)
+			const filteredParcels = displayParcels.filter(parcel=>parcel.regID !== x.regID)
 			this.setState({
-				text:x.regId,
+				text:x.regID,
 				selectedItems:[...this.state.selectedItems,x],
 				displayParcels:filteredParcels,
 				counter:selectedItems.length+1
@@ -48,9 +49,20 @@ export default class ManageParcels extends Component{
 
 	handleRemove =x=>{
 		const {selectedItems,displayParcels }= this.state;
-		const filterSelectedList = selectedItems.filter(parcel=>parcel.regId !== x.regId);
+		const filterSelectedList = selectedItems.filter(parcel=>parcel.regID !== x.regID);
 
-		this.setState({text:x.regId,displayParcels:[...displayParcels,x],counter:selectedItems.length-1,selectedItems:filterSelectedList});
+		this.setState({text:x.regID,displayParcels:[...displayParcels,x],counter:selectedItems.length-1,selectedItems:filterSelectedList});
+	}
+
+	componentWillMount(){	
+		if (this.props.auth) {
+			this.handleFetchData();
+		}		
+	}
+
+	handleFetchData = async ()=>{
+		const { parcel } = this.props.parcels;
+		await this.setState({displayParcels:parcel,parcels:parcel});
 	}
 
 	handleToggle=()=>{
@@ -68,11 +80,11 @@ export default class ManageParcels extends Component{
 				const regex = new RegExp(`^${text}`,'i');
 				if (text.split('').length > filterItem.split('').length) {
 					const {displayParcels }= this.state;
-					const filter = displayParcels.sort().filter(parcel=>regex.test(parcel.regId));
+					const filter = displayParcels.sort().filter(parcel=>regex.test(parcel.regID));
 					this.setState({suggestions:filter});
 				}else{
 					const {displayParcels }= this.state;
-					const filter = displayParcels.sort().filter(parcel=>regex.test(parcel.regId));
+					const filter = displayParcels.sort().filter(parcel=>regex.test(parcel.regID));
 					this.setState({suggestions:filter});
 				}
 		}
@@ -196,3 +208,12 @@ const styles = StyleSheet.create({
 		color:"#fff"
 	}
 });
+
+
+const mapStateToProps = state => ({
+	auth:state.auth,
+	parcels:state.parcel
+});
+
+
+export default connect(mapStateToProps,{})(ManageParcels);

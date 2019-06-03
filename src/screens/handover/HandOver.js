@@ -1,9 +1,10 @@
 import React,{Component} from 'react';
+import { connect } from 'react-redux';
 // import { Button } from 'react-native-elements';
 import {StyleSheet,ScrollView,Text,View,Button,TextInput,StatusBar} from 'react-native';
 
 
-export default class HandOver extends Component{
+class HandOver extends Component{
 	state ={
 		counter:0,
 		filterItem:'',
@@ -56,22 +57,38 @@ export default class HandOver extends Component{
 								/>**/}
 				<View>
 					<ScrollView>						
-						{parcels.map((parcel,i)=>(
+						{this.props.parcels.parcel.map((parcel,i)=>(
 							<View style={styles.list} key={i}>
-							<View style={styles.option}>
-								<Text style={styles.optionText} onPress={()=>this.handleSelect(parcel)}>
-									Add
-								</Text>
-							</View>
-							<View style={styles.listContent}>
-								<View style={styles.mainContainer}>
-									<Text style={styles.mainText}>{parcel.regId}</Text>
-								</View>
-								<View style={styles.subContainer}>
-									<Text style={styles.location}>Location</Text>
-									<Text style={styles.locationText}>{parcel.location}</Text>
-								</View>
-							</View>
+									<View style={styles.option}>
+										<Text style={styles.optionText} onPress={()=>this.handleSelect(parcel)}>
+											Add
+										</Text>
+									</View>
+									<View style={styles.listContent}>
+										<ScrollView>
+											<View style={styles.mainContainer}>												
+												<Text style={styles.mainText}><Text style={styles.location}>RegID</Text> {parcel.regID}</Text>
+											</View>
+											<View style={styles.subContainer}>
+												<Text style={styles.location}>Receiver</Text>
+												<Text style={styles.locationText}>{parcel.receiverName}</Text>
+											</View>
+											<View style={styles.subContainer}>
+												<Text style={styles.location}>Receiver ID</Text>
+												<Text style={styles.locationText}>{parcel.receiverID}</Text>
+											</View>
+
+											<View style={styles.subContainer}>
+												<Text style={styles.location}>Parcel from:</Text>
+												<Text style={styles.locationText}>{parcel.senderLocation}</Text>
+											</View>
+
+											<View style={styles.subContainer}>
+												<Text style={styles.location}>Catergory</Text>
+												<Text style={styles.locationText}>{parcel.parcelCatergory}</Text>
+											</View>
+										</ScrollView>
+									</View>
 						</View>))}
 					</ScrollView>
 				</View>
@@ -93,7 +110,7 @@ const styles = StyleSheet.create({
 		flexDirection:"row"
 	 },
 	list:{
-		height:55,
+		height:80,
 		margin:5,
 		borderRadius:10,
 		flexDirection:"row"
@@ -143,3 +160,12 @@ const styles = StyleSheet.create({
 		fontWeight:'500'
 	}
 });
+
+
+const mapStateToProps = state => ({
+	auth:state.auth,
+	parcels:state.parcel
+});
+
+
+export default connect(mapStateToProps,{})(HandOver);

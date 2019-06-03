@@ -1,4 +1,6 @@
 import React,{Component} from 'react';
+import { TextInput } from 'react-native';
+
 import { 
 		createStackNavigator,
 		createBottomTabNavigator,
@@ -27,7 +29,8 @@ const DashboardTabNavigator = createBottomTabNavigator(
 			const { routeName } = navigation.state.routes[navigation.state.index]
 			let name = routeName + " Parcels";
 				return{
-					headerTitle:name
+					headerTitle:name,
+					header:<TextInput />
 				}
 		}
 	}	
@@ -36,7 +39,6 @@ const DashboardTabNavigator = createBottomTabNavigator(
 const DashboardStackNavigator = createStackNavigator({DashboardTabNavigator});
 
 const AppContainer = createAppContainer(DashboardStackNavigator)
-
 
 
 export default class HomeNavigator extends Component{

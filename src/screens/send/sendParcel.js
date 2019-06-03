@@ -1,10 +1,13 @@
 import React,{Component} from 'react';
 // import { Button } from 'react-native-elements';
 import {StyleSheet,Text,View,Alert} from 'react-native';
+import { connect } from 'react-redux';
+
 import { Vehicle } from './components';
+import { fetchVehicle } from '../register/actions';
 // import ManageParcels from './ManageParcels';
 
-export default class SendParcel extends Component{
+class SendParcel extends Component{
 
 	static navigationOptions ={
 		header:null
@@ -31,7 +34,7 @@ export default class SendParcel extends Component{
 		return(
 			<View style={styles.root}>				
 				<Vehicle
-					vehicle={vehicle}
+					vehicles={ this.props.vehicles.vehicle }
 					styles={styles}
 					handleSelectDriver={this.handleSelectDriver}
 					optText={styles.optText}
@@ -123,3 +126,12 @@ const styles = StyleSheet.create({
 		color:"#fff"
 	}
 });
+
+
+const mapStateToProps = state => ({
+	auth:state.auth,
+	vehicles:state.vehicle
+});
+
+
+export default connect(mapStateToProps,{ fetchVehicle })(SendParcel);

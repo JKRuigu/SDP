@@ -9,8 +9,9 @@ const initialState = {
   isLogged: false,
   isLoading: false,
   token: null,
-  info: {},
+  user: {},
   error: null,
+  isError:false
 };
 
 export default (state = initialState, action) => {
@@ -19,6 +20,7 @@ export default (state = initialState, action) => {
     case LOGIN:
       return {
         ...state,
+        isError:false,
         isLoading: true,
       };
     case LOGIN_SUCCESS:
@@ -27,13 +29,14 @@ export default (state = initialState, action) => {
         isLogged: true,
         isLoading: false,
         token: payload.token,
-        info: payload.user,
+        user: payload.user[0],
       };
     case LOGIN_ERROR:
       return {
         ...state,
         isLoading: false,
-        error: true,
+        isError: true,
+        error:payload.message
       };
     default:
       return state;
