@@ -3,3 +3,5 @@ axios.get('https://example.com/getSomething', {
    Authorization: 'Bearer ' + token //the token is a variable which holds the token
  }
 })
+
+adb reverse tcp:8000 tcp:8000

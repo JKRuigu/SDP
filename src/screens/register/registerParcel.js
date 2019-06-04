@@ -62,7 +62,7 @@ class RegisterParcel extends Component{
 	}
 	handleModal = catergory=> {
 	    this.setState({isSelected: !this.state.isSelected,catergory});		
-	 }
+	}
 
 	handleSelect = item =>{
 		if (this.state.catergory === 'Catergory') {

@@ -1,10 +1,9 @@
 import React,{Component} from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
-
-// import { Button } from 'react-native-elements';
-import {StyleSheet,ScrollView,Text,View,Button,TextInput,StatusBar,ProgressBarAndroid} from 'react-native';
+import {StyleSheet,ScrollView,Text,View,Button,TextInput,Alert,StatusBar,ProgressBarAndroid} from 'react-native';
 import { connect } from 'react-redux';
 
+import Modal from '../../commons/Modal';
 
 class ReceiveParcel extends Component{
 
@@ -23,17 +22,32 @@ class ReceiveParcel extends Component{
 		counter:0,
 		filterItem:'',
 		filterItem2:'',
-		parcels:[{"regId":"FG3458897","location":"Nairobi"},{"regId":"JG3458897","location":"Kisumu"},{"regId":"FG03458897","location":"Nairobi"},{"regId":"JG3458s897","location":"Kisumu"},{"regId":"FsG345889f7","location":"Nairobi"},{"regId":"JGEE3458897","location":"Kisumu"},{"regId":"FG3DE458897","location":"Nairobi"},{"regId":"JG34588sf97","location":"Kisumu"},{"regId":"FG3DF458897","location":"Nairobi"},{"regId":"JG34DEG58897","location":"Kisumu"}],
-		parcels2:[{"regId":"FG3458897","location":"Nairobi"},{"regId":"JG3458897","location":"Kisumu"},{"regId":"FG03458897","location":"Nairobi"},{"regId":"JG3458s897","location":"Kisumu"},{"regId":"FsG345889f7","location":"Nairobi"},{"regId":"JGEE3458897","location":"Kisumu"},{"regId":"FG3DE458897","location":"Nairobi"},{"regId":"JG34588sf97","location":"Kisumu"},{"regId":"FG3DF458897","location":"Nairobi"},{"regId":"JG34DEG58897","location":"Kisumu"}]
+		show:false,
+		type:'Receive',
+		isLoading:false,
+		item:{},
+		title:'Receive Parcel'
 	}
 
 	handleSelect =x=>{
-		
+		this.setState({item:x,show:true});
+	}
+
+	handleSubmit = () =>{
+			this.setState({isLoading:true});
+		setTimeout(()=>{
+			Alert.alert('Success')
+			this.setState({isLoading:false,show:false});
+		},5000)
+	}
+
+	handleModal = () => {
+	    this.setState({show: !this.state.show});		
 	}
 
 	handleInputFilter =n=>{
 		const {parcels,parcels2,filterItem }= this.state;
-		//ONLY ALLOW NUMBERS AND LETTERS//
+		//ONLY ALLOW NUMBERS AND LETTERS///
 		let text = n.toString()
 		this.setState({filterItem:text});
 		if (text) {
@@ -53,9 +67,12 @@ class ReceiveParcel extends Component{
 
 	}
 
+
+
+
 	render(){
 
-		const { filterItem,parcels } = this.state;
+		const { filterItem,parcels,show,title,item,isLoading,type } = this.state;
 		return(
 			<View style={styles.root}>				
 				<StatusBar
@@ -94,6 +111,16 @@ class ReceiveParcel extends Component{
 						</View>))}
 					</ScrollView>
 				</View>
+				<Modal
+					styles={styles}
+					handleSubmit={this.handleSubmit}
+					show={show}
+					item={item}
+					isLoading={isLoading}
+					handleModal={this.handleModal}
+					title={title}
+					type={type}
+				/>
 			</View>
 			)
 	}
@@ -105,12 +132,60 @@ const styles = StyleSheet.create({
 	    flex: 1,
 	    backgroundColor:'#f4f4f4'
 	  },
-	 toolbar:{
-	 	height:55,
-		margin:5,
-		borderRadius:10,
-		flexDirection:"row"
-	 },
+	modal:{
+		backgroundColor:'rgba(0,0,0,0.5)',
+		flex:1
+	},
+	modalTitleHolder:{
+		alignItems:'center',
+		justifyContent:'center'
+	},
+	modalTitleText:{
+		fontSize:20,
+		fontWeight:'500'
+	},
+	listHolder:{
+		alignItems:'center',
+		justifyContent:'center'
+	},
+	listTitle:{
+		color:'#fff',
+		fontWeight:'400',
+		fontSize:18,
+		marginHorizontal:5
+	},
+	closeBtn:{
+		alignItems:'center',
+		justifyContent:'center',
+		backgroundColor:'rgba(0,0,255,0.5)',
+		width:40,
+		height:40,
+		borderRadius:20,		
+		marginHorizontal:'80.5%'
+	},
+	closeBtnText:{
+		fontSize:20,
+		color:'#fff'
+	},
+	submitBtn:{		
+		alignItems:'center',
+		justifyContent:'center',
+		margin:10
+	},
+	btn:{		
+		alignItems:'center',
+		justifyContent:'center',
+		backgroundColor:'blue',
+		width:'100%',
+		borderRadius:15,
+		fontSize:15,
+		marginTop:10,
+		padding:10,
+		color:'#fff'
+	},
+	btnText:{
+		color:'#fff'
+	},
 	list:{
 		height:60,
 		margin:5,
