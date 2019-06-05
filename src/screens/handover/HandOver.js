@@ -5,6 +5,7 @@ import {StyleSheet,ScrollView,Text,View,Button,Alert,TextInput,StatusBar,Progres
 import Icon from 'react-native-vector-icons/Ionicons';
 import Modal from '../../commons/Modal';
 
+import { handOverParcels } from './actions';
 
 
 class HandOver extends Component{
@@ -32,12 +33,30 @@ class HandOver extends Component{
 		this.setState({item:x,show:true});
 	}
 
-	handleSubmit = () =>{
-			this.setState({isLoading:true});
-		setTimeout(()=>{
-			Alert.alert('Success');
-			this.setState({isLoading:false,show:false});
-		},5000)
+	handleSubmit = async() =>{
+		// Alert.alert(this.state.item.regID)
+		
+		if (this.props.auth) {
+			const { auth } = this.props;
+
+			let data ={
+				"token":auth.token,
+				"partnerId":auth.user.partnerId,
+				"mydata":{					
+					"receiverServedBy":auth.user.username,
+					"regID":this.state.item.regID
+				}
+			}
+			await this.props.handOverParcels(data);
+
+			if (this.props.parcels.isError === true) {
+				Alert.alert(this.props.parcels.error);
+			}else{
+				this.setState({show:false});
+				Alert.alert("Success");
+			}
+		}
+	
 	}
 
 	handleModal = () => {
@@ -68,14 +87,14 @@ class HandOver extends Component{
 
 	render(){
 
-		const { show,type,item,isLoading,title } = this.state;
+		const { show,type,item,title } = this.state;
 		return(
 			<View style={styles.root}>				
 				<StatusBar
 						backgroundColor="blue"
 						barStyle="light-content"
 					/>
-				{this.props.parcels.isLoading === true?	
+				{ this.props.parcels.isLoading === true?	
 				<ProgressBarAndroid styleAttr="Horizontal" style={{margin:-5,width:'100%'}} color="#2196F3" />:<Text />}
 				<View>
 					<ScrollView>						
@@ -119,7 +138,7 @@ class HandOver extends Component{
 					handleSubmit={this.handleSubmit}
 					show={show}
 					item={item}
-					isLoading={isLoading}
+					isLoading={ this.props.parcels.isLoading}
 					handleModal={this.handleModal}
 					title={title}
 					type={type}
@@ -248,4 +267,4 @@ const mapStateToProps = state => ({
 });
 
 
-export default connect(mapStateToProps,{})(HandOver);
+export default connect(mapStateToProps,{ handOverParcels })(HandOver);

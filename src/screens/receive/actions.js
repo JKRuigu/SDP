@@ -1,5 +1,5 @@
 import { GeneralApi } from '../../constants/api';
-import { Platform,Alert } from 'react-native';
+// import { Platform,Alert } from 'react-native';
 
 export const RECEIVE_PARCEL = 'RECEIVE_PARCEL';
 export const RECEIVE_PARCEL_SUCCESS = 'RECEIVE_PARCEL_SUCCESS';

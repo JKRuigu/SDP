@@ -4,7 +4,8 @@ import {Text,View,TouchableOpacity,ScrollView } from 'react-native';
 export default ({
 	styles,
 	handleSubmit,
-	item
+	item,
+	isLoading
 })=>(
 	<View>
 		<ScrollView>
@@ -38,9 +39,13 @@ export default ({
 					<Text style={styles.modalTitleText}>{item.receiverTel}</Text>
 				</View>
 				<View style={styles.submitBtn}>				
-					<TouchableOpacity style={styles.btn} onPress={handleSubmit}>
-						<Text style={styles.btnText}>SUBMIT</Text>
-					</TouchableOpacity>
+					{isLoading === true?
+						<TouchableOpacity style={styles.btnLoading} >
+							<Text style={styles.btnText}>Submitting... Please wait</Text>
+						</TouchableOpacity>:
+						<TouchableOpacity style={styles.btn} onPress={handleSubmit}>
+							<Text style={styles.btnText}>SUBMIT</Text>
+						</TouchableOpacity>}
 				</View>
 			</View>	
 		</ScrollView>

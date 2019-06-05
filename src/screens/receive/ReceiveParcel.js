@@ -35,8 +35,6 @@ class ReceiveParcel extends Component{
 	}
 
 	handleSubmit = async() =>{
-
-			// Alert.alert(this.props.auth.user.username);
 		if (this.props.auth) {
 			const { auth } = this.props;
 
@@ -134,10 +132,10 @@ class ReceiveParcel extends Component{
 					handleSubmit={this.handleSubmit}
 					show={show}
 					item={item}
-					isLoading={this.props.parcels.isLoading}
 					handleModal={this.handleModal}
 					title={title}
 					type={type}
+					isLoading={this.props.parcels.isLoading}
 				/>
 			</View>
 			)

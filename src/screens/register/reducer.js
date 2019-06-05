@@ -19,6 +19,12 @@ import {
   RECEIVE_PARCEL_ERROR
 } from '../receive/actions';
 
+import {
+  HANDOVER_PARCEL,
+  HANDOVER_PARCEL_SUCCESS,
+  HANDOVER_PARCEL_ERROR
+} from '../handover/actions';
+
 const initialState = {
   isError: false,
   isLoading: false,
@@ -88,6 +94,27 @@ export default (state = initialState, action) => {
         isError: true,
         error:payload
       };
+
+    case HANDOVER_PARCEL:
+        return {
+          ...state,
+          isLoading: true
+        };
+    case HANDOVER_PARCEL_SUCCESS:
+        return {
+          ...state,
+          parcel:payload,
+          error:null,
+          isLoading:false,
+          isError:false
+        };
+    case HANDOVER_PARCEL_ERROR:
+      return {
+        ...state,
+        isLoading: false,
+        isError: true,
+        error:payload
+      };    
 
     default:
       return state;

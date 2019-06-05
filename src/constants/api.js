@@ -86,11 +86,20 @@ class GeneralsApi{
     }
   }
   async receiveParcels({token,partnerId,mydata}){
+    let header = `Bearer ${token}`;
+    try{ 
+      const { data } = await axios.patch(`${this.parcelPath}/${partnerId}/receive`,mydata,{headers:{authorization:header}});
+      return data;
+    }catch(e){
+      throw e;
+    }
+  }
+  async handOverParcels({token,partnerId,mydata}){
     // const { deliveryReceiver } = mydata;
     // Alert.alert(deliveryReceiver);
     let header = `Bearer ${token}`;
     try{ 
-      const { data } = await axios.patch(`${this.parcelPath}/${partnerId}/receive`,mydata,{headers:{authorization:header}});
+      const { data } = await axios.patch(`${this.parcelPath}/${partnerId}/handover`,mydata,{headers:{authorization:header}});
       return data;
     }catch(e){
       throw e;
