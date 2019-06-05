@@ -5,7 +5,8 @@ import {Text,View,TouchableOpacity } from 'react-native';
 export default ({
 	styles,
 	handleSubmit,
-	item
+	item,
+	isLoading
 })=>(
 	<View>
 		<Text style={styles.listTitle}>Reg No.</Text>
@@ -25,8 +26,12 @@ export default ({
 			<Text style={styles.modalTitleText}>{item.parcelCatergory}</Text>
 		</View>
 		<View style={styles.submitBtn}>				
+			{isLoading === true?
+				<TouchableOpacity style={styles.btnLoading} >
+					<Text style={styles.btnText}>Submitting... Please wait</Text>
+				</TouchableOpacity>:
 			<TouchableOpacity style={styles.btn} onPress={handleSubmit}>
 				<Text style={styles.btnText}>SUBMIT</Text>
-			</TouchableOpacity>
+			</TouchableOpacity>}
 		</View>
 	</View>)

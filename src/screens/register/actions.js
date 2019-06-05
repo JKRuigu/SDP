@@ -15,12 +15,12 @@ function fetchSuccess(data) {
 function fetchError(error) {
   return {
     type: FETCH_PARCEL_ERROR,
-    payload:[]
+    payload:error
   };
 }
 
 export function fetchParcels({token,partnerId}) {
-  // Alert.alert(partnerId)
+
   return async (dispatch) => {
     
     dispatch({ type: FETCH_PARCEL });

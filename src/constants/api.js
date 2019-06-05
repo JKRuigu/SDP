@@ -36,6 +36,7 @@ class GeneralsApi{
     this.catergoryPath ='/api/catergory';
     this.locationPath ='/api/location';
     this.vehiclePath ='/api/vehicle';
+    this.parcelPath = '/api/parcel';
   }
 
   async fetchParcels({token,partnerId}){
@@ -75,9 +76,31 @@ class GeneralsApi{
       throw e;
     }
   }
-
+  async sendParcels({token,partnerId,data}){
+    let header = `Bearer ${token}`;
+    try{ 
+      const { data } = await axios.patch(`${this.parcelPath}/${partnerId}/send`,data,{headers:{authorization:header}});
+      return data;
+    }catch(e){
+      throw e;
+    }
+  }
+  async receiveParcels({token,partnerId,mydata}){
+    // const { deliveryReceiver } = mydata;
+    // Alert.alert(deliveryReceiver);
+    let header = `Bearer ${token}`;
+    try{ 
+      const { data } = await axios.patch(`${this.parcelPath}/${partnerId}/receive`,mydata,{headers:{authorization:header}});
+      return data;
+    }catch(e){
+      throw e;
+    }
+  }
 
 }
 
 
 export const GeneralApi = new GeneralsApi();
+
+
+

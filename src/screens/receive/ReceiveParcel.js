@@ -4,6 +4,7 @@ import {StyleSheet,ScrollView,Text,View,Button,TextInput,Alert,StatusBar,Progres
 import { connect } from 'react-redux';
 
 import Modal from '../../commons/Modal';
+import { receiveParcels } from './actions';
 
 class ReceiveParcel extends Component{
 
@@ -33,12 +34,29 @@ class ReceiveParcel extends Component{
 		this.setState({item:x,show:true});
 	}
 
-	handleSubmit = () =>{
-			this.setState({isLoading:true});
-		setTimeout(()=>{
-			Alert.alert('Success')
-			this.setState({isLoading:false,show:false});
-		},5000)
+	handleSubmit = async() =>{
+
+			// Alert.alert(this.props.auth.user.username);
+		if (this.props.auth) {
+			const { auth } = this.props;
+
+			let data ={
+				"token":auth.token,
+				"partnerId":auth.user.partnerId,
+				"mydata":{					
+					"deliveryReceiver":auth.user.username,
+					"parcels":[this.state.item._id]
+				}
+			}
+			await this.props.receiveParcels(data);
+
+			if (this.props.parcels.isError === true) {
+				Alert.alert(this.props.parcels.error);
+			}else{
+				this.setState({show:false});
+				Alert.alert("Success");
+			}
+		}
 	}
 
 	handleModal = () => {
@@ -80,7 +98,7 @@ class ReceiveParcel extends Component{
 						barStyle="light-content"
 					/>
 				<View>
-				{this.props.parcels.isLoading === true?	
+				{ this.props.parcels.isLoading === true?	
 				<ProgressBarAndroid styleAttr="Horizontal" style={{margin:-5,width:'100%'}} color="#2196F3" />:<Text />}
 					<ScrollView>						
 						{this.props.parcels.parcel.map((parcel,i)=>(
@@ -116,7 +134,7 @@ class ReceiveParcel extends Component{
 					handleSubmit={this.handleSubmit}
 					show={show}
 					item={item}
-					isLoading={isLoading}
+					isLoading={this.props.parcels.isLoading}
 					handleModal={this.handleModal}
 					title={title}
 					type={type}
@@ -183,6 +201,17 @@ const styles = StyleSheet.create({
 		padding:10,
 		color:'#fff'
 	},
+	btnLoading:{		
+		alignItems:'center',
+		justifyContent:'center',
+		backgroundColor:'#f4f4f4',
+		width:'100%',
+		borderRadius:15,
+		fontSize:15,
+		marginTop:10,
+		padding:10,
+		color:'#000'
+	},
 	btnText:{
 		color:'#fff'
 	},
@@ -245,4 +274,4 @@ const mapStateToProps = state => ({
 });
 
 
-export default connect(mapStateToProps,{})(ReceiveParcel);
+export default connect(mapStateToProps,{ receiveParcels })(ReceiveParcel);

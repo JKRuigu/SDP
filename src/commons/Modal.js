@@ -19,37 +19,33 @@ export default ({
 	      transparent={false}          
 	      visible={show}
 	    >
-	    {isLoading === true?
-		        <View style={{flex:1,backgroundColor:"blue",alignItems:'center',justifyContent:'center'}}>
-			          <StatusBar
-			            backgroundColor="blue"
-			            barStyle="light-content"
-			          />
-			          <ActivityIndicator
-			            size="large"
-			            color='#fff'
-			          />
-			          <Text style={{color:'#fff'}}>Submit... Please Wait</Text>
-		         </View>:
 	     	<View style={styles.modal}>            
+			   {isLoading === true ?
+			    <TouchableHighlight
+		        	style={styles.closeBtn}
+			       >
+		          <Text style={styles.closeBtnText}>X</Text>
+			    </TouchableHighlight>:
 			    <TouchableHighlight
 		        	style={styles.closeBtn}	
 			        onPress={handleModal}
 			       >
 		          <Text style={styles.closeBtnText}>X</Text>
-			    </TouchableHighlight>
+			    </TouchableHighlight>}
 		    	<View style={styles.modalTitleHolder}><Text style={styles.modalTitleText}>{title}</Text></View>
 		    {type === 'Receive'?	
 		    		    <ReceiveSubmitForm 
 	    		    		styles={styles}
 	    		    		handleSubmit={handleSubmit}
 	    		    		item={item}
+	    		    		isLoading={isLoading}
 	    		    		/>:
 		    		    <HandOverSubmitForm 
 	    		    		styles={styles}
 	    		    		handleSubmit={handleSubmit}
 	    		    		item={item}
+	    		    		isLoading={isLoading}
 		    		    />}
-		    </View>}
+		    </View>
 		</Modal>
 	</View>)

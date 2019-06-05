@@ -1,12 +1,10 @@
 import React,{Component} from 'react';
-// import { Button } from 'react-native-elements';
 import {StyleSheet,Text,View,Alert,ProgressBarAndroid} from 'react-native';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import { Vehicle } from './components';
 import { fetchVehicle } from '../register/actions';
-// import ManageParcels from './ManageParcels';
 
 class SendParcel extends Component{
 
