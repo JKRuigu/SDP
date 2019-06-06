@@ -3,7 +3,7 @@ import {StyleSheet,Text,View,TouchableOpacity,Alert} from 'react-native';
 import { connect } from 'react-redux';
 
 import {SelectedParcels,MainDisplay } from './components';
-import Modal from '../../commons/Modal';
+import Modal from './components/Modal';
 import { sendParcels } from './actions';
 
 class ManageParcels extends Component{
@@ -125,16 +125,21 @@ class ManageParcels extends Component{
 		var optText = styles.optText;
 		var optionText = styles.optionText; 
 		const vehicleNumber = this.props.navigation.getParam('vehicleNumber');
-		const filteredParcels = parcel.filter(x => x.status === false && x.senderLocation.toLowerCase() === this.props.auth.user.location.toLowerCase());
+		const filteredParcels = this.props.parcels.parcel.filter(x => x.status === false && x.senderLocation.toLowerCase() === this.props.auth.user.location.toLowerCase());
+		const filteredParcelsLength = filteredParcels.length;
 		const { isSelected,filterItem,suggestions,type,myListRegId,show,parcels,counter,selectedItems,displayParcels,title } = this.state;
 		return(
 			<View style={styles.root}>	
 				<View style={styles.toolbar}>
+					{filteredParcelsLength < 1 ? 
+					<TouchableOpacity style={styles.toggleBtnDisabled} >
+						<Text style={styles.txt}>Show Selected Parcels</Text>
+					</TouchableOpacity>:
 					<TouchableOpacity style={styles.toggleBtn} onPress={this.handleToggle}>
 						<Text style={styles.txt}>
 							{isSelected === true? "Add More Parcels":"Show Selected Parcels"}
-						</Text>
-					</TouchableOpacity>
+						</Text>}
+					</TouchableOpacity>}
 					<TouchableOpacity  style={styles.counter}>
 						<Text style={styles.txt}>{counter}</Text>
 					</TouchableOpacity>
@@ -142,11 +147,17 @@ class ManageParcels extends Component{
 						<TouchableOpacity style={styles.back} onPress={this.handleGoBack}>
 							<Text style={styles.txt}>Back</Text>
 						</TouchableOpacity>:
+					counter === 0 ?
+						<TouchableOpacity style={styles.backDisabled} >
+							<Text style={styles.txt}>SUBMIT</Text>
+						</TouchableOpacity>:
 						<TouchableOpacity style={styles.back} onPress={this.handleModal}>
 							<Text style={styles.txt}>SUBMIT</Text>
 						</TouchableOpacity>}
 				</View>
-
+				{filteredParcelsLength < 1 ? 
+				<Text style={{fontWeight:"400",fontSize:25,marginHorizontal:10}}>No Parcels</Text>:
+				<Text></Text>}
 				{isSelected === true?
 					<SelectedParcels
 						styles={styles}
@@ -211,6 +222,18 @@ const styles = StyleSheet.create({
 	 	padding:6,
 		marginHorizontal:3
 	},
+	 toggleBtnDisabled:{
+		alignItems:'center',
+		justifyContent:'center', 
+	 	color:'#fff',
+	 	backgroundColor:"#455a64",
+	 	borderRadius:10,
+	 	color:'#fff',
+	 	width:'60%',
+	 	height:35,
+	 	padding:6,
+		marginHorizontal:3
+	},
 	counter:{
 		alignItems:'center',
 		justifyContent:'center', 
@@ -227,6 +250,17 @@ const styles = StyleSheet.create({
 		justifyContent:'center',		 
 	 	color:'#000',
 	 	backgroundColor:"green",
+	 	borderRadius:10,
+	 	color:'#fff',
+	 	width:'25%',
+	 	height:35,
+	 	padding:6
+	},
+	backDisabled:{
+		alignItems:'center',
+		justifyContent:'center',		 
+	 	color:'#000',
+	 	backgroundColor:"#455a64",
 	 	borderRadius:10,
 	 	color:'#fff',
 	 	width:'25%',
@@ -286,7 +320,7 @@ const styles = StyleSheet.create({
 	btnLoading:{		
 		alignItems:'center',
 		justifyContent:'center',
-		backgroundColor:'#f4f4f4',
+		backgroundColor:'#455a64',
 		width:'100%',
 		borderRadius:15,
 		fontSize:15,

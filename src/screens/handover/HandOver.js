@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 // import { Button } from 'react-native-elements';
 import {StyleSheet,ScrollView,Text,View,Button,Alert,TextInput,StatusBar,ProgressBarAndroid} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import Modal from '../../commons/Modal';
+import Modal from './components/Modal';
 
 import { handOverParcels } from './actions';
 
@@ -88,7 +88,10 @@ class HandOver extends Component{
 
 	render(){
 		const filteredParcels = this.props.parcels.parcel.filter(x => x.status === true && x.isParcelCollected === false && x.reachedDestination === true && x.receiverLocation.toLowerCase() === this.props.auth.user.location.toLowerCase());
+		const filteredParcelsLength = filteredParcels.length;
+
 		const { show,type,item,title } = this.state;
+		
 		return(
 			<View style={styles.root}>				
 				<StatusBar
@@ -97,6 +100,9 @@ class HandOver extends Component{
 					/>
 				{ this.props.parcels.isLoading === true?	
 				<ProgressBarAndroid styleAttr="Horizontal" style={{margin:-5,width:'100%'}} color="#2196F3" />:<Text />}
+				{filteredParcelsLength < 1 ? 
+					<Text style={{fontWeight:"400",fontSize:25,marginHorizontal:10}}>No Parcels</Text>:
+					<Text></Text>}
 				<View>
 					<ScrollView>						
 						{filteredParcels.map((parcel,i)=>(
@@ -205,6 +211,17 @@ const styles = StyleSheet.create({
 		marginTop:10,
 		padding:10,
 		color:'#fff'
+	},
+	btnLoading:{		
+		alignItems:'center',
+		justifyContent:'center',
+		backgroundColor:'#455a64',
+		width:'100%',
+		borderRadius:15,
+		fontSize:15,
+		marginTop:10,
+		padding:10,
+		color:'#000'
 	},
 	btnText:{
 		color:'#fff'

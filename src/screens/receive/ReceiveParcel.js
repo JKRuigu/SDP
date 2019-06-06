@@ -3,7 +3,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {StyleSheet,ScrollView,Text,View,Button,TextInput,Alert,StatusBar,ProgressBarAndroid} from 'react-native';
 import { connect } from 'react-redux';
 
-import Modal from '../../commons/Modal';
+import Modal from './components/Modal';
 import { receiveParcels } from './actions';
 
 class ReceiveParcel extends Component{
@@ -89,7 +89,8 @@ class ReceiveParcel extends Component{
 
 
 	render(){
-		const filteredParcels = parcel.filter(x => x.status === true && x.isParcelCollected === false && x.reachedDestination === false && x.receiverLocation.toLowerCase() === this.props.auth.user.location.toLowerCase());
+		const filteredParcels = this.props.parcels.parcel.filter(x => x.status === true && x.isParcelCollected === false && x.reachedDestination === false && x.receiverLocation.toLowerCase() === this.props.auth.user.location.toLowerCase());
+		const filteredParcelsLength = filteredParcels.length;
 		const { filterItem,parcels,show,title,item,isLoading,type } = this.state;
 		return(
 			<View style={styles.root}>				
@@ -100,6 +101,10 @@ class ReceiveParcel extends Component{
 				<View>
 				{ this.props.parcels.isLoading === true?	
 				<ProgressBarAndroid styleAttr="Horizontal" style={{margin:-5,width:'100%'}} color="#2196F3" />:<Text />}
+				{filteredParcelsLength < 1 ? 
+					<Text style={{fontWeight:"400",fontSize:25,marginHorizontal:10}}>No Parcels</Text>:
+					<Text></Text>}
+
 					<ScrollView>						
 						{filteredParcels.map((parcel,i)=>(
 							<View style={styles.list} key={i}>
@@ -204,7 +209,7 @@ const styles = StyleSheet.create({
 	btnLoading:{		
 		alignItems:'center',
 		justifyContent:'center',
-		backgroundColor:'#f4f4f4',
+		backgroundColor:'#455a64',
 		width:'100%',
 		borderRadius:15,
 		fontSize:15,
