@@ -18,39 +18,71 @@ class RegisterParcel extends Component{
 		)
 	}
 	state = {
-		username:'',
-		password:'',
+		senderName:'',
+		isErrorsenderName:false,
+		senderID:'',
+		isErrorsenderID:false,
+		senderTel:'',
+		isErrorsenderTel:false,
+		receiverName:'',
+		isErrorreceiverName:false,
+		receiverID:'',
+		isErrorreceiverID:false,
+		receiverTel:'',
+		isErrorreceiverTel:false,
+		parcelCost:'',
+		isErrorparcelCost:false,
 		isSelected:false,
 		show:false,
 		catergory:'',
 		parcelCatergory:'Select Parcel Catergory',
+		isparcelCatergory:false,
 		receiverLocation:'Select Receiver Location',
+		isreceiverLocation:false,
 		senderLocation:'Select Sender Location',
+		issenderLocation:false
 	}
 
-	handleUsername = text =>{
-		this.setState({username:text});
-	}
+	handlesenderName = text =>{this.setState({senderName:text});}
+	handlesenderID = text =>{this.setState({senderID:text});}
+	handlesenderTel = text =>{this.setState({senderTel:text});}
+	handlereceiverName = text =>{this.setState({receiverName:text});}
+	handlereceiverID = text =>{this.setState({receiverID:text});}
+	handlereceiverTel = text =>{this.setState({receiverTel:text});}
+	handleparcelCost = text =>{this.setState({parcelCost:text});}
 
-	handlePassword = text =>{
-		this.setState({password:text});	
-	}
 	handleModal = catergory=> {
 	    this.setState({isSelected: !this.state.isSelected,catergory});		
+	}
+	validate = () =>{
+		const { senderName,isErrorsenderName,senderID,isErrorsenderID,senderTel,isErrorsenderTel,receiverName,isErrorreceiverName,receiverID,isErrorreceiverID,receiverTel,isErrorreceiverTel,parcelCost,isErrorparcelCost} = this.state;
+
+		if (!senderName || senderName.length <10) {this.setState({isErrorsenderName:true});}else{this.setState({isErrorsenderName:false});}
+		if (!senderID || senderID.length <6 ) {this.setState({isErrorsenderID:true});}else{this.setState({isErrorsenderID:false});}	
+		if (!senderTel || senderTel.length <8) {this.setState({isErrorsenderTel:true});}else{this.setState({isErrorsenderTel:false});}	
+		if (!receiverName || receiverName.length <8) {this.setState({isErrorreceiverName:true});}else{this.setState({isErrorreceiverName:false});}	
+		if (!receiverID || receiverID.length <6 ) {this.setState({isErrorreceiverID:true});}else{this.setState({isErrorreceiverID:false});}	
+		if (!receiverTel || receiverTel.length <8) {this.setState({isErrorreceiverTel:true});} else {this.setState({isErrorreceiverTel:false});}	
+		if (!parcelCost || parcelCost.length <2) {this.setState({isErrorparcelCost:true});} else {this.setState({isErrorparcelCost:false});}	
+	}
+
+	handleSubmit = ()=>{
+		const { senderName,senderID,senderTel,receiverName,receiverID,receiverTel,parcelCost} = this.state;
+		this.validate()
 	}
 
 	handleSelect = item =>{
 		if (this.state.catergory === 'Catergory') {
-			this.setState({parcelCatergory:item.catergoryName,isSelected:false});
+			this.setState({parcelCatergory:item.catergoryName,isSelected:false,isparcelCatergory:true});
 		}else if(this.state.catergory === 'Sender'){
-			this.setState({senderLocation:item.location,isSelected:false});
+			this.setState({senderLocation:item.location,isSelected:false,issenderLocation:true});
 		}else{
-			this.setState({receiverLocation:item.location,isSelected:false});			
+			this.setState({receiverLocation:item.location,isSelected:false,isreceiverLocation:true});			
 		}
 	}
 
 	render(){
-
+		const {isparcelCatergory,issenderLocation,isreceiverLocation, isErrorsenderID,isErrorsenderTel,isErrorreceiverName,isErrorreceiverID,isErrorreceiverTel,isErrorparcelCost,senderName,isErrorsenderName,senderID,senderTel,receiverName,receiverID,receiverTel,parcelCost } = this.state;
 		return(
 			<View style={styles.root}>
 				<StatusBar
@@ -60,7 +92,30 @@ class RegisterParcel extends Component{
 				{this.props.catergory.isLoading === true || this.props.location.isLoading === true?	
 					<ProgressBarAndroid styleAttr="Horizontal" style={{margin:-5,width:'100%'}} color="#2196F3" />:<Text />}
 				<View style={styles.formContainer}>
-				<RegisterParcelForm 
+				<RegisterParcelForm
+					isErrorsenderName
+					isErrorsenderID={isErrorsenderID}
+					isErrorsenderTel={isErrorsenderTel}
+					isErrorreceiverName={isErrorreceiverName}
+					isErrorreceiverID={isErrorreceiverID}
+					isErrorreceiverTel={isErrorreceiverTel}
+					isErrorparcelCost={isErrorparcelCost} 
+					isErrorsenderName={isErrorsenderName}
+					senderName={senderName}
+					parcelCost={parcelCost}
+					handleSubmit={this.handleSubmit}
+					handleparcelCost={this.handleparcelCost}
+					handlesenderName={this.handlesenderName}
+					senderID={senderID}
+					handlesenderID={this.handlesenderID}
+					senderTel={senderTel}
+					handlesenderTel={this.handlesenderTel}
+					receiverName={receiverName}
+					handlereceiverName={this.handlereceiverName}
+					receiverID={receiverID}
+					handlereceiverID={this.handlereceiverID}
+					receiverTel={receiverTel}
+					handlereceiverTel={this.handlereceiverTel}
 					styles={styles}
 					handleModal={this.handleModal}
 					isLoadingCatergory={this.props.catergory.isLoading}
@@ -69,6 +124,9 @@ class RegisterParcel extends Component{
 					senderLocation={this.state.senderLocation}
 					receiverLocation={this.state.receiverLocation}
 					parcelCatergory={this.state.parcelCatergory}
+					isparcelCatergory={isparcelCatergory}
+					issenderLocation={issenderLocation}
+					isreceiverLocation={isreceiverLocation}
 					/>
 				</View>
 		        <ModalForm
@@ -120,6 +178,17 @@ const styles = StyleSheet.create({
 		 margin:5,
 		width:'90%'
 	},
+	inputTextError:{
+		 backgroundColor:'#fff',
+		 color:"rgba(0,0,255,0.5)",
+		 borderRadius:20,
+		 fontSize:15,
+		 borderColor:'red',
+		 borderWidth:2,
+		 paddingLeft:20,
+		 margin:5,
+		width:'90%'
+	},
 	submitBtn:{		
 		alignItems:'center',
 		justifyContent:'center',
@@ -138,8 +207,17 @@ const styles = StyleSheet.create({
 		alignItems:'center',
 		justifyContent:'center'
 	},	
-	location:{
+	locationDisabled:{
 		backgroundColor:'rgba(0,0,255,0.5)',
+		width:'90%',
+		borderRadius:20,
+		fontSize:15,
+		marginTop:10,
+		padding:10,
+		color:'#fff'		
+	},	
+	location:{
+		backgroundColor:'green',
 		width:'90%',
 		borderRadius:20,
 		fontSize:15,

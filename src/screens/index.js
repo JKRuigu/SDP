@@ -1,4 +1,3 @@
-export * from './home';
 export * from './settings';
 export * from './auth';
 export * from './register';
