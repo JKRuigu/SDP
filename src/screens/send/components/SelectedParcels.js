@@ -9,7 +9,7 @@ export default ({
 	optText,
 	vehicleNumber
 })=>(<View>
-		<Text style={styles.selectedVehicle}>Selected Vehicle {vehicleNumber.toString().toUpperCase()}</Text>			
+		<Text style={styles.selectedVehicle}>Selected Vehicle {vehicleNumber.toString().toUpperCase()}</Text>
 		<ScrollView>			
 			{selectedItems.map((parcel,i)=>(
 				<View style={styles.list} key={i}>

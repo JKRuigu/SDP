@@ -76,10 +76,10 @@ class GeneralsApi{
       throw e;
     }
   }
-  async sendParcels({token,partnerId,data}){
+  async sendParcels({token,partnerId,mydata}){
     let header = `Bearer ${token}`;
     try{ 
-      const { data } = await axios.patch(`${this.parcelPath}/${partnerId}/send`,data,{headers:{authorization:header}});
+      const { data } = await axios.patch(`${this.parcelPath}/${partnerId}/send`,mydata,{headers:{authorization:header}});
       return data;
     }catch(e){
       throw e;

@@ -1,8 +1,10 @@
 import React,{Component} from 'react';
-import {StyleSheet,Text,View} from 'react-native';
+import {StyleSheet,Text,View,TouchableOpacity,Alert} from 'react-native';
 import { connect } from 'react-redux';
 
 import {SelectedParcels,MainDisplay } from './components';
+import Modal from '../../commons/Modal';
+import { sendParcels } from './actions';
 
 class ManageParcels extends Component{
 	
@@ -18,13 +20,19 @@ class ManageParcels extends Component{
 		isDriverSelected:true,
 		filterItem2:'',
 		text:'Kamaiu',
+		myListId:[],
+		myListRegId:[],
 		suggestions:[],
+		item:{},
 		parcels:[],
-		displayParcels:[]
+		displayParcels:[],
+		show:false,
+		type:'ManageParcels',
+		title:'Send Parcels'
 	}
 
 	handleAdd =x=>{
-		const {selectedItems,displayParcels,suggestions }= this.state;
+		const {selectedItems,displayParcels,suggestions,myListId,myListRegId }= this.state;
 
 		const delicate = selectedItems.filter(parcel=>parcel.regID === x.regID)
 		if (delicate.length >0) {
@@ -35,9 +43,11 @@ class ManageParcels extends Component{
 				const filterSuggestions = suggestions.filter(parcel=>parcel.regID !== x.regID)
 				this.setState({suggestions:filterSuggestions}); 
 			}
-
+			// Alert.alert(`myListId ${myListId.length} myListRegId ${myListRegId.length} selectedItems ${selectedItems.length}`)
 			const filteredParcels = displayParcels.filter(parcel=>parcel.regID !== x.regID)
 			this.setState({
+				myListId:[...myListId,x._id],
+				myListRegId:[...myListRegId,x.regID],
 				text:x.regID,
 				selectedItems:[...this.state.selectedItems,x],
 				displayParcels:filteredParcels,
@@ -48,10 +58,13 @@ class ManageParcels extends Component{
 	}
 
 	handleRemove =x=>{
-		const {selectedItems,displayParcels }= this.state;
+		const {selectedItems,displayParcels,myListId,myListRegId }= this.state;
 		const filterSelectedList = selectedItems.filter(parcel=>parcel.regID !== x.regID);
+		const myListIdFilter = myListId.filter(item=> item !== x._id);
+		// Alert.alert(myListIdFilter.length)
+		const myListRegIdFilter = myListRegId.filter(item=> item !== x.regID);
 
-		this.setState({text:x.regID,displayParcels:[...displayParcels,x],counter:selectedItems.length-1,selectedItems:filterSelectedList});
+		this.setState({text:x.regID,displayParcels:[...displayParcels,x],myListRegId:myListRegIdFilter,myListId:myListIdFilter,counter:selectedItems.length-1,selectedItems:filterSelectedList});
 	}
 
 	componentWillMount(){	
@@ -63,6 +76,34 @@ class ManageParcels extends Component{
 	handleFetchData = async ()=>{
 		const { parcel } = this.props.parcels;
 		await this.setState({displayParcels:parcel,parcels:parcel});
+	}
+
+	handleSubmit = async()=>{
+		if (this.props.auth) {
+			const { auth } = this.props;
+
+			let data ={
+				"token":auth.token,
+				"partnerId":auth.user.partnerId,
+				"mydata":{					
+					"vehicleNumber":this.props.navigation.getParam('vehicleNumber'),
+					"parcels":this.state.myListId
+				}
+			}
+			await this.props.sendParcels(data);
+
+			if (this.props.parcels.isError === true) {
+				Alert.alert(this.props.parcels.error);
+			}else{
+				this.setState({show:false,selectedItems:[],counter:0});
+				Alert.alert("Success !");
+			}
+		}
+	
+	}
+
+	handleModal = ()=>{
+		this.setState({show:!this.state.show});
 	}
 
 	handleToggle=()=>{
@@ -86,7 +127,7 @@ class ManageParcels extends Component{
 					const {displayParcels }= this.state;
 					const filter = displayParcels.sort().filter(parcel=>regex.test(parcel.regID));
 					this.setState({suggestions:filter});
-				}
+				} 
 		}
 
 	}
@@ -96,15 +137,25 @@ class ManageParcels extends Component{
 		var optionText = styles.optionText; 
 		const vehicleNumber = this.props.navigation.getParam('vehicleNumber');
 
-		const { isSelected,filterItem,suggestions,parcels,counter,selectedItems,displayParcels } = this.state;
+		const { isSelected,filterItem,suggestions,type,myListRegId,show,parcels,counter,selectedItems,displayParcels,title } = this.state;
 		return(
 			<View style={styles.root}>	
 				<View style={styles.toolbar}>
-					<Text style={styles.toggleBtn} onPress={this.handleToggle}>
-						{isSelected === true? "Add More Parcels":"Show Selected Parcels"}
-					</Text>
-					<Text style={styles.counter}>{counter}</Text>
-					<Text style={styles.toggleBtn} onPress={this.handleGoBack}>Back</Text>
+					<TouchableOpacity style={styles.toggleBtn} onPress={this.handleToggle}>
+						<Text style={styles.txt}>
+							{isSelected === true? "Add More Parcels":"Show Selected Parcels"}
+						</Text>
+					</TouchableOpacity>
+					<TouchableOpacity  style={styles.counter}>
+						<Text style={styles.txt}>{counter}</Text>
+					</TouchableOpacity>
+					{isSelected === false?
+						<TouchableOpacity style={styles.back} onPress={this.handleGoBack}>
+							<Text style={styles.txt}>Back</Text>
+						</TouchableOpacity>:
+						<TouchableOpacity style={styles.back} onPress={this.handleModal}>
+							<Text style={styles.txt}>SUBMIT</Text>
+						</TouchableOpacity>}
 				</View>
 
 				{isSelected === true?
@@ -123,6 +174,17 @@ class ManageParcels extends Component{
 						handleAdd={this.handleAdd}
 						parcels={suggestions.length>0 || filterItem.split('').length>0?suggestions: selectedItems.length>0?displayParcels:parcels}
 					/>}
+
+				<Modal
+					styles={styles}
+					handleSubmit={this.handleSubmit}
+					show={show}
+					item={myListRegId}
+					handleModal={this.handleModal}
+					title={title}
+					type={type}
+					isLoading={this.props.parcels.isLoading}
+				/>
 			</View>
 			)
 	}
@@ -134,24 +196,136 @@ const styles = StyleSheet.create({
 	    flex: 1,
 	    backgroundColor:'#f4f4f4'
 	  },
+	  view:{
+	  	backgroundColor:"#f4f4f4"
+	  },
 	 toolbar:{
-	 	height:20,
-		flexDirection:"row",
-		backgroundColor:'rgba(0,0,0,0.4)'
+		alignItems:'center',
+		justifyContent:'center',
+	 	height:40,
+	 	margin:1,
+	 	borderRadius:15,
+		flexDirection:"row"
 	 },
-	 textInput:{
-	 	backgroundColor:'rgba(0,0,0,0.5)',
-	 	width:200,
-	 	borderRadius:20,
-	 	fontSize:15,
-	 	paddingLeft:20
+	 txt:{
+	 	color:"#fff"
 	 },
-	 toggleBtn:{ 
-	 	color:'#000',
-	 	backgroundColor:"rgba(0,0,255,0.5)"
+	 toggleBtn:{
+		alignItems:'center',
+		justifyContent:'center', 
+	 	color:'#fff',
+	 	backgroundColor:"green",
+	 	borderRadius:10,
+	 	color:'#fff',
+	 	width:'60%',
+	 	height:35,
+	 	padding:6,
+		marginHorizontal:3
 	},
-	counter:{ 
+	counter:{
+		alignItems:'center',
+		justifyContent:'center', 
+		color:'#fff',
+	 	width:'10%',
+	 	borderRadius:15,
+		backgroundColor:'red',
+		marginHorizontal:3,
+	 	height:35,
+	 	padding:6
+	},
+	back:{
+		alignItems:'center',
+		justifyContent:'center',		 
+	 	color:'#000',
+	 	backgroundColor:"green",
+	 	borderRadius:10,
+	 	color:'#fff',
+	 	width:'25%',
+	 	height:35,
+	 	padding:6
+	},
+	modal:{
+		flex:1
+	},
+	modalTitleHolder:{
+		alignItems:'center',
+		justifyContent:'center'
+	},
+	modalTitleText:{
+		fontSize:20,
+		fontWeight:'500'
+	},
+	listHolder:{
+		alignItems:'center',
+		justifyContent:'center'
+	},
+	listTitle:{
+		color:'#fff',
+		fontWeight:'400',
+		fontSize:18,
+		marginHorizontal:5
+	},
+	closeBtn:{
+		alignItems:'center',
+		justifyContent:'center',
+		backgroundColor:'rgba(0,0,255,0.5)',
+		width:40,
+		height:40,
+		borderRadius:20,		
+		marginHorizontal:'80.5%'
+	},
+	closeBtnText:{
+		fontSize:20,
+		color:'#fff'
+	},
+	submitBtn:{		
+		alignItems:'center',
+		justifyContent:'center',
+		margin:10
+	},
+	btn:{		
+		alignItems:'center',
+		justifyContent:'center',
+		backgroundColor:'blue',
+		width:'100%',
+		borderRadius:15,
+		fontSize:15,
+		marginTop:10,
+		padding:10,
+		color:'#fff'
+	},
+	btnLoading:{		
+		alignItems:'center',
+		justifyContent:'center',
+		backgroundColor:'#f4f4f4',
+		width:'100%',
+		borderRadius:15,
+		fontSize:15,
+		marginTop:10,
+		padding:10,
 		color:'#000'
+	},
+	btnText:{
+		color:'#fff'
+	},
+	mainList:{		
+		alignItems:'center',
+		justifyContent:'center',
+		height:40,
+		backgroundColor:'orange',
+		borderRadius:10,
+		margin:5
+	},
+	listText:{
+		color:'#fff',
+		fontSize:20,
+		fontWeight:'400'
+	},
+	list:{
+		height:60,
+		margin:5,
+		borderRadius:10,
+		flexDirection:"row"
 	},
 	list:{
 		height:55,
@@ -169,6 +343,42 @@ const styles = StyleSheet.create({
 		alignItems:'center',
 		justifyContent:'center',
 		marginHorizontal:'1.5%',	
+	},
+	submitBtnHolder:{
+		alignItems:'center',
+		justifyContent:'center',
+		margin:5
+	},
+	submitBtn:{
+		alignItems:'center',
+		justifyContent:'center',
+		borderRadius:20,
+		height:35
+	},
+	btn:{		
+		alignItems:'center',
+		justifyContent:'center',
+		backgroundColor:'blue',
+		width:'70%',
+		borderRadius:15,
+		fontSize:15,
+		marginTop:10,
+		padding:10,
+		color:'#fff'
+	},
+	btnLoading:{		
+		alignItems:'center',
+		justifyContent:'center',
+		backgroundColor:'#f4f4f4',
+		width:'70%',
+		borderRadius:15,
+		fontSize:15,
+		marginTop:10,
+		padding:10,
+		color:'#000'
+	},
+	btnText:{
+		color:'#fff'
 	},
 	optionText:{
 		fontSize:15,
@@ -216,4 +426,4 @@ const mapStateToProps = state => ({
 });
 
 
-export default connect(mapStateToProps,{})(ManageParcels);
+export default connect(mapStateToProps,{ sendParcels })(ManageParcels);

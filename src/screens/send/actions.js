@@ -8,14 +8,14 @@ export const SEND_PARCEL_ERROR = 'SEND_PARCEL_ERROR';
 function sendSuccess(data) {
   return {
     type: SEND_PARCEL_SUCCESS,
-    payload:data[0]
+    payload:data.data
   };
 }
 
 function sendError(error) {
   return {
     type: SEND_PARCEL_ERROR,
-    payload:[]
+    payload:error.message
   };
 }
 

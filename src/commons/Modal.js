@@ -2,6 +2,7 @@ import React,{Component} from 'react';
 import {Modal,Text,View,TouchableHighlight,Button,TouchableOpacity,StatusBar,ActivityIndicator } from 'react-native';
 import ReceiveSubmitForm from '../screens/receive/components/SubmitForm';
 import HandOverSubmitForm from '../screens/handover/components/SubmitForm';
+import SendSubmitForm from '../screens/send/components/SubmitForm';
 
 export default ({
 	styles,
@@ -40,12 +41,19 @@ export default ({
 	    		    		item={item}
 	    		    		isLoading={isLoading}
 	    		    		/>:
+	    	type === 'Receive'?
 		    		    <HandOverSubmitForm 
 	    		    		styles={styles}
 	    		    		handleSubmit={handleSubmit}
 	    		    		item={item}
 	    		    		isLoading={isLoading}
-		    		    />}
+		    		    />:
+		    <SendSubmitForm		    	
+		    		styles={styles}
+		    		handleSubmit={handleSubmit}
+		    		item={item}
+		    		isLoading={isLoading} 
+	    		/>}
 		    </View>
 		</Modal>
 	</View>)

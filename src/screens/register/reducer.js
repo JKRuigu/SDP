@@ -61,7 +61,7 @@ export default (state = initialState, action) => {
       };      
     case SEND_PARCEL_SUCCESS:
         return {
-          state:sendData,
+          state:payload,
           error:null,
           parcel:payload,
           isLoading:false,
@@ -72,7 +72,7 @@ export default (state = initialState, action) => {
         ...state,
         isLoading: false,
         isError: true,
-        error:payload.message
+        error:payload
       };  
       case RECEIVE_PARCEL:
         return {
