@@ -26,7 +26,8 @@ class HandOver extends Component{
 		title:'HandOver Parcel',
 		isLoading:false,
 		show:false,
-		item:{}
+		item:{},
+		parcels:[]
 	}
 
 	handleSelect =x=>{
@@ -86,7 +87,7 @@ class HandOver extends Component{
 	}
 
 	render(){
-
+		const filteredParcels = this.props.parcels.parcel.filter(x => x.status === true && x.isParcelCollected === false && x.reachedDestination === true && x.receiverLocation.toLowerCase() === this.props.auth.user.location.toLowerCase());
 		const { show,type,item,title } = this.state;
 		return(
 			<View style={styles.root}>				
@@ -98,7 +99,7 @@ class HandOver extends Component{
 				<ProgressBarAndroid styleAttr="Horizontal" style={{margin:-5,width:'100%'}} color="#2196F3" />:<Text />}
 				<View>
 					<ScrollView>						
-						{this.props.parcels.parcel.map((parcel,i)=>(
+						{filteredParcels.map((parcel,i)=>(
 							<View style={styles.list} key={i}>
 									<View style={styles.option}>
 										<Text style={styles.optionText} onPress={()=>this.handleSelect(parcel)}>

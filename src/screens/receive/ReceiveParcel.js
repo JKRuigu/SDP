@@ -27,8 +27,10 @@ class ReceiveParcel extends Component{
 		type:'Receive',
 		isLoading:false,
 		item:{},
+		parcels:[],
 		title:'Receive Parcel'
 	}
+
 
 	handleSelect =x=>{
 		this.setState({item:x,show:true});
@@ -87,7 +89,7 @@ class ReceiveParcel extends Component{
 
 
 	render(){
-
+		const filteredParcels = parcel.filter(x => x.status === true && x.isParcelCollected === false && x.reachedDestination === false && x.receiverLocation.toLowerCase() === this.props.auth.user.location.toLowerCase());
 		const { filterItem,parcels,show,title,item,isLoading,type } = this.state;
 		return(
 			<View style={styles.root}>				
@@ -99,7 +101,7 @@ class ReceiveParcel extends Component{
 				{ this.props.parcels.isLoading === true?	
 				<ProgressBarAndroid styleAttr="Horizontal" style={{margin:-5,width:'100%'}} color="#2196F3" />:<Text />}
 					<ScrollView>						
-						{this.props.parcels.parcel.map((parcel,i)=>(
+						{filteredParcels.map((parcel,i)=>(
 							<View style={styles.list} key={i}>
 							<View style={styles.option}>
 								<Text style={styles.optionText} onPress={()=>this.handleSelect(parcel)}>

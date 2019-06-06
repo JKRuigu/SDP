@@ -66,18 +66,7 @@ class ManageParcels extends Component{
 
 		this.setState({text:x.regID,displayParcels:[...displayParcels,x],myListRegId:myListRegIdFilter,myListId:myListIdFilter,counter:selectedItems.length-1,selectedItems:filterSelectedList});
 	}
-
-	componentWillMount(){	
-		if (this.props.auth) {
-			this.handleFetchData();
-		}		
-	}
-
-	handleFetchData = async ()=>{
-		const { parcel } = this.props.parcels;
-		await this.setState({displayParcels:parcel,parcels:parcel});
-	}
-
+	
 	handleSubmit = async()=>{
 		if (this.props.auth) {
 			const { auth } = this.props;
@@ -136,7 +125,7 @@ class ManageParcels extends Component{
 		var optText = styles.optText;
 		var optionText = styles.optionText; 
 		const vehicleNumber = this.props.navigation.getParam('vehicleNumber');
-
+		const filteredParcels = parcel.filter(x => x.status === false && x.senderLocation.toLowerCase() === this.props.auth.user.location.toLowerCase());
 		const { isSelected,filterItem,suggestions,type,myListRegId,show,parcels,counter,selectedItems,displayParcels,title } = this.state;
 		return(
 			<View style={styles.root}>	
@@ -172,7 +161,7 @@ class ManageParcels extends Component{
 						isSelected={isSelected}
 						optionText={optionText}
 						handleAdd={this.handleAdd}
-						parcels={suggestions.length>0 || filterItem.split('').length>0?suggestions: selectedItems.length>0?displayParcels:parcels}
+						parcels={filteredParcels}
 					/>}
 
 				<Modal
