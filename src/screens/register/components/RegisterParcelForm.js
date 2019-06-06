@@ -9,7 +9,9 @@ export default ({
 	isSelected,
 	senderLocation,
 	receiverLocation,
-	parcelCatergory
+	parcelCatergory,
+	isLoadingCatergory,
+	isLoadingLocation
 })=>(<ScrollView>
 			<View  style={styles.text}><Text>Sender Details</Text></View>
 			<View style={styles.inputHolder}>
@@ -33,11 +35,17 @@ export default ({
 					style={styles.inputText}
 				/>	
 			</View>
-			<View style={styles.locationHolder}>
-				<TouchableOpacity style={styles.location} onPress={()=>handleModal('Sender')}>
-					<Text style={styles.btnText}>{senderLocation}</Text>
-				</TouchableOpacity>	
-			</View>
+			{isLoadingLocation === true?
+				<View style={styles.locationHolder}>
+					<TouchableOpacity style={styles.location}>
+						<Text style={styles.btnText}>Loading...</Text>
+					</TouchableOpacity>	
+				</View>:
+				<View style={styles.locationHolder}>
+					<TouchableOpacity style={styles.location} onPress={()=>handleModal('Sender')}>
+						<Text style={styles.btnText}>{senderLocation}</Text>
+					</TouchableOpacity>	
+				</View>}
 			<View  style={styles.text}><Text>Receiver Details</Text></View>
 			<View style={styles.inputHolder}>
 				<TextInput 
@@ -59,12 +67,18 @@ export default ({
 				placeholderTextColor="black"
 				style={styles.inputText}
 			/>	
-			</View>						
-			<View style={styles.locationHolder}>
-				<TouchableOpacity style={styles.location} onPress={()=>handleModal('Receiver')}>
-					<Text style={styles.btnText}>{receiverLocation}</Text>
-				</TouchableOpacity>	
-			</View>
+			</View>	
+			{isLoadingLocation === true?
+				<View style={styles.locationHolder}>
+					<TouchableOpacity style={styles.location}>
+						<Text style={styles.btnText}>Loading...</Text>
+					</TouchableOpacity>	
+				</View>:
+				<View style={styles.locationHolder}>
+					<TouchableOpacity style={styles.location} onPress={()=>handleModal('Receiver')}>
+						<Text style={styles.btnText}>{senderLocation}</Text>
+					</TouchableOpacity>	
+				</View>}
 			<View  style={styles.text}><Text>Parcel Details</Text></View>
 			<View style={styles.inputHolder}>
 				<TextInput 
@@ -72,12 +86,18 @@ export default ({
 					placeholderTextColor="black"
 					style={styles.inputText}
 				/>
-			</View>						
+			</View>	
+			{ isLoadingCatergory === true?					
+			<View style={styles.locationHolder}>
+				<TouchableOpacity style={styles.location}>
+					<Text style={styles.btnText}>Loading...</Text>
+				</TouchableOpacity>	
+			</View>:						
 			<View style={styles.locationHolder}>
 				<TouchableOpacity style={styles.location} onPress={()=>handleModal('Catergory')}>
 					<Text style={styles.btnText}>{parcelCatergory}</Text>
 				</TouchableOpacity>	
-			</View>	
+			</View>}	
 			<View style={styles.submitBtn}>				
 				<TouchableOpacity style={styles.btn}>
 					<Text style={styles.btnText}>REGISTER PARCEL</Text>

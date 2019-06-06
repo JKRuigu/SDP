@@ -32,31 +32,6 @@ class RegisterParcel extends Component{
 		this.setState({username:text});
 	}
 
-	async componentWillMount(){	
-		// Alert.alert("12345")
-		if (this.props.auth) {
-			const { auth } = this.props;
-			let data ={
-				"token":auth.token,
-				"partnerId":auth.user.partnerId
-			}
-		// Alert.alert("partnerId",auth.user.partnerId)
-		await this.props.fetchParcels(data);
-		await this.props.fetchCatergory(data);
-		await this.props.fetchLocation(data);
-		await this.props.fetchVehicle(data);
-		}		
-	}
-
-	handleFetchData = async ()=>{
-		let token = this.props.auth.token;
-		let partnerId = this.props.auth.users.partnerId;
-		// 
-		
-		// await this.props.fetchParcel({token,partnerId});
-		// Alert.alert(this.props.location.location[0].location);
-	}
-
 	handlePassword = text =>{
 		this.setState({password:text});	
 	}
@@ -88,6 +63,8 @@ class RegisterParcel extends Component{
 				<RegisterParcelForm 
 					styles={styles}
 					handleModal={this.handleModal}
+					isLoadingCatergory={this.props.catergory.isLoading}
+					isLoadingLocation={this.props.location.isLoading}
 					isSelected={this.state.isSelected}
 					senderLocation={this.state.senderLocation}
 					receiverLocation={this.state.receiverLocation}

@@ -7,6 +7,9 @@ import axios from 'axios';
 import { login } from './actions';
 import AuthScreenForm from './components/AuthScreenForm';
 import HomeNavigator from '../../routes/HomeNavigator'
+import { fetchParcels,fetchCatergory,fetchLocation,fetchVehicle } from '../register/actions';
+
+
 
 class AuthScreen extends Component{
 	state = {
@@ -38,13 +41,25 @@ class AuthScreen extends Component{
 		if (!this.state.data.username || !this.state.data.password) {
 			Alert.alert("Enter both username and password");
 		}else{			
-			 const { username,password } = this.state;
-			await this.props.login({"username":this.state.data.username,"password":this.state.data.password});
+				 const { username,password } = this.state;
+				await this.props.login({"username":this.state.data.username,"password":this.state.data.password});
 
-			if (this.props.auth.isError === true) {
-				Alert.alert(this.props.auth.error);
+				if (this.props.auth.isError === true) {
+					Alert.alert(this.props.auth.error);
+				}
+				if (this.props.auth.isLogged ===true) {
+					const { auth } = this.props;
+					let data ={
+						"token":auth.token,
+						"partnerId":auth.user.partnerId
+					}
+
+					await this.props.fetchParcels(data);
+					await this.props.fetchCatergory(data);
+					await this.props.fetchLocation(data);
+					await this.props.fetchVehicle(data);
+				}
 			}	
-		}
 	}
 
 	render(){
@@ -114,4 +129,4 @@ const mapStateToProps = state => ({
 	auth:state.auth
 });
 
-export default connect(mapStateToProps,{ login })(AuthScreen);
+export default connect(mapStateToProps,{ login,fetchParcels,fetchCatergory,fetchLocation,fetchVehicle  })(AuthScreen);
