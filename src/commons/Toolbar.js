@@ -23,7 +23,7 @@ class Toolbar extends Component{
 	}
 
 	handleFresh = async ()=>{
-		// await Alert.alert('Refreshing page!')
+		await Alert.alert('Refreshing page!')
 		if (this.props.auth) {
 			const { auth } = this.props;
 			let data ={
@@ -42,37 +42,48 @@ class Toolbar extends Component{
 		const { isSearch,name } = this.state;
 		
 		return(
+
 				<View style={styles.root}>
-					<View style={isSearch === true ? {display:"none"}:""}>
-						<Text style={styles.title}>{this.props.name}</Text>
-					</View>
-					<View style={this.props.index === 0? {display:"none",margin:5}:{flexDirection:"row"}}>
-						<View style={isSearch !== true?{display:'none'}:{flex:1,justifyContent:'center',width:'80%'}}>
-							<TextInput
-								placeholder="search"
-								style={styles.textInput}
-							 />
-						</View>
+					{this.props.index === 0?
+						<View style={isSearch === true ? {display:"none"}:""}>
+							<Text style={styles.title}>{this.props.name}</Text>
+						</View>:
+					isSearch === true?
 						<View style={{flexDirection:"row"}}>
-							<Text style={styles.icon} onPress={this.handleFresh}>
-								<Icon
-									style={isSearch === true?{display:"none"}:""}
-									name="md-refresh"
-									size={26}
-									color="#fff"
-								/>
-							</Text>					
+							<View style={{flex:1,justifyContent:'center',width:'80%'}}>
+								<TextInput
+									placeholder="search"
+									style={styles.textInput}
+								 />
+							</View>
 							<Text style={styles.icon} onPress={this.handleSearch} >
 								<Icon
-									name={isSearch === true?"md-close": "md-search"}
+									name="md-close"
 									size={28}
 									color="#fff"
 								/>
 							</Text>
-						</View>
-					</View>
+						</View>:
+						<View style={{flexDirection:"row"}}>
+							<View style={{padding:5}}>	
+								<Text style={styles.title}>{this.props.name}</Text>
+							</View>
+							<Text style={styles.icon} onPress={this.handleFresh}>
+									<Icon
+										name="md-refresh"
+										size={26}
+										color="#fff"
+									/>
+							</Text>							
+							<Text style={styles.icon} onPress={this.handleSearch} >
+								<Icon
+									name="md-search"
+									size={28}
+									color="#fff"
+								/>
+							</Text>
+						</View>}					
 				</View>
-
 			)
 	}
 } 

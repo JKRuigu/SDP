@@ -4,7 +4,7 @@ import {Modal,Alert,Text,View,StyleSheet,ActivityIndicator,StatusBar,Button,Text
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import {RegisterParcelForm,ModalForm} from './components';
-import { fetchParcels,fetchCatergory,fetchLocation,fetchVehicle } from './actions';
+import { fetchParcels,fetchCatergory,fetchLocation,fetchVehicle,registerParcels } from './actions';
 
 class RegisterParcel extends Component{
 
@@ -66,17 +66,77 @@ class RegisterParcel extends Component{
 		if (!parcelCost || parcelCost.length <2) {this.setState({isErrorparcelCost:true});} else {this.setState({isErrorparcelCost:false});}	
 	}
 
-	handleSubmit = ()=>{
-		const { senderName,senderID,senderTel,receiverName,receiverID,receiverTel,parcelCost} = this.state;
-		this.validate()
+	handleSubmit = async()=>{
+		const { isErrorsenderName,isErrorsenderID,isErrorsenderTel,isErrorreceiverName,isErrorreceiverID,isErrorreceiverTel,isErrorparcelCost,isparcelCatergory,isreceiverLocation,issenderLocation,senderName,senderID,senderTel,receiverName,receiverID,receiverTel,parcelCost,senderLocation,receiverLocation,parcelCatergory} = this.state;
+		await this.validate();
+
+		if (isErrorsenderName === true || isErrorsenderID === true || isErrorsenderTel === true || isErrorreceiverName === true || isErrorreceiverID === true || isErrorreceiverTel === true || isErrorparcelCost === true || isparcelCatergory === false || isreceiverLocation === false || issenderLocation === false ) {
+			Alert.alert("There are Error!");
+		}else{
+			const { isErrorsenderName,isErrorsenderID,isErrorsenderTel,isErrorreceiverName,isErrorreceiverID,isErrorreceiverTel,isErrorparcelCost,isparcelCatergory,isreceiverLocation,issenderLocation,senderName,senderID,senderTel,receiverName,receiverID,receiverTel,parcelCost,senderLocation,receiverLocation,parcelCatergory} = this.state;
+			const { auth } = this.props;
+			// Alert.alert(auth.token);
+			let data ={
+				"token":auth.token,
+				"partnerId":auth.user.partnerId,
+				"mydata":{
+					"senderName":senderName,
+					"senderID":senderID,
+					"senderTel":senderTel,
+					"senderLocation":senderLocation,
+					"receiverName":receiverName,
+					"receiverTel":receiverTel,
+					"receiverID":receiverID,
+					"receiverLocation":receiverLocation,
+					"parcelCost":parcelCost,
+					"parcelCatergory":parcelCatergory,
+					"senderServedBy":auth.user.username
+				}
+			}
+			await this.props.registerParcels(data);
+
+			if (this.props.parcels.isError === true) {
+				Alert.alert(this.props.parcels.error);
+			}else{
+				this.setState({
+					senderName:'',
+					isErrorsenderName:false,
+					senderID:'',
+					isErrorsenderID:false,
+					senderTel:'',
+					isErrorsenderTel:false,
+					receiverName:'',
+					isErrorreceiverName:false,
+					receiverID:'',
+					isErrorreceiverID:false,
+					receiverTel:'',
+					isErrorreceiverTel:false,
+					parcelCost:'',
+					isErrorparcelCost:false,
+					show:false,
+					catergory:'',
+					parcelCatergory:'Select Parcel Catergory',
+					isparcelCatergory:false,
+					receiverLocation:'Select Receiver Location',
+					isreceiverLocation:false,
+					senderLocation:'Select Sender Location',
+					issenderLocation:false
+				});
+				Alert.alert("Success");
+			}
+		}
+
+
 	}
 
 	handleSelect = item =>{
 		if (this.state.catergory === 'Catergory') {
 			this.setState({parcelCatergory:item.catergoryName,isSelected:false,isparcelCatergory:true});
-		}else if(this.state.catergory === 'Sender'){
+		}
+		if(this.state.catergory === 'Sender'){
 			this.setState({senderLocation:item.location,isSelected:false,issenderLocation:true});
-		}else{
+		}
+		if(this.state.catergory === 'Receiver'){
 			this.setState({receiverLocation:item.location,isSelected:false,isreceiverLocation:true});			
 		}
 	}
@@ -127,6 +187,7 @@ class RegisterParcel extends Component{
 					isparcelCatergory={isparcelCatergory}
 					issenderLocation={issenderLocation}
 					isreceiverLocation={isreceiverLocation}
+					isLoading={this.props.parcels.isLoading}
 					/>
 				</View>
 		        <ModalForm
@@ -270,9 +331,10 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => ({
 	auth:state.auth,
+	parcels:state.parcel,
 	catergory:state.catergory,
 	location:state.location
 });
 
-export default connect(mapStateToProps,{ fetchParcels,fetchCatergory,fetchLocation,fetchVehicle })(RegisterParcel);
+export default connect(mapStateToProps,{ registerParcels,fetchParcels,fetchCatergory,fetchLocation,fetchVehicle })(RegisterParcel);
 

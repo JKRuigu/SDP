@@ -1,5 +1,11 @@
 import { Alert } from 'react-native';
 
+import{
+  REGISTER_PARCEL,
+  REGISTER_PARCEL_SUCCESS,
+  REGISTER_PARCEL_ERROR
+} from './actions';
+
 import {
   FETCH_PARCEL,
 	FETCH_PARCEL_SUCCESS,
@@ -53,6 +59,25 @@ export default (state = initialState, action) => {
         isLoading: false,
         isError: true,
         error:payload.message
+      };
+    case REGISTER_PARCEL:
+      return {
+        ...state,
+        isLoading: true
+      };
+    case REGISTER_PARCEL_SUCCESS:
+      return {
+        isError:false,
+        isLoading:false,
+        parcel:payload,
+        error:null
+      };
+    case REGISTER_PARCEL_ERROR:
+      return {
+        ...state,
+        isLoading: false,
+        isError: true,
+        error:payload
       };
     case SEND_PARCEL:
       return {

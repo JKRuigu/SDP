@@ -23,6 +23,7 @@ class ManageParcels extends Component{
 		myListId:[],
 		myListRegId:[],
 		suggestions:[],
+		filteredParcelsLength:0,
 		item:{},
 		parcels:[],
 		displayParcels:[],
@@ -71,20 +72,22 @@ class ManageParcels extends Component{
 		if (this.props.auth) {
 			const { auth } = this.props;
 
-			let data ={
+			const data ={
 				"token":auth.token,
 				"partnerId":auth.user.partnerId,
 				"mydata":{					
 					"vehicleNumber":this.props.navigation.getParam('vehicleNumber'),
-					"parcels":this.state.myListId
+					"parcels":[...this.state.myListId]
 				}
 			}
+			// Alert.alert(data.mydata.parcels[0]);
+			// Alert.alert(data.mydata.vehicleNumber);
 			await this.props.sendParcels(data);
 
 			if (this.props.parcels.isError === true) {
 				Alert.alert(this.props.parcels.error);
 			}else{
-				this.setState({show:false,selectedItems:[],counter:0});
+				this.setState({show:false,selectedItems:[],counter:0,isSelected:false});
 				Alert.alert("Success !");
 			}
 		}
@@ -93,6 +96,14 @@ class ManageParcels extends Component{
 
 	handleModal = ()=>{
 		this.setState({show:!this.state.show});
+	}
+
+	componentDidMount(){
+		if (this.props.auth) {
+			const filteredParcels = this.props.parcels.parcel.filter(x => x.status === false && x.senderLocation.toLowerCase() === this.props.auth.user.location.toLowerCase());
+			const filteredParcelsLength = filteredParcels.length;
+			this.setState({displayParcels:filteredParcels,filteredParcelsLength});
+		}
 	}
 
 	handleToggle=()=>{
@@ -125,9 +136,8 @@ class ManageParcels extends Component{
 		var optText = styles.optText;
 		var optionText = styles.optionText; 
 		const vehicleNumber = this.props.navigation.getParam('vehicleNumber');
-		const filteredParcels = this.props.parcels.parcel.filter(x => x.status === false && x.senderLocation.toLowerCase() === this.props.auth.user.location.toLowerCase());
-		const filteredParcelsLength = filteredParcels.length;
-		const { isSelected,filterItem,suggestions,type,myListRegId,show,parcels,counter,selectedItems,displayParcels,title } = this.state;
+		
+		const { isSelected,filteredParcelsLength,filterItem,suggestions,type,myListRegId,show,parcels,counter,selectedItems,displayParcels,title } = this.state;
 		return(
 			<View style={styles.root}>	
 				<View style={styles.toolbar}>
@@ -138,7 +148,7 @@ class ManageParcels extends Component{
 					<TouchableOpacity style={styles.toggleBtn} onPress={this.handleToggle}>
 						<Text style={styles.txt}>
 							{isSelected === true? "Add More Parcels":"Show Selected Parcels"}
-						</Text>}
+						</Text>
 					</TouchableOpacity>}
 					<TouchableOpacity  style={styles.counter}>
 						<Text style={styles.txt}>{counter}</Text>
@@ -172,7 +182,7 @@ class ManageParcels extends Component{
 						isSelected={isSelected}
 						optionText={optionText}
 						handleAdd={this.handleAdd}
-						parcels={filteredParcels}
+						parcels={displayParcels}
 					/>}
 
 				<Modal

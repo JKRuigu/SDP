@@ -36,14 +36,23 @@ class GeneralsApi{
     this.catergoryPath ='/api/catergory';
     this.locationPath ='/api/location';
     this.vehiclePath ='/api/vehicle';
-    this.parcelPath = '/api/parcel';
   }
 
+  async registerParcels({token,partnerId,mydata}){
+    let header = `Bearer ${token}`;
+    // Alert.alert(header);
+    try{
+      const { data } = await axios.post(`/${partnerId}`,mydata,{headers:{authorization:header}});
+      return data;
+    }catch(e){
+      throw e;
+    }
+  }
   async fetchParcels({token,partnerId}){
     // Alert.alert(partnerId)
     let header = `Bearer ${token}`;
     try{
-      const { data } = await axios.get(`${this.path}/${partnerId}`,{headers:{authorization:header}});
+      const { data } = await axios.get(`/${partnerId}`,{headers:{authorization:header}});
       return data;
     }catch(e){
       throw e;
@@ -79,7 +88,7 @@ class GeneralsApi{
   async sendParcels({token,partnerId,mydata}){
     let header = `Bearer ${token}`;
     try{ 
-      const { data } = await axios.patch(`${this.parcelPath}/${partnerId}/send`,mydata,{headers:{authorization:header}});
+      const { data } = await axios.patch(`/${partnerId}/send`,mydata,{headers:{authorization:header}});
       return data;
     }catch(e){
       throw e;
@@ -88,7 +97,7 @@ class GeneralsApi{
   async receiveParcels({token,partnerId,mydata}){
     let header = `Bearer ${token}`;
     try{ 
-      const { data } = await axios.patch(`${this.parcelPath}/${partnerId}/receive`,mydata,{headers:{authorization:header}});
+      const { data } = await axios.patch(`/${partnerId}/receive`,mydata,{headers:{authorization:header}});
       return data;
     }catch(e){
       throw e;
@@ -99,7 +108,7 @@ class GeneralsApi{
     // Alert.alert(deliveryReceiver);
     let header = `Bearer ${token}`;
     try{ 
-      const { data } = await axios.patch(`${this.parcelPath}/${partnerId}/handover`,mydata,{headers:{authorization:header}});
+      const { data } = await axios.patch(`/${partnerId}/handover`,mydata,{headers:{authorization:header}});
       return data;
     }catch(e){
       throw e;

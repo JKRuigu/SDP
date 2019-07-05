@@ -5,6 +5,7 @@ import {Text,View,TextInput,TouchableOpacity,ScrollView } from 'react-native';
 
 export default ({
 	isparcelCatergory,
+	isLoading,
 	issenderLocation,
 	isreceiverLocation,
 	isErrorsenderID,
@@ -113,7 +114,7 @@ export default ({
 				</View>:
 				<View style={styles.locationHolder}>
 					<TouchableOpacity style={isreceiverLocation === false? styles.locationDisabled : styles.location} onPress={()=>handleModal('Receiver')}>
-						<Text style={styles.btnText}>{senderLocation}</Text>
+						<Text style={styles.btnText}>{receiverLocation}</Text>
 					</TouchableOpacity>	
 				</View>}
 			<View  style={styles.text}><Text>Parcel Details</Text></View>
@@ -136,10 +137,16 @@ export default ({
 				<TouchableOpacity style={isparcelCatergory === false? styles.locationDisabled : styles.location} onPress={()=>handleModal('Catergory')}>
 					<Text style={styles.btnText}>{parcelCatergory}</Text>
 				</TouchableOpacity>	
-			</View>}	
-			<View style={styles.submitBtn}>				
-				<TouchableOpacity style={styles.btn} onPress={handleSubmit}>
-					<Text style={styles.btnText}>REGISTER PARCEL</Text>
-				</TouchableOpacity>
-			</View>
+			</View>}
+			{isLoading === true?	
+				<View style={styles.submitBtn}>				
+					<TouchableOpacity style={styles.btn}>
+						<Text style={styles.btnText}>Loading...</Text>
+					</TouchableOpacity>
+				</View>:
+				<View style={styles.submitBtn}>				
+					<TouchableOpacity style={styles.btn} onPress={handleSubmit}>
+						<Text style={styles.btnText}>REGISTER PARCEL</Text>
+					</TouchableOpacity>
+				</View>}
 		</ScrollView>)

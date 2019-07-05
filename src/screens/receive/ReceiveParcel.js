@@ -101,10 +101,7 @@ class ReceiveParcel extends Component{
 				<View>
 				{ this.props.parcels.isLoading === true?	
 				<ProgressBarAndroid styleAttr="Horizontal" style={{margin:-5,width:'100%'}} color="#2196F3" />:<Text />}
-				{filteredParcelsLength < 1 ? 
-					<Text style={{fontWeight:"400",fontSize:25,marginHorizontal:10}}>No Parcels</Text>:
-					<Text></Text>}
-
+					<Text style={{fontWeight:"400",fontSize:25,marginHorizontal:10}}>{filteredParcelsLength < 1 ? "No Parcels":""}</Text>
 					<ScrollView>						
 						{filteredParcels.map((parcel,i)=>(
 							<View style={styles.list} key={i}>

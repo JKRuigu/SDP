@@ -1,6 +1,41 @@
 import { GeneralApi } from '../../constants/api';
 import { Platform,Alert } from 'react-native';
 
+export const REGISTER_PARCEL = 'REGISTER_PARCEL';
+export const REGISTER_PARCEL_SUCCESS = 'REGISTER_PARCEL_SUCCESS';
+export const REGISTER_PARCEL_ERROR = 'REGISTER_PARCEL_ERROR';
+
+function registerSuccess(data) {
+  // Alert.alert("registerSuccess")
+  return {
+    type: REGISTER_PARCEL_SUCCESS,
+    payload:data.parcels
+  };
+}
+
+function registerError(error) {
+    // Alert.error(error.message);
+  return {
+    type: REGISTER_PARCEL_ERROR,
+    payload:error.message
+  };
+}
+
+export function registerParcels(args) {
+
+  return async (dispatch) => {
+    
+    dispatch({ type: REGISTER_PARCEL });
+    try {
+      const data = await GeneralApi.registerParcels(args);
+      return dispatch(registerSuccess(data));
+    } catch (e) {
+      return dispatch(registerError(e));
+    }
+    
+  };
+}
+
 export const FETCH_PARCEL = 'FETCH_PARCEL';
 export const FETCH_PARCEL_SUCCESS = 'FETCH_PARCEL_SUCCESS';
 export const FETCH_PARCEL_ERROR = 'FETCH_PARCEL_ERROR';
@@ -19,13 +54,13 @@ function fetchError(error) {
   };
 }
 
-export function fetchParcels({token,partnerId}) {
+export function fetchParcels({token,partnerId,http}) {
 
   return async (dispatch) => {
     
     dispatch({ type: FETCH_PARCEL });
     try {
-      const data = await GeneralApi.fetchParcels({token,partnerId});
+      const data = await GeneralApi.fetchParcels({token,partnerId,http});
       return dispatch(fetchSuccess(data));
     } catch (e) {
       return dispatch(fetchError(e));
@@ -55,13 +90,13 @@ function fetchCatergoryError(error) {
   };
 }
 
-export function fetchCatergory({token,partnerId}) {
+export function fetchCatergory({token,partnerId,http}) {
   return async (dispatch) => {
     
     dispatch({ type: FETCH_CATERGORY });
 
     try {
-      const data = await GeneralApi.fetchCatergory({token,partnerId});
+      const data = await GeneralApi.fetchCatergory({token,partnerId,http});
       return dispatch(fetchCatergorySuccess(data));
     } catch (e) {
       return dispatch(fetchCatergoryError(e));
@@ -89,13 +124,13 @@ function fetchLocationError(error) {
   };
 }
 
-export function fetchLocation({token,partnerId}) {
+export function fetchLocation({token,partnerId,http}) {
   return async (dispatch) => {
     
     dispatch({ type: FETCH_LOCATION });
 
     try {
-      const data = await GeneralApi.fetchLocation({token,partnerId});
+      const data = await GeneralApi.fetchLocation({token,partnerId,http});
       return dispatch(fetchLocationSuccess(data));
     } catch (e) {
       return dispatch(fetchLocationError(e));
@@ -123,13 +158,13 @@ function fetchVehicleError(error) {
   };
 }
 
-export function fetchVehicle({token,partnerId}) {
+export function fetchVehicle({token,partnerId,http}) {
   return async (dispatch) => {
     
     dispatch({ type: FETCH_VEHICLE });
 
     try {
-      const data = await GeneralApi.fetchVehicle({token,partnerId});
+      const data = await GeneralApi.fetchVehicle({token,partnerId,http});
       return dispatch(fetchVehicleSuccess(data));
     } catch (e) {
       return dispatch(fetchVehicleError(e));

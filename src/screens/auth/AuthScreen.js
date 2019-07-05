@@ -15,7 +15,7 @@ class AuthScreen extends Component{
 	state = {
 		data:{
 			username:'0759377424',
-			password:'0759377424'	
+			password:'0759377424'
 		},		
 		msg:'Please Submit',
 		isLoading:false,
@@ -28,6 +28,9 @@ class AuthScreen extends Component{
 
 	handleUsername = text =>{
 		this.setState({data:{...this.state.data, username:text }});
+	}
+	handleHppt = text =>{
+		this.setState({data:{...this.state.data, http:text }});
 	}
 
 	handlePassword = text =>{
