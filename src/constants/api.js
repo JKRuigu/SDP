@@ -6,7 +6,8 @@ let url;
 if (Platform.OS === 'ios') {
   url = 'http://10.0.2.2:8000';
 } else {
-  url = 'http://localhost:8000';
+  // url = 'http://localhost:8000';
+  url = 'http://35.188.138.47';
 }
 
 axios.defaults.baseURL = url;

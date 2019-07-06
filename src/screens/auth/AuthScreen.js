@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import {Text,View,StyleSheet,Button,StatusBar,ActivityIndicator,Alert } from 'react-native';
+import {Modal,Alert,TextInput,AsyncStorage,TouchableOpacity,Text,View,StyleSheet,Button,StatusBar,ActivityIndicator } from 'react-native';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import { connect } from 'react-redux';
 import axios from 'axios';
@@ -29,9 +29,19 @@ class AuthScreen extends Component{
 	handleUsername = text =>{
 		this.setState({data:{...this.state.data, username:text }});
 	}
-	handleHppt = text =>{
-		this.setState({data:{...this.state.data, http:text }});
-	}
+	// _storeData = async()=>{
+	// 	try{
+	// 		await AsyncStorage.setItem('isRegistered','1');
+	// 	}catch(err){
+	// 		Alert.alert("Error! Please report the error.")
+	// 	}		
+	// }
+
+	// componentWillMount(){
+	// 	const isRegistered = AsyncStorage.getItem('isRegistered');
+
+	// 	Alert.alert("Enter both username and password");
+	// }
 
 	handlePassword = text =>{
 		this.setState({data:{...this.state.data,password:text}});
@@ -100,6 +110,29 @@ class AuthScreen extends Component{
 					handleUsername={this.handleUsername}
 					handleSubmit={this.handleSubmit}
 				 />
+
+				<Modal
+			      animationType="slide"
+			      transparent={false}          
+			      visible={false}
+			    >
+			    <View>
+				   <Text style={{margin:10,marginTop:20,color:"blue",marginHorizontal:"18%"}}>REGISTER YOUR DEVICE</Text>
+				   <TextInput
+						style={{ marginHorizontal:"10%",backgroundColor:'blue',margin:10,color:"#fff",width:250,borderRadius:20,fontSize:15,paddingLeft:20 }}
+						placeholder="Server IP Address"
+						placeholderTextColor="#fff"
+					/>
+				   <TextInput
+					style={{ marginHorizontal:"10%",backgroundColor:'blue',margin:10,color:"#fff",width:250,borderRadius:20,fontSize:15,paddingLeft:20 }}
+					placeholder="Select Catergory"
+					placeholderTextColor="#fff"
+					/>
+					<TouchableOpacity style={{marginHorizontal:"10%",backgroundColor:'#455a64',margin:10,width:250,borderRadius:20,fontSize:15,marginTop:10,padding:10,color:'#fff' }}>
+						<Text style={{fontSize:16,color:'#000',textAlign:'center'}}>REGISTER DEVICE</Text>
+					</TouchableOpacity>
+	            </View>
+				</Modal> 
 			</View>			
 			)
 	}
