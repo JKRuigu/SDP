@@ -7,8 +7,11 @@ export default ({
 	styles,
 	handleSelectDriver,
 	optText
-})=>(<ScrollView>						
-		{vehicles.map((vehicle,i)=>(
+})=>(<View>
+	<Text style={{fontWeight:"400",fontSize:25,marginHorizontal:10}}>{vehicles.length ===0 ? "No Vehicles Availablle":""}</Text>
+	<ScrollView>						
+		{
+		 vehicles.map((vehicle,i)=>(
 			<View style={styles.list} key={i}>
 			<View style={styles.option}>
 				<Text style={optText} onPress={()=>handleSelectDriver(vehicle)}>Select</Text>
@@ -23,4 +26,5 @@ export default ({
 				</View>
 			</View>
 		</View>))}
-	</ScrollView>)
+	</ScrollView>
+	</View>)
