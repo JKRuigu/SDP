@@ -2,6 +2,7 @@ import React,{ Component } from 'react';
 import { connect } from 'react-redux';
 import { View,TextInput,StyleSheet,Alert,Text,TouchableHighlight } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import { fetchParcels,fetchCatergory,fetchLocation,fetchVehicle } from '../screens/register/actions';
 
