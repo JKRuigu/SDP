@@ -2,6 +2,7 @@ import React,{Component} from 'react';
 import { connect } from 'react-redux';
 import {Modal,Alert,Text,View,StyleSheet,ActivityIndicator,StatusBar,Button,TextInput,ScrollView,TouchableHighlight,ProgressBarAndroid } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import {RegisterParcelForm,ModalForm} from './components';
 import { fetchParcels,fetchCatergory,fetchLocation,fetchVehicle,registerParcels } from './actions';
@@ -18,19 +19,19 @@ class RegisterParcel extends Component{
 		)
 	}
 	state = {
-		senderName:'',
+		senderName:'JOHN KAMAU',
 		isErrorsenderName:false,
-		senderID:'',
+		senderID:'678905678',
 		isErrorsenderID:false,
-		senderTel:'',
+		senderTel:'we456789fgh',
 		isErrorsenderTel:false,
-		receiverName:'',
+		receiverName:'JOHN KAMAU',
 		isErrorreceiverName:false,
-		receiverID:'',
+		receiverID:'JOHN KAMAU',
 		isErrorreceiverID:false,
-		receiverTel:'',
+		receiverTel:'JOHN KAMAU',
 		isErrorreceiverTel:false,
-		parcelCost:'',
+		parcelCost:'JOHN KAMAU',
 		isErrorparcelCost:false,
 		isSelected:false,
 		show:false,
@@ -75,7 +76,8 @@ class RegisterParcel extends Component{
 		}else{
 			const { isErrorsenderName,isErrorsenderID,isErrorsenderTel,isErrorreceiverName,isErrorreceiverID,isErrorreceiverTel,isErrorparcelCost,isparcelCatergory,isreceiverLocation,issenderLocation,senderName,senderID,senderTel,receiverName,receiverID,receiverTel,parcelCost,senderLocation,receiverLocation,parcelCatergory} = this.state;
 			const { auth } = this.props;
-			// Alert.alert(auth.token);
+			const value = await AsyncStorage.getItem('url');
+			
 			let data ={
 				"token":auth.token,
 				"partnerId":auth.user.partnerId,
@@ -91,7 +93,8 @@ class RegisterParcel extends Component{
 					"parcelCost":parcelCost,
 					"parcelCatergory":parcelCatergory,
 					"senderServedBy":auth.user.username
-				}
+				},
+					"url":value
 			}
 			await this.props.registerParcels(data);
 

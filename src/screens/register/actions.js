@@ -27,6 +27,7 @@ export function registerParcels(args) {
     
     dispatch({ type: REGISTER_PARCEL });
     try {
+      Alert.alert(args.url);
       const data = await GeneralApi.registerParcels(args);
       return dispatch(registerSuccess(data));
     } catch (e) {

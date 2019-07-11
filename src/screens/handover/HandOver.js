@@ -1,6 +1,8 @@
 import React,{Component} from 'react';
 import { connect } from 'react-redux';
 // import { Button } from 'react-native-elements';
+import AsyncStorage from '@react-native-community/async-storage';
+
 import {StyleSheet,ScrollView,Text,View,Button,Alert,TextInput,StatusBar,ProgressBarAndroid} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Modal from './components/Modal';
@@ -39,14 +41,15 @@ class HandOver extends Component{
 		
 		if (this.props.auth) {
 			const { auth } = this.props;
-
+			const value = await AsyncStorage.getItem('url');
 			let data ={
 				"token":auth.token,
 				"partnerId":auth.user.partnerId,
 				"mydata":{					
 					"receiverServedBy":auth.user.username,
 					"regID":this.state.item.regID
-				}
+				},
+				"url":value
 			}
 			await this.props.handOverParcels(data);
 
@@ -102,7 +105,6 @@ class HandOver extends Component{
 				<ProgressBarAndroid styleAttr="Horizontal" style={{margin:-5,width:'100%'}} color="#2196F3" />:<Text />}
 				{filteredParcelsLength < 1 ? 
 					<Text style={{fontWeight:"400",fontSize:25,marginHorizontal:10}}>No Parcels</Text>:
-					<Text></Text>}
 				<View>
 					<ScrollView>						
 						{filteredParcels.map((parcel,i)=>(
@@ -139,7 +141,7 @@ class HandOver extends Component{
 									</View>
 						</View>))}
 					</ScrollView>
-				</View>
+				</View>}
 				<Modal
 					styles={styles}
 					handleSubmit={this.handleSubmit}

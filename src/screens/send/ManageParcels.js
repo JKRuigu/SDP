@@ -1,6 +1,7 @@
 import React,{Component} from 'react';
 import {StyleSheet,Text,View,TouchableOpacity,Alert} from 'react-native';
 import { connect } from 'react-redux';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import {SelectedParcels,MainDisplay } from './components';
 import Modal from './components/Modal';
@@ -71,14 +72,15 @@ class ManageParcels extends Component{
 	handleSubmit = async()=>{
 		if (this.props.auth) {
 			const { auth } = this.props;
-
+			const value = await AsyncStorage.getItem('url');
 			const data ={
 				"token":auth.token,
 				"partnerId":auth.user.partnerId,
 				"mydata":{					
 					"vehicleNumber":this.props.navigation.getParam('vehicleNumber'),
 					"parcels":[...this.state.myListId]
-				}
+				},
+				"url":value
 			}
 			// Alert.alert(data.mydata.parcels[0]);
 			// Alert.alert(data.mydata.vehicleNumber);
@@ -87,7 +89,7 @@ class ManageParcels extends Component{
 			if (this.props.parcels.isError === true) {
 				Alert.alert(this.props.parcels.error);
 			}else{
-				this.setState({show:false,selectedItems:[],counter:0,isSelected:false});
+				this.setState({show:false,selectedItems:[],myListRegId:[],counter:0,isSelected:false});
 				Alert.alert("Success !");
 			}
 		}
@@ -167,8 +169,7 @@ class ManageParcels extends Component{
 				</View>
 				{filteredParcelsLength < 1 ? 
 				<Text style={{fontWeight:"400",fontSize:25,marginHorizontal:10}}>No Parcels</Text>:
-				<Text></Text>}
-				{isSelected === true?
+				isSelected === true?
 					<SelectedParcels
 						styles={styles}
 						isSelected={isSelected}

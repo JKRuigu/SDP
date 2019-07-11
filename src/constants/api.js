@@ -47,7 +47,7 @@ class GeneralsApi{
 
   async registerParcels({token,partnerId,mydata,url}){
     let header = `Bearer ${token}`;
-    // Alert.alert(header);
+    Alert.alert(url);
     try{
       const { data } = await axios.post(`${url}${this.path}/${partnerId}`,mydata,{headers:{authorization:header}});
       return data;
@@ -56,7 +56,7 @@ class GeneralsApi{
     }
   }
   async fetchParcels({token,partnerId,url}){
-  	Alert.alert(url)
+  	// Alert.alert(url)
     let header = `Bearer ${token}`;
     try{
       const { data } = await axios.get(`${url}${this.path}/${partnerId}`,{headers:{authorization:header}});
@@ -86,7 +86,7 @@ class GeneralsApi{
   async fetchVehicle({token,partnerId,url}){
     let header = `Bearer ${token}`;
     try{
-      const { data } = await axios.get(`${this.vehiclePath}/${partnerId}`,{headers:{authorization:header}});
+      const { data } = await axios.get(`${url}${this.vehiclePath}/${partnerId}`,{headers:{authorization:header}});
       return data;
     }catch(e){
       throw e;

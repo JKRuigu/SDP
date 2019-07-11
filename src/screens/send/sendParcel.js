@@ -78,6 +78,17 @@ const styles = StyleSheet.create({
 		borderRadius:10,
 		flexDirection:"row"
 	},
+	btnLoading:{		
+		alignItems:'center',
+		justifyContent:'center',
+		backgroundColor:'#f4f4f4',
+		width:'70%',
+		borderRadius:15,
+		fontSize:15,
+		marginTop:10,
+		padding:10,
+		color:'#000'
+	},
 	option:{
 		backgroundColor:"#fff",
 		borderColor:'#f73859',

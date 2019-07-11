@@ -2,6 +2,7 @@ import React,{Component} from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {StyleSheet,ScrollView,Text,View,Button,TextInput,Alert,StatusBar,ProgressBarAndroid} from 'react-native';
 import { connect } from 'react-redux';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import Modal from './components/Modal';
 import { receiveParcels } from './actions';
@@ -39,14 +40,15 @@ class ReceiveParcel extends Component{
 	handleSubmit = async() =>{
 		if (this.props.auth) {
 			const { auth } = this.props;
-
+			const value = await AsyncStorage.getItem('url');
 			let data ={
 				"token":auth.token,
 				"partnerId":auth.user.partnerId,
 				"mydata":{					
 					"deliveryReceiver":auth.user.username,
 					"parcels":[this.state.item._id]
-				}
+				},
+				"url":value
 			}
 			await this.props.receiveParcels(data);
 
@@ -101,7 +103,7 @@ class ReceiveParcel extends Component{
 				<View>
 				{ this.props.parcels.isLoading === true?	
 				<ProgressBarAndroid styleAttr="Horizontal" style={{margin:-5,width:'100%'}} color="#2196F3" />:<Text />}
-					<Text style={{fontWeight:"400",fontSize:25,marginHorizontal:10}}>{filteredParcelsLength < 1 ? "No Parcels":""}</Text>
+					{filteredParcelsLength < 1 ?<Text style={{fontWeight:"400",fontSize:25,marginHorizontal:10}}>No Parcels</Text>:
 					<ScrollView>						
 						{filteredParcels.map((parcel,i)=>(
 							<View style={styles.list} key={i}>
@@ -129,7 +131,7 @@ class ReceiveParcel extends Component{
 								</ScrollView>
 							</View>
 						</View>))}
-					</ScrollView>
+					</ScrollView>}
 				</View>
 				<Modal
 					styles={styles}

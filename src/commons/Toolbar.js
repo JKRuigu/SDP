@@ -26,9 +26,11 @@ class Toolbar extends Component{
 		await Alert.alert('Refreshing page!')
 		if (this.props.auth) {
 			const { auth } = this.props;
+			const value = await AsyncStorage.getItem('url');
 			let data ={
 				"token":auth.token,
-				"partnerId":auth.user.partnerId
+				"partnerId":auth.user.partnerId,
+				"url":value
 			}
 		
 			await this.props.fetchParcels(data);

@@ -8,7 +8,7 @@ export default ({
 	handleSelectDriver,
 	optText
 })=>(<View>
-	<Text style={{fontWeight:"400",fontSize:25,marginHorizontal:10}}>{vehicles.length ===0 ? "No Vehicles Availablle":""}</Text>
+	{vehicles.length ===0 ? <Text style={{fontWeight:"400",fontSize:25,marginHorizontal:10}}>No Vehicles Availablle </Text>:
 	<ScrollView>						
 		{
 		 vehicles.map((vehicle,i)=>(
@@ -26,5 +26,5 @@ export default ({
 				</View>
 			</View>
 		</View>))}
-	</ScrollView>
+	</ScrollView>}
 	</View>)
