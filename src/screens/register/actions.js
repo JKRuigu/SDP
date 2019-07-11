@@ -54,13 +54,13 @@ function fetchError(error) {
   };
 }
 
-export function fetchParcels({token,partnerId,http}) {
+export function fetchParcels({token,partnerId,url}) {
 
   return async (dispatch) => {
     
     dispatch({ type: FETCH_PARCEL });
     try {
-      const data = await GeneralApi.fetchParcels({token,partnerId,http});
+      const data = await GeneralApi.fetchParcels({token,partnerId,url});
       return dispatch(fetchSuccess(data));
     } catch (e) {
       return dispatch(fetchError(e));
@@ -90,13 +90,13 @@ function fetchCatergoryError(error) {
   };
 }
 
-export function fetchCatergory({token,partnerId,http}) {
+export function fetchCatergory({token,partnerId,url}) {
   return async (dispatch) => {
     
     dispatch({ type: FETCH_CATERGORY });
 
     try {
-      const data = await GeneralApi.fetchCatergory({token,partnerId,http});
+      const data = await GeneralApi.fetchCatergory({token,partnerId,url});
       return dispatch(fetchCatergorySuccess(data));
     } catch (e) {
       return dispatch(fetchCatergoryError(e));
@@ -124,13 +124,13 @@ function fetchLocationError(error) {
   };
 }
 
-export function fetchLocation({token,partnerId,http}) {
+export function fetchLocation({token,partnerId,url}) {
   return async (dispatch) => {
     
     dispatch({ type: FETCH_LOCATION });
 
     try {
-      const data = await GeneralApi.fetchLocation({token,partnerId,http});
+      const data = await GeneralApi.fetchLocation({token,partnerId,url});
       return dispatch(fetchLocationSuccess(data));
     } catch (e) {
       return dispatch(fetchLocationError(e));
@@ -158,13 +158,13 @@ function fetchVehicleError(error) {
   };
 }
 
-export function fetchVehicle({token,partnerId,http}) {
+export function fetchVehicle({token,partnerId,url}) {
   return async (dispatch) => {
     
     dispatch({ type: FETCH_VEHICLE });
 
     try {
-      const data = await GeneralApi.fetchVehicle({token,partnerId,http});
+      const data = await GeneralApi.fetchVehicle({token,partnerId,url});
       return dispatch(fetchVehicleSuccess(data));
     } catch (e) {
       return dispatch(fetchVehicleError(e));

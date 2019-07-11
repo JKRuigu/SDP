@@ -18,13 +18,13 @@ function loginError(error) {
   };
 }
 
-export function login({username,password}) {
+export function login({username,password,url}) {
   return async (dispatch) => {
     
     dispatch({ type: LOGIN });
 
     try {
-      const data = await User.login({username,password});
+      const data = await User.login({username,password,url});
       return dispatch(loginSuccess(data));
     } catch (e) {
       return dispatch(loginError(e));

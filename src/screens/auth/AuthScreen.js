@@ -1,8 +1,9 @@
 import React,{Component} from 'react';
-import {Modal,Alert,TextInput,AsyncStorage,TouchableOpacity,Text,View,StyleSheet,Button,StatusBar,ActivityIndicator } from 'react-native';
+import {Modal,Alert,TextInput,Picker,TouchableOpacity,Text,View,StyleSheet,Button,StatusBar,ActivityIndicator } from 'react-native';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import { connect } from 'react-redux';
 import axios from 'axios';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import { login } from './actions';
 import AuthScreenForm from './components/AuthScreenForm';
@@ -19,7 +20,10 @@ class AuthScreen extends Component{
 		},		
 		msg:'Please Submit',
 		isLoading:false,
-		isLogged:false
+		isLogged:false,
+		catergory:"",
+		ip:"",
+		show:false
 	}
 
 	static navigationOptions ={
@@ -29,19 +33,67 @@ class AuthScreen extends Component{
 	handleUsername = text =>{
 		this.setState({data:{...this.state.data, username:text }});
 	}
-	// _storeData = async()=>{
-	// 	try{
-	// 		await AsyncStorage.setItem('isRegistered','1');
-	// 	}catch(err){
-	// 		Alert.alert("Error! Please report the error.")
-	// 	}		
-	// }
 
-	// componentWillMount(){
-	// 	const isRegistered = AsyncStorage.getItem('isRegistered');
+	componentWillMount(){
+		this._storeData();
+		this._retriveData();
+	}
 
-	// 	Alert.alert("Enter both username and password");
-	// }
+	_storeData = async()=>{
+		const value = await AsyncStorage.getItem('url') || undefined;
+			// Alert.alert(value)
+		if (value === 'none' || value === undefined) {
+			const url = '';
+			try{
+				// await AsyncStorage.setItem('url',JSON.stringify(url));
+				await AsyncStorage.setItem('url',url);
+			}catch(err){
+				Alert.alert(err.message);
+			}		
+		}
+	}
+
+	_retriveData = async ()=>{
+		try{
+			const value = await AsyncStorage.getItem('url') || 'none';
+			
+			if (value === 'none') {
+				this.setState({show:true});
+			}
+
+		} catch(e){
+			Alert.alert("Error! Please report the error.")
+		}
+	}
+
+	handleIpAdress = ip =>{
+		this.setState({ip});
+	}
+
+	_setData = async()=>{
+		try{
+			await AsyncStorage.setItem('url','localhost:8080');
+			this.setState({show:false});
+		} catch(e){
+			Alert.alert("Error! Please report the error.")
+		}		
+	}
+
+	Alertp = async() =>{
+		const data = await AsyncStorage.getItem('url') || 'none';
+		// Alert.alert(data)
+	}
+
+	handleReg = async()=>{
+		const { ip } = this.state;
+		if (ip === "http://35.188.138.47" || ip === "http://localhost:8000") {
+			// await AsyncStorage.setItem('url',JSON.stringify());
+			await AsyncStorage.setItem('url',this.state.ip);
+			this.setState({show:false});
+		}else{
+			Alert.alert("Please Select Ip Address!")
+		}
+	}
 
 	handlePassword = text =>{
 		this.setState({data:{...this.state.data,password:text}});
@@ -55,16 +107,20 @@ class AuthScreen extends Component{
 			Alert.alert("Enter both username and password");
 		}else{			
 				 const { username,password } = this.state;
-				await this.props.login({"username":this.state.data.username,"password":this.state.data.password});
+				 const value = await AsyncStorage.getItem('url');
+
+				await this.props.login({"username":this.state.data.username,"url":value,"password":this.state.data.password});
 
 				if (this.props.auth.isError === true) {
 					Alert.alert(this.props.auth.error);
 				}
 				if (this.props.auth.isLogged ===true) {
 					const { auth } = this.props;
+					// Alert.alert("VALUE",value)
 					let data ={
 						"token":auth.token,
-						"partnerId":auth.user.partnerId
+						"partnerId":auth.user.partnerId,
+						"url":value
 					}
 
 					await this.props.fetchParcels(data);
@@ -114,21 +170,31 @@ class AuthScreen extends Component{
 				<Modal
 			      animationType="slide"
 			      transparent={false}          
-			      visible={false}
+			      visible={this.state.show}
 			    >
 			    <View>
 				   <Text style={{margin:10,marginTop:20,color:"blue",marginHorizontal:"18%"}}>REGISTER YOUR DEVICE</Text>
-				   <TextInput
-						style={{ marginHorizontal:"10%",backgroundColor:'blue',margin:10,color:"#fff",width:250,borderRadius:20,fontSize:15,paddingLeft:20 }}
-						placeholder="Server IP Address"
-						placeholderTextColor="#fff"
-					/>
-				   <TextInput
-					style={{ marginHorizontal:"10%",backgroundColor:'blue',margin:10,color:"#fff",width:250,borderRadius:20,fontSize:15,paddingLeft:20 }}
-					placeholder="Select Catergory"
-					placeholderTextColor="#fff"
-					/>
-					<TouchableOpacity style={{marginHorizontal:"10%",backgroundColor:'#455a64',margin:10,width:250,borderRadius:20,fontSize:15,marginTop:10,padding:10,color:'#fff' }}>
+				   
+				   <Picker	
+					  selectedValue={this.state.catergory}
+					  style={{height: 50, margin:10,marginTop:20,color:"blue",width:250,marginHorizontal:"16%"}}
+					  onValueChange={(itemValue, itemIndex) =>
+					    this.setState({catergory: itemValue})
+					  }>
+					  <Picker.Item label="Select Catergory" value="Select Catergory" />
+					  <Picker.Item label="Individual" value="Individual" />
+					  <Picker.Item label="Company" value="Company" />
+					</Picker>
+					<Picker	
+					  selectedValue={this.state.ip}
+					  style={{height: 50, margin:10,marginTop:20,color:"blue",width:250,marginHorizontal:"16%"}}
+					  onValueChange={this.handleIpAdress}>
+					  <Picker.Item label="Select IP Address" value="Select IP Address" />
+					  <Picker.Item label="http://localhost:8000" value="http://localhost:8000" />
+					  <Picker.Item label="http://35.188.138.47" value="http://35.188.138.47" />
+					</Picker>
+					
+					<TouchableOpacity onPress={this.handleReg} style={{marginHorizontal:"10%",backgroundColor:'#455a64',margin:10,width:250,borderRadius:20,fontSize:15,marginTop:10,padding:10,color:'#fff' }}>
 						<Text style={{fontSize:16,color:'#000',textAlign:'center'}}>REGISTER DEVICE</Text>
 					</TouchableOpacity>
 	            </View>

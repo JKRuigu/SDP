@@ -35,7 +35,7 @@ class HandOver extends Component{
 	}
 
 	handleSubmit = async() =>{
-		// Alert.alert(this.state.item.regID)
+		// Alert.alert(this.state.item.regID);
 		
 		if (this.props.auth) {
 			const { auth } = this.props;

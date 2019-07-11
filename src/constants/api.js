@@ -1,16 +1,22 @@
 import axios from 'axios';
 import { Platform,Alert } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 
-let url;
 
-if (Platform.OS === 'ios') {
-  url = 'http://10.0.2.2:8000';
-} else {
-  // url = 'http://localhost:8000';
-  url = 'http://35.188.138.47';
-}
+// const url = AsyncStorage.getItem('url');
 
-axios.defaults.baseURL = url;
+// Alert.alert(JSON.parse(url)); 
+// Alert.alert(AsyncStorage.getItem('url')); 
+// let url;
+
+// if (Platform.OS === 'ios') {
+//   url = 'http://10.0.2.2:8000';
+// } else {
+//   url = 'http://localhost:8000';
+//   // url = 'http://35.188.138.47';    
+// }
+
+// axios.defaults.baseURL = url
 
 
 class UserApi {
@@ -20,7 +26,7 @@ class UserApi {
 
   async login(args) {
     try {
-      const { data } = await axios.post(`${this.path}/login`, args);
+      const { data } = await axios.post(`${args.url}${this.path}/login`, args);
       return data;
     } catch (e) {
       throw e;
@@ -39,45 +45,45 @@ class GeneralsApi{
     this.vehiclePath ='/api/vehicle';
   }
 
-  async registerParcels({token,partnerId,mydata}){
+  async registerParcels({token,partnerId,mydata,url}){
     let header = `Bearer ${token}`;
     // Alert.alert(header);
     try{
-      const { data } = await axios.post(`${this.path}/${partnerId}`,mydata,{headers:{authorization:header}});
+      const { data } = await axios.post(`${url}${this.path}/${partnerId}`,mydata,{headers:{authorization:header}});
       return data;
     }catch(e){
       throw e;
     }
   }
-  async fetchParcels({token,partnerId}){
-    // Alert.alert(partnerId)
+  async fetchParcels({token,partnerId,url}){
+  	Alert.alert(url)
     let header = `Bearer ${token}`;
     try{
-      const { data } = await axios.get(`${this.path}/${partnerId}`,{headers:{authorization:header}});
+      const { data } = await axios.get(`${url}${this.path}/${partnerId}`,{headers:{authorization:header}});
       return data;
     }catch(e){
       throw e;
     }
   }
-  async fetchCatergory({token,partnerId}){
+  async fetchCatergory({token,partnerId,url}){
     let header = `Bearer ${token}`;
     try{
-      const { data } = await axios.get(`${this.catergoryPath}/${partnerId}`,{headers:{authorization:header}});
+      const { data } = await axios.get(`${url}${this.catergoryPath}/${partnerId}`,{headers:{authorization:header}});
       return data;
     }catch(e){
       throw e;
     }
   }
-  async fetchLocation({token,partnerId}){
+  async fetchLocation({token,partnerId,url}){
     let header = `Bearer ${token}`;
     try{
-      const { data } = await axios.get(`${this.locationPath}/${partnerId}`,{headers:{authorization:header}});
+      const { data } = await axios.get(`${url}${this.locationPath}/${partnerId}`,{headers:{authorization:header}});
       return data;
     }catch(e){
       throw e;
     }
   }
-  async fetchVehicle({token,partnerId}){
+  async fetchVehicle({token,partnerId,url}){
     let header = `Bearer ${token}`;
     try{
       const { data } = await axios.get(`${this.vehiclePath}/${partnerId}`,{headers:{authorization:header}});
@@ -86,30 +92,30 @@ class GeneralsApi{
       throw e;
     }
   }
-  async sendParcels({token,partnerId,mydata}){
+  async sendParcels({token,partnerId,mydata,url}){
     let header = `Bearer ${token}`;
     try{ 
-      const { data } = await axios.patch(`${this.path}/${partnerId}/send`,mydata,{headers:{authorization:header}});
+      const { data } = await axios.patch(`${url}${this.path}/${partnerId}/send`,mydata,{headers:{authorization:header}});
       return data;
     }catch(e){
       throw e;
     }
   }
-  async receiveParcels({token,partnerId,mydata}){
+  async receiveParcels({token,partnerId,mydata,url}){
     let header = `Bearer ${token}`;
     try{ 
-      const { data } = await axios.patch(`${this.path}/${partnerId}/receive`,mydata,{headers:{authorization:header}});
+      const { data } = await axios.patch(`${url}${this.path}/${partnerId}/receive`,mydata,{headers:{authorization:header}});
       return data;
     }catch(e){
       throw e;
     }
   }
-  async handOverParcels({token,partnerId,mydata}){
+  async handOverParcels({token,partnerId,mydata,url}){
     // const { deliveryReceiver } = mydata;
     // Alert.alert(deliveryReceiver);
     let header = `Bearer ${token}`;
     try{ 
-      const { data } = await axios.patch(`${this.path}/${partnerId}/handover`,mydata,{headers:{authorization:header}});
+      const { data } = await axios.patch(`${url}${this.path}/${partnerId}/handover`,mydata,{headers:{authorization:header}});
       return data;
     }catch(e){
       throw e;
