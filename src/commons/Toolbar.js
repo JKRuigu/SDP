@@ -41,6 +41,11 @@ class Toolbar extends Component{
 		}		
 	}
 
+	handleSetting = ()=>{
+		// this.props.navigation.push('SettingsScreen');
+		Alert.alert("SETTING")
+	}
+
 	render(){
 		const { isSearch,name } = this.state;
 		
@@ -71,20 +76,29 @@ class Toolbar extends Component{
 							<View style={{padding:5}}>	
 								<Text style={styles.title}>{this.props.name}</Text>
 							</View>
-							<Text style={styles.icon} onPress={this.handleFresh}>
+							<View style={{marginRight:-70,flexDirection:"row"}}>
+								<Text style={styles.icon} onPress={this.handleFresh}>
+										<Icon
+											name="md-refresh"
+											size={26}
+											color="#fff"
+										/>
+								</Text>							
+								<Text style={styles.icon} onPress={this.handleSearch} >
 									<Icon
-										name="md-refresh"
-										size={26}
+										name="md-search"
+										size={28}
 										color="#fff"
 									/>
-							</Text>							
-							<Text style={styles.icon} onPress={this.handleSearch} >
-								<Icon
-									name="md-search"
-									size={28}
-									color="#fff"
-								/>
-							</Text>
+								</Text>							
+								<Text style={styles.icon} onPress={this.handleSetting}>
+									<Icon
+										name="md-more"
+										size={28}
+										color="#fff"
+									/>
+								</Text>
+							</View>
 						</View>}					
 				</View>
 			)
@@ -122,6 +136,14 @@ const styles = StyleSheet.create({
 		paddingLeft:10
 	},
 	icon:{
+		marginHorizontal:3,
+		alignItems:'center',
+		justifyContent:'center',
+		width:40,
+		padding:5,
+		borderRadius:40
+	},
+	iconMore:{
 		marginHorizontal:3,
 		alignItems:'center',
 		justifyContent:'center',

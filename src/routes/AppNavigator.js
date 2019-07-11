@@ -12,11 +12,22 @@ import {
 import HomeNavigator from './HomeNavigator';
 import { AuthScreen,ManageParcels } from '../screens';
 
+class SettingsScreen extends Component {
+  render() {
+    return (
+      <View>
+        <Text>Settings </Text>
+      </View>
+    );
+  }
+} 
+
 
 const AppStackNavigator = createStackNavigator({
 	AuthScreen,
 	HomeNavigator,
-	ManageParcels
+	ManageParcels,
+	SettingsScreen
 });
 
 

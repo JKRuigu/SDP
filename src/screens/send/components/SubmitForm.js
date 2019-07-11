@@ -15,8 +15,9 @@ export default ({
 				</View>
 				)}
 		</ScrollView>
+		
 		<View style={styles.submitBtn}>				
-			{isLoading === true?
+			{ isLoading === true?
 				<TouchableOpacity style={styles.btnLoading} >
 					<Text style={styles.btnText}>Submitting... Please wait</Text>
 				</TouchableOpacity>:
