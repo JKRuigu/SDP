@@ -1,9 +1,9 @@
 import React,{Component} from 'react';
-import { TextInput,View,Text } from 'react-native';
+import { TextInput,View,Alert,Text } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import Toolbar from '../commons/Toolbar';
-import { Account } from '../screens/account';
+import { Account,About,SettingsScreen } from '../screens';
 
 import { 
 		createStackNavigator,
@@ -21,28 +21,6 @@ import {
 	} from '../screens';
 
 import SendParcelNavigator from './SendParcelNavigator';
-
-
-class Settings extends Component{
-	render(){
-		return(
-			<View>
-				<Text>Settings</Text>
-			</View>
-			)
-	}
-}
-
-class About extends Component{
-	render(){
-		return(
-			<View>
-				<Text>About</Text>
-			</View>
-			)
-	}
-}
-
 
 const DashboardTabNavigator = createBottomTabNavigator(
 	{
@@ -79,7 +57,7 @@ const AppDrawerNavigator = createDrawerNavigator({
 		screen:Account
 	},
 	Settings:{
-		screen:Settings
+		screen:SettingsScreen
 	},
 	About:{
 		screen:About

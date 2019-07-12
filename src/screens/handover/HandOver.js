@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 // import { Button } from 'react-native-elements';
 import AsyncStorage from '@react-native-community/async-storage';
 
-import {StyleSheet,ScrollView,Text,View,Button,Alert,TextInput,StatusBar,ProgressBarAndroid} from 'react-native';
+import {StyleSheet,ScrollView,Text,View,Button,Alert,TouchableOpacity,TextInput,StatusBar,ProgressBarAndroid} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Modal from './components/Modal';
 
@@ -109,11 +109,11 @@ class HandOver extends Component{
 					<ScrollView>						
 						{filteredParcels.map((parcel,i)=>(
 							<View style={styles.list} key={i}>
-									<View style={styles.option}>
+									<TouchableOpacity style={styles.option}>
 										<Text style={styles.optionText} onPress={()=>this.handleSelect(parcel)}>
-											Add
+											Select
 										</Text>
-									</View>
+									</TouchableOpacity>
 									<View style={styles.listContent}>
 										<ScrollView>
 											<View style={styles.mainContainer}>												
@@ -232,7 +232,9 @@ const styles = StyleSheet.create({
 		height:80,
 		margin:5,
 		borderRadius:10,
-		flexDirection:"row"
+		flexDirection:"row",
+		alignItems:'center',
+		justifyContent:'center'
 	},
 	option:{
 		backgroundColor:"#fff",
@@ -242,12 +244,14 @@ const styles = StyleSheet.create({
 		borderWidth:0.5,
 		borderColor:'rgba(0,0,255,0.5)',
 		alignItems:'center',
+		height:54,
+		padding:3,
 		justifyContent:'center',
 		marginHorizontal:'1.5%',	
 	},
 	optionText:{
 		fontSize:15,
-		fontWeight:'500'
+		fontWeight:'300'
 	},
 	optText:{
 		fontSize:13,

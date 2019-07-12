@@ -2,7 +2,6 @@ import React,{Component} from 'react';
 import {Modal,Alert,TextInput,Picker,TouchableOpacity,Text,View,StyleSheet,Button,StatusBar,ActivityIndicator } from 'react-native';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import { connect } from 'react-redux';
-import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
 
 import { login } from './actions';
@@ -22,7 +21,7 @@ class AuthScreen extends Component{
 		isLoading:false,
 		isLogged:false,
 		catergory:"",
-		ip:"",
+		ip:"http://35.188.138.47",
 		show:false
 	}
 
@@ -90,6 +89,7 @@ class AuthScreen extends Component{
 			// await AsyncStorage.setItem('url',JSON.stringify());
 			await AsyncStorage.setItem('url',this.state.ip);
 			this.setState({show:false});
+			Alert.alert("Registraton Successful!")
 		}else{
 			Alert.alert("Please Select Ip Address!")
 		}
@@ -173,7 +173,8 @@ class AuthScreen extends Component{
 			      visible={this.state.show}
 			    >
 			    <View>
-				   <Text style={{margin:10,marginTop:20,color:"blue",marginHorizontal:"18%"}}>REGISTER YOUR DEVICE</Text>
+				   <Text style={{margin:10,marginTop:20,color:"blue",marginHorizontal:"18%"}}>WELCOME !</Text>
+				   <Text style={{margin:10,marginTop:20,color:"blue",marginHorizontal:"18%"}}>REGISTER YOUR DEVICE SETTINGS </Text>
 				   
 				   <Picker	
 					  selectedValue={this.state.catergory}
@@ -185,6 +186,7 @@ class AuthScreen extends Component{
 					  <Picker.Item label="Individual" value="Individual" />
 					  <Picker.Item label="Company" value="Company" />
 					</Picker>
+					<Text>Make sure you select http://35.188.138.47 as you default server</Text>
 					<Picker	
 					  selectedValue={this.state.ip}
 					  style={{height: 50, margin:10,marginTop:20,color:"blue",width:250,marginHorizontal:"16%"}}

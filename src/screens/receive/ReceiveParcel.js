@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {StyleSheet,ScrollView,Text,View,Button,TextInput,Alert,StatusBar,ProgressBarAndroid} from 'react-native';
+import {StyleSheet,ScrollView,Text,View,TouchableOpacity,Button,TextInput,Alert,StatusBar,ProgressBarAndroid} from 'react-native';
 import { connect } from 'react-redux';
 import AsyncStorage from '@react-native-community/async-storage';
 
@@ -107,11 +107,11 @@ class ReceiveParcel extends Component{
 					<ScrollView>						
 						{filteredParcels.map((parcel,i)=>(
 							<View style={styles.list} key={i}>
-							<View style={styles.option}>
+							<TouchableOpacity style={styles.option}>
 								<Text style={styles.optionText} onPress={()=>this.handleSelect(parcel)}>
-									Add
+									Select
 								</Text>
-							</View>
+							</TouchableOpacity>
 							<View style={styles.listContent}>
 								<ScrollView>
 									<View style={styles.mainContainer}>
@@ -223,7 +223,9 @@ const styles = StyleSheet.create({
 		height:60,
 		margin:5,
 		borderRadius:10,
-		flexDirection:"row"
+		flexDirection:"row",
+		alignItems:'center',
+		justifyContent:'center'
 	},
 	option:{
 		backgroundColor:"#fff",
@@ -234,11 +236,13 @@ const styles = StyleSheet.create({
 		borderColor:'rgba(0,0,255,0.5)',
 		alignItems:'center',
 		justifyContent:'center',
+		height:54,
+		padding:3,
 		marginHorizontal:'1.5%',	
 	},
 	optionText:{
 		fontSize:15,
-		fontWeight:'500'
+		fontWeight:'300'
 	},
 	optText:{
 		fontSize:13,
