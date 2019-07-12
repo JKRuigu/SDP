@@ -24,6 +24,7 @@ export default ({
 		<View>
 			<TextInput 
 				placeholder="Password"
+				secureTextEntry={true}
 				placeholderTextColor="blue"
 				style={{ backgroundColor:'#fff',color:"blue",width:250,borderRadius:20,fontSize:15,paddingLeft:20 }}
 				defaultValue={password}
