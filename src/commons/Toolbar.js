@@ -43,7 +43,11 @@ class Toolbar extends Component{
 
 	handleSetting = ()=>{
 		// this.props.navigation.push('SettingsScreen');
-		Alert.alert("SETTING")
+		let email = "shiftdeliveryplatform@gmail.com";
+		let version = "v0.2.8";
+		let title = "SETTINGS";
+		let company = "H & S Technology"
+		Alert.alert(version,email)
 	}
 
 	render(){
