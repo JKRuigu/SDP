@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {StyleSheet,ScrollView,Text,View,TouchableOpacity,Button,TextInput,Alert,StatusBar,ProgressBarAndroid} from 'react-native';
+import {StyleSheet,ScrollView,RefreshControl,Text,View,TouchableOpacity,Button,TextInput,Alert,StatusBar,ProgressBarAndroid} from 'react-native';
 import { connect } from 'react-redux';
 import AsyncStorage from '@react-native-community/async-storage';
 
@@ -29,9 +29,16 @@ class ReceiveParcel extends Component{
 		isLoading:false,
 		item:{},
 		parcels:[],
-		title:'Receive Parcel'
+		title:'Receive Parcel',
+		refreshing:false
 	}
 
+	_onRefresh = () => {
+    this.setState({refreshing: true});
+    setTimeout( ()=> {
+    	this.setState({refreshing: false});
+    },5000);
+  }
 
 	handleSelect =x=>{
 		this.setState({item:x,show:true});
@@ -104,7 +111,14 @@ class ReceiveParcel extends Component{
 				{ this.props.parcels.isLoading === true?	
 				<ProgressBarAndroid styleAttr="Horizontal" style={{margin:-5,width:'100%'}} color="#2196F3" />:<Text />}
 					{filteredParcelsLength < 1 ?<Text style={{fontWeight:"400",fontSize:25,marginHorizontal:10}}>No Parcels</Text>:
-					<ScrollView>						
+					<ScrollView
+						refreshControl={
+				          <RefreshControl
+				            refreshing={this.state.refreshing}
+				            onRefresh={this._onRefresh}
+				          />
+				        }
+						>						
 						{filteredParcels.map((parcel,i)=>(
 							<View style={styles.list} key={i}>
 							<TouchableOpacity style={styles.option}>

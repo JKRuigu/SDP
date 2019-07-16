@@ -14,8 +14,8 @@ import { fetchParcels,fetchCatergory,fetchLocation,fetchVehicle } from '../regis
 class AuthScreen extends Component{
 	state = {
 		data:{
-			username:'0759377424',
-			password:'0759377424'
+			username:'',
+			password:''
 		},		
 		msg:'Please Submit',
 		isLoading:false,

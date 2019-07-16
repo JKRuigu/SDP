@@ -47,7 +47,7 @@ class GeneralsApi{
 
   async registerParcels({token,partnerId,mydata,url}){
     let header = `Bearer ${token}`;
-    Alert.alert(url);
+    //Alert.alert(url);
     try{
       const { data } = await axios.post(`${url}${this.path}/${partnerId}`,mydata,{headers:{authorization:header}});
       return data;
