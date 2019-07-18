@@ -30,7 +30,7 @@ export default ({
 					<Text style={styles.mainText}>{vehicle.vehicleNumber}</Text>
 				</View>
 				<View style={styles.subContainer}>
-					<Text style={styles.location}>Driver ID</Text>
+					<Text style={styles.location}>Driver Name:</Text>
 					<Text style={styles.locationText}>{vehicle.driverName}</Text>
 				</View>
 			</View>

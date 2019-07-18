@@ -142,14 +142,14 @@ class HandOver extends Component{
 									<View style={styles.listContent}>
 										<ScrollView>
 											<View style={styles.mainContainer}>												
-												<Text style={styles.mainText}><Text style={styles.location}>RegID</Text> {parcel.regID}</Text>
+												<Text style={styles.mainText}><Text style={styles.location}>RegID:</Text> {parcel.regID}</Text>
 											</View>
 											<View style={styles.subContainer}>
-												<Text style={styles.location}>Receiver</Text>
+												<Text style={styles.location}>Receiver:</Text>
 												<Text style={styles.locationText}>{parcel.receiverName}</Text>
 											</View>
 											<View style={styles.subContainer}>
-												<Text style={styles.location}>Receiver ID</Text>
+												<Text style={styles.location}>Receiver ID:</Text>
 												<Text style={styles.locationText}>{parcel.receiverID}</Text>
 											</View>
 
@@ -159,7 +159,7 @@ class HandOver extends Component{
 											</View>
 
 											<View style={styles.subContainer}>
-												<Text style={styles.location}>Catergory</Text>
+												<Text style={styles.location}>Catergory:</Text>
 												<Text style={styles.locationText}>{parcel.parcelCatergory}</Text>
 											</View>
 										</ScrollView>

@@ -35,7 +35,7 @@ const DashboardTabNavigator = createBottomTabNavigator(
 			let name = routeName + " Parcels";
 				return{
 					headerTitle:name,
-					header:<Toolbar name={name} index={navigation.state.index}/>
+					header:<Toolbar name={name} navigation={navigation} index={navigation.state.index}/>
 				}
 		},
 		tabBarOptions:{

@@ -144,11 +144,11 @@ class ReceiveParcel extends Component{
 										</Text>
 									</View>
 									<View style={styles.subContainer}>
-										<Text style={styles.location}>catergory</Text>
+										<Text style={styles.location}>Catergory:</Text>
 										<Text style={styles.locationText}>{parcel.parcelCatergory}</Text>
 									</View>
 									<View style={styles.subContainer}>
-										<Text style={styles.location}>Vehicle</Text>
+										<Text style={styles.location}>Vehicle:</Text>
 									<Text style={styles.locationText}> {parcel.vehicleNumber}</Text>
 									</View>
 								</ScrollView>

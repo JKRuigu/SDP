@@ -41,6 +41,10 @@ class Toolbar extends Component{
 		}		
 	}
 
+	handleToggle = ()=>{
+		this.props.navigation.toggleDrawer();
+	}
+
 	handleSetting = ()=>{
 		// this.props.navigation.push('SettingsScreen');
 		let email = "shiftdeliveryplatform@gmail.com";
@@ -56,6 +60,13 @@ class Toolbar extends Component{
 		return(
 
 				<View style={styles.root}>
+					<Text style={styles.menu} onPress={this.handleToggle} >
+						<Icon
+							name="md-menu"
+							size={28}
+							color="#fff"
+						/>
+					</Text>
 					{this.props.index === 0?
 						<View style={isSearch === true ? {display:"none"}:""}>
 							<Text style={styles.title}>{this.props.name}</Text>
@@ -115,9 +126,7 @@ const styles = StyleSheet.create({
 		backgroundColor:'blue',
 		height:50,
 		padding:3,
-		alignItems:'center',
-		flexDirection:'row',
-		justifyContent:'center'
+		flexDirection:'row'
 	},
 	title:{
 		color:'#fff',
@@ -138,6 +147,13 @@ const styles = StyleSheet.create({
 		marginHorizontal:15,
 		padding:5,
 		paddingLeft:10
+	},
+	menu:{
+		marginLeft:2,
+		marginHorizontal:1,
+		width:40,
+		padding:5,
+		borderRadius:40
 	},
 	icon:{
 		marginHorizontal:3,

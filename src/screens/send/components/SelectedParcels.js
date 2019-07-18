@@ -22,7 +22,7 @@ export default ({
 					</View>
 					<View style={styles.subContainer}>
 						<Text style={styles.location}>catergory</Text>
-						<Text style={styles.locationText}>{parcel.parcelCatergory} {parcel.receiverLocation}</Text>
+						<Text style={styles.locationText}>{parcel.parcelCatergory} ,{parcel.receiverLocation}</Text>
 					</View>
 				</View>
 			</View>))}
