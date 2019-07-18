@@ -54,6 +54,7 @@ export default ({
 					defaultValue={senderID}
 					onChangeText={handlesenderID}
 					placeholder="ID Number"
+					keyboardType={'numeric'}
 					placeholderTextColor="black"
 					style={styles.inputText}
 				/>
@@ -63,6 +64,7 @@ export default ({
 					defaultValue={senderTel}
 					onChangeText={handlesenderTel} 
 					placeholder="Mobile Number"
+					keyboardType={'numeric'}
 					placeholderTextColor="black"
 					style={styles.inputText}
 				/>	
@@ -93,6 +95,7 @@ export default ({
 					defaultValue={receiverID}
 					onChangeText={handlereceiverID} 
 					placeholder="ID Number"
+					keyboardType={'numeric'}
 					placeholderTextColor="black"
 					style={styles.inputText}
 				/>
@@ -102,6 +105,7 @@ export default ({
 				defaultValue={receiverTel}
 				onChangeText={handlereceiverTel} 
 				placeholder="Mobile Number"
+				keyboardType={'numeric'}
 				placeholderTextColor="black"
 				style={styles.inputText}
 			/>	
@@ -123,6 +127,7 @@ export default ({
 					defaultValue={parcelCost}
 					onChangeText={handleparcelCost} 
 					placeholder="Parcel Cost"
+					keyboardType={'numeric'}
 					placeholderTextColor="black"
 					style={styles.inputText}
 				/>
