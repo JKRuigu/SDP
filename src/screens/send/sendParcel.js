@@ -2,6 +2,7 @@ import React,{Component} from 'react';
 import {StyleSheet,Text,View,Alert,ProgressBarAndroid} from 'react-native';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/Ionicons';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import { Vehicle } from './components';
 import { fetchVehicle } from '../register/actions';
@@ -12,10 +13,24 @@ class SendParcel extends Component{
 		header:null
 	}
 
-	state ={
-		vehicle:[{"vehicleNumber":"KSC754h","driverId":"34567899"},{"vehicleNumber":"KSC154h","driverId":"34567899"},{"vehicleNumber":"KSC004h","driverId":"34567899"},{"vehicleNumber":"KSC754G","driverId":"34567899"},{"vehicleNumber":"KSC154I","driverId":"34567899"},{"vehicleNumber":"KSC034K","driverId":"34567899"},{"vehicleNumber":"KSC054G","driverId":"34567899"},{"vehicleNumber":"KSC404I","driverId":"34567899"},{"vehicleNumber":"KCC034K","driverId":"34567899"}],
+	state ={		
+		refreshing:false
 	}
 
+	_onRefresh = async() => {
+		if (this.props.auth && this.props.vehicles.isLoading === false) {
+			const { auth } = this.props;
+			const value = await AsyncStorage.getItem('url');
+			let data ={
+				"token":auth.token,
+				"partnerId":auth.user.partnerId,
+				"url":value
+			}
+		    this.setState({refreshing: true});
+			await this.props.fetchVehicle(data);
+			this.setState({refreshing: false});
+		}
+  }
 	
 	handleSelectDriver=data=>{
 		// Alert.alert(data.vehicleNumber);
@@ -37,6 +52,8 @@ class SendParcel extends Component{
 				<Vehicle
 					vehicles={ this.props.vehicles.vehicle }
 					styles={styles}
+					onRefresh={this._onRefresh}
+					refreshing={this.state.refreshing}
 					handleSelectDriver={this.handleSelectDriver}
 					optText={styles.optText}
 				/>

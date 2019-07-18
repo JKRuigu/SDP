@@ -1,15 +1,24 @@
 import React,{Component} from 'react';
-import {ScrollView,Text,View} from 'react-native';
+import {ScrollView,RefreshControl,Text,View} from 'react-native';
 
 
 export default ({
 	vehicles,
 	styles,
 	handleSelectDriver,
-	optText
+	optText,
+	onRefresh,
+	refreshing
 })=>(<View>
 	{vehicles.length ===0 ? <Text style={{fontWeight:"400",fontSize:25,marginHorizontal:10}}>No Vehicles Availablle </Text>:
-	<ScrollView>						
+	<ScrollView
+		refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+          />
+        }
+		>						
 		{
 		 vehicles.map((vehicle,i)=>(
 			<View style={styles.list} key={i}>

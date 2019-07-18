@@ -1,13 +1,21 @@
 import React,{Component} from 'react';
-import {ScrollView,Text,View} from 'react-native';
+import {ScrollView,RefreshControl,Text,View} from 'react-native';
 
 
 export default ({
 	styles,
 	handleAdd,
 	parcels,
+	onRefresh,
+	refreshing,
 	optionText
-})=>(<ScrollView>						
+})=>(<ScrollView
+		refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+          />
+        }>						
 		{parcels.map((parcel,i)=>(
 			<View style={styles.list} key={i}>
 			<View style={styles.option}>

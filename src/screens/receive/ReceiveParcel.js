@@ -6,6 +6,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 import Modal from './components/Modal';
 import { receiveParcels } from './actions';
+import { fetchParcels } from '../register/actions';
 
 class ReceiveParcel extends Component{
 
@@ -33,11 +34,19 @@ class ReceiveParcel extends Component{
 		refreshing:false
 	}
 
-	_onRefresh = () => {
-    this.setState({refreshing: true});
-    setTimeout( ()=> {
-    	this.setState({refreshing: false});
-    },5000);
+	_onRefresh = async() => {
+		if (this.props.auth && this.props.parcels.isLoading === false) {
+			const { auth } = this.props;
+			const value = await AsyncStorage.getItem('url');
+			let data ={
+				"token":auth.token,
+				"partnerId":auth.user.partnerId,
+				"url":value
+			}
+		    this.setState({refreshing: true});
+			await this.props.fetchParcels(data);
+			this.setState({refreshing: false});
+		}
   }
 
 	handleSelect =x=>{
@@ -296,4 +305,4 @@ const mapStateToProps = state => ({
 });
 
 
-export default connect(mapStateToProps,{ receiveParcels })(ReceiveParcel);
+export default connect(mapStateToProps,{ fetchParcels,receiveParcels })(ReceiveParcel);

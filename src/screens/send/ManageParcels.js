@@ -6,6 +6,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import {SelectedParcels,MainDisplay } from './components';
 import Modal from './components/Modal';
 import { sendParcels } from './actions';
+import { fetchParcels } from '../register/actions';
 
 class ManageParcels extends Component{
 	
@@ -30,8 +31,24 @@ class ManageParcels extends Component{
 		displayParcels:[],
 		show:false,
 		type:'ManageParcels',
-		title:'Send Parcels'
+		title:'Send Parcels',
+		refreshing:false
 	}
+
+	_onRefresh = async() => {
+		if (this.props.auth && this.props.parcels.isLoading === false) {
+			const { auth } = this.props;
+			const value = await AsyncStorage.getItem('url');
+			let data ={
+				"token":auth.token,
+				"partnerId":auth.user.partnerId,
+				"url":value
+			}
+		    this.setState({refreshing: true});
+			await this.props.fetchParcels(data);
+			this.setState({refreshing: false});
+			}
+	  }
 
 	handleAdd =x=>{
 		const {selectedItems,displayParcels,suggestions,myListId,myListRegId }= this.state;
@@ -180,6 +197,8 @@ class ManageParcels extends Component{
 					/>:
 					<MainDisplay
 						styles={styles}
+						refreshing={this.state.refreshing}
+						onRefresh={this._onRefresh}
 						isSelected={isSelected}
 						optionText={optionText}
 						handleAdd={this.handleAdd}
@@ -460,4 +479,4 @@ const mapStateToProps = state => ({
 });
 
 
-export default connect(mapStateToProps,{ sendParcels })(ManageParcels);
+export default connect(mapStateToProps,{ fetchParcels,sendParcels })(ManageParcels);

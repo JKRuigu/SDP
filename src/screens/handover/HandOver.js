@@ -3,11 +3,13 @@ import { connect } from 'react-redux';
 // import { Button } from 'react-native-elements';
 import AsyncStorage from '@react-native-community/async-storage';
 
-import {StyleSheet,ScrollView,Text,View,Button,Alert,TouchableOpacity,TextInput,StatusBar,ProgressBarAndroid} from 'react-native';
+import {StyleSheet,ScrollView,Text,RefreshControl,View,Button,Alert,TouchableOpacity,TextInput,StatusBar,ProgressBarAndroid} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Modal from './components/Modal';
 
 import { handOverParcels } from './actions';
+import { fetchParcels } from '../register/actions';
+
 
 
 class HandOver extends Component{
@@ -29,12 +31,28 @@ class HandOver extends Component{
 		isLoading:false,
 		show:false,
 		item:{},
-		parcels:[]
+		parcels:[],
+		refreshing:false
 	}
 
 	handleSelect =x=>{
 		this.setState({item:x,show:true});
 	}
+
+	_onRefresh = async() => {
+		if (this.props.parcels.isLoading === true) {
+			const { auth } = this.props;
+			const value = await AsyncStorage.getItem('url');
+			let data ={
+				"token":auth.token,
+				"partnerId":auth.user.partnerId,
+				"url":value
+			}
+		    this.setState({refreshing: true});
+			await this.props.fetchParcels(data);
+			this.setState({refreshing: false});
+		}
+  }
 
 	handleSubmit = async() =>{
 		// Alert.alert(this.state.item.regID);
@@ -106,7 +124,14 @@ class HandOver extends Component{
 				{filteredParcelsLength < 1 ? 
 					<Text style={{fontWeight:"400",fontSize:25,marginHorizontal:10}}>No Parcels</Text>:
 				<View>
-					<ScrollView>						
+					<ScrollView
+						refreshControl={
+				          <RefreshControl
+				            refreshing={this.state.refreshing}
+				            onRefresh={this._onRefresh}
+				          />
+				        }
+				        >						
 						{filteredParcels.map((parcel,i)=>(
 							<View style={styles.list} key={i}>
 									<TouchableOpacity style={styles.option}>
@@ -291,4 +316,4 @@ const mapStateToProps = state => ({
 });
 
 
-export default connect(mapStateToProps,{ handOverParcels })(HandOver);
+export default connect(mapStateToProps,{ fetchParcels,handOverParcels })(HandOver);
