@@ -192,7 +192,6 @@ class AuthScreen extends Component{
 					  style={{height: 50, margin:10,marginTop:20,color:"blue",width:250,marginHorizontal:"16%"}}
 					  onValueChange={this.handleIpAdress}>
 					  <Picker.Item label="Select IP Address" value="Select IP Address" />
-					  <Picker.Item label="http://localhost:8000" value="http://localhost:8000" />
 					  <Picker.Item label="http://35.188.138.47" value="http://35.188.138.47" />
 					</Picker>
 					
