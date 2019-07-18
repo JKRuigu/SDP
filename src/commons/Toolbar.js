@@ -48,10 +48,11 @@ class Toolbar extends Component{
 	handleSetting = ()=>{
 		// this.props.navigation.push('SettingsScreen');
 		let email = "shiftdeliveryplatform@gmail.com";
-		let version = "v0.2.8";
+		let version = "v0.3.7";
 		let title = "SETTINGS";
+		let web = "www.shiftdeliveryplatform.xyz"
 		let company = "H & S Technology"
-		Alert.alert(version,email)
+		Alert.alert(version,email,web)
 	}
 
 	render(){
@@ -79,7 +80,7 @@ class Toolbar extends Component{
 									style={styles.textInput}
 								 />
 							</View>
-							<Text style={styles.icon} onPress={this.handleSearch} >
+							<Text style={styles.iconMore} onPress={this.handleSearch} >
 								<Icon
 									name="md-close"
 									size={28}
@@ -98,13 +99,6 @@ class Toolbar extends Component{
 											size={26}
 											color="#fff"
 										/>
-								</Text>							
-								<Text style={styles.icon} onPress={this.handleSearch} >
-									<Icon
-										name="md-search"
-										size={28}
-										color="#fff"
-									/>
 								</Text>							
 								<Text style={styles.icon} onPress={this.handleSetting}>
 									<Icon
@@ -125,6 +119,8 @@ const styles = StyleSheet.create({
 	root:{
 		backgroundColor:'blue',
 		height:50,
+		alignItems:'center',
+		justifyContent:"flex-start",
 		padding:3,
 		flexDirection:'row'
 	},
@@ -149,7 +145,7 @@ const styles = StyleSheet.create({
 		paddingLeft:10
 	},
 	menu:{
-		marginLeft:2,
+		margin:2,
 		marginHorizontal:1,
 		width:40,
 		padding:5,
@@ -164,9 +160,10 @@ const styles = StyleSheet.create({
 		borderRadius:40
 	},
 	iconMore:{
+		flex:1,
+		marginRight:5,
 		marginHorizontal:3,
-		alignItems:'center',
-		justifyContent:'center',
+		justifyContent:'flex-end',
 		width:40,
 		padding:5,
 		borderRadius:40

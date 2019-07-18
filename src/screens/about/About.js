@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import { TextInput,View,Text,StyleSheet,ScrollView } from 'react-native';
+import { TextInput,View,Text,StyleSheet,ScrollView,Linking } from 'react-native';
 
 class About extends Component{
 	render(){
@@ -16,6 +16,8 @@ class About extends Component{
 					<Text style={styles.text}>Shift Delivery Platform (SDP)</Text>
 					<Text style={styles.subtitle}>About</Text>
 					<Text style={styles.text}>This mobile app helps you to record,store and manage your Delivery records online using the latest Cloud databases.</Text>
+					<Text style={styles.subtitle}>official Website:</Text>
+					<Text style={styles.textLink}  onPress={()=> Linking.openURL('https://shiftdeliveryplatform.xyz')}>www.shiftdeliveryplatform.xyz</Text>
 					<Text style={styles.subtitle}>Email:</Text>
 					<Text style={styles.text}>shiftdeliveryplatform@gmail.com</Text>
 					<Text style={styles.subtitle}>Call or SMS:</Text>
@@ -55,6 +57,14 @@ const styles = StyleSheet.create({
 	text:{
 		color:"blue",
 		fontSize:14,
+		padding:5,
+		marginHorizontal:20
+	},
+	textLink:{
+		color:"red",
+		fontSize:14,
+		textDecorationLine:'underline',
+		fontStyle:'italic',
 		padding:5,
 		marginHorizontal:20
 	}
